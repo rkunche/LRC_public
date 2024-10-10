@@ -1,0 +1,440 @@
+{
+  "FilterHeaders": [
+    {
+      "Header": "x-goog-update-updater",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "x-goog-update-interactivity",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "x-goog-update-appid",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "user-agent",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "upgrade-insecure-requests",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "sec-fetch-user",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "sec-fetch-site",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "sec-fetch-mode",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "sec-fetch-dest",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "sec-ch-ua-platform",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "sec-ch-ua-mobile",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "sec-ch-ua",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "origin",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "if-none-match",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "accept-language",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "accept-encoding",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "accept",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "a-im",
+      "IncludeInScript": false
+    }
+  ],
+  "FilterResources": [
+    {
+      "IsNonResource": true,
+      "type": "text/html"
+    },
+    {
+      "IsNonResource": false,
+      "type": "text/css"
+    },
+    {
+      "IsNonResource": false,
+      "type": "image/x-icon"
+    },
+    {
+      "IsNonResource": false,
+      "type": "image/svg+xml"
+    },
+    {
+      "IsNonResource": true,
+      "type": "application/json"
+    },
+    {
+      "IsNonResource": false,
+      "type": "application/javascript"
+    }
+  ],
+  "GeneralInfo": {
+    "BrowserVersion": "",
+    "IsWinInetMode": false,
+    "MaxUsedConnections": 8,
+    "RecordedBrowser": "Chrome",
+    "RecordingDate": "Mar-29-2022",
+    "RecordingDuration": 30406,
+    "RecordingMode": "N/A",
+    "RecordingTimeStamp": 1648547377,
+    "RecordingType": "Browser",
+    "TotalBytesReceived": 41277,
+    "TotalBytesSent": 18567,
+    "TotalRequests": 27,
+    "UserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.84 Safari/537.36"
+  },
+  "HostInfo": [
+    {
+      "DomainName": "googleapis.com",
+      "Domains": [
+        {
+          "HTTPVersion": "HTTP/1.1",
+          "IP": "142.250.66.35",
+          "IncludeInScript": true,
+          "Name": "update.googleapis.com",
+          "Port": 443,
+          "Requests": [
+            {
+              "CompressionType": "gzip",
+              "DataType": "application/json",
+              "DownloadTime": 1953,
+              "EventId": 78,
+              "HttpStatus": 200,
+              "Size": 301,
+              "URL": "https://update.googleapis.com/service/update2/json?cup2key=11:vFjbTsAs2zf65PppyTyJCe3I6SL0bVovdtwAtZ4cFLo&cup2hreq=c5f5570147e7f2ae88a93b231611d3807323c4a56fa4c62c71aecc74f54d074b"
+            }
+          ],
+          "SSLCipher": "",
+          "SSLVersion": ""
+        },
+        {
+          "HTTPVersion": "HTTP/1.1",
+          "IP": "142.250.199.67",
+          "IncludeInScript": true,
+          "Name": "clientservices.googleapis.com",
+          "Port": 443,
+          "Requests": [
+            {
+              "CompressionType": "",
+              "DataType": "",
+              "DownloadTime": 500,
+              "EventId": 44,
+              "HttpStatus": 304,
+              "Size": 0,
+              "URL": "https://clientservices.googleapis.com/chrome-variations/seed?osname=win&channel=stable&milestone=99"
+            }
+          ],
+          "SSLCipher": "TLS_AES_256_GCM_SHA384",
+          "SSLVersion": "TLS1.3"
+        }
+      ],
+      "IncludeInScript": true
+    },
+    {
+      "DomainName": "google.com",
+      "Domains": [
+        {
+          "HTTPVersion": "HTTP/1.1",
+          "IP": "142.250.207.45",
+          "IncludeInScript": true,
+          "Name": "accounts.google.com",
+          "Port": 443,
+          "Requests": [
+            {
+              "CompressionType": "gzip",
+              "DataType": "application/json",
+              "DownloadTime": 1953,
+              "EventId": 76,
+              "HttpStatus": 200,
+              "Size": 43,
+              "URL": "https://accounts.google.com/ListAccounts?gpsia=1&source=ChromiumBrowser&json=standard"
+            }
+          ],
+          "SSLCipher": "TLS_AES_256_GCM_SHA384",
+          "SSLVersion": "TLS1.3"
+        }
+      ],
+      "IncludeInScript": true
+    },
+    {
+      "DomainName": "badssl.com",
+      "Domains": [
+        {
+          "HTTPVersion": "HTTP/1.1",
+          "IP": "104.154.89.105",
+          "IncludeInScript": true,
+          "Name": "tls-v1-2.badssl.com",
+          "Port": 1012,
+          "Requests": [
+            {
+              "CompressionType": "",
+              "DataType": "image/x-icon",
+              "DownloadTime": 1453,
+              "EventId": 149,
+              "HttpStatus": 200,
+              "Size": 5430,
+              "URL": "https://tls-v1-2.badssl.com:1012/icons/favicon-green.ico"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "text/css",
+              "DownloadTime": 1328,
+              "EventId": 147,
+              "HttpStatus": 200,
+              "Size": 1506,
+              "URL": "https://tls-v1-2.badssl.com:1012/style.css"
+            },
+            {
+              "CompressionType": "gzip",
+              "DataType": "text/html",
+              "DownloadTime": 375,
+              "EventId": 145,
+              "HttpStatus": 200,
+              "Size": 313,
+              "URL": "https://tls-v1-2.badssl.com:1012/"
+            }
+          ],
+          "SSLCipher": "ECDHE-RSA-AES256-GCM-SHA384",
+          "SSLVersion": "TLS1.2"
+        },
+        {
+          "HTTPVersion": "HTTP/1.1",
+          "IP": "104.154.89.105",
+          "IncludeInScript": true,
+          "Name": "badssl.com",
+          "Port": 443,
+          "Requests": [
+            {
+              "CompressionType": "",
+              "DataType": "image/svg+xml",
+              "DownloadTime": 375,
+              "EventId": 133,
+              "HttpStatus": 200,
+              "Size": 289,
+              "URL": "https://badssl.com/front-page-icons/external-white.svg"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/svg+xml",
+              "DownloadTime": 1672,
+              "EventId": 130,
+              "HttpStatus": 200,
+              "Size": 444,
+              "URL": "https://badssl.com/front-page-icons/bullet-list-white.svg"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/svg+xml",
+              "DownloadTime": 1688,
+              "EventId": 128,
+              "HttpStatus": 200,
+              "Size": 691,
+              "URL": "https://badssl.com/front-page-icons/page-white.svg"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/svg+xml",
+              "DownloadTime": 2063,
+              "EventId": 126,
+              "HttpStatus": 200,
+              "Size": 475,
+              "URL": "https://badssl.com/front-page-icons/dubious-white.svg"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/x-icon",
+              "DownloadTime": 1672,
+              "EventId": 124,
+              "HttpStatus": 200,
+              "Size": 5430,
+              "URL": "https://badssl.com/icons/favicon-blue.ico"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/svg+xml",
+              "DownloadTime": 375,
+              "EventId": 121,
+              "HttpStatus": 200,
+              "Size": 250,
+              "URL": "https://badssl.com/front-page-icons/bad-white.svg"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/svg+xml",
+              "DownloadTime": 375,
+              "EventId": 119,
+              "HttpStatus": 200,
+              "Size": 591,
+              "URL": "https://badssl.com/front-page-icons/good-white.svg"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/svg+xml",
+              "DownloadTime": 375,
+              "EventId": 115,
+              "HttpStatus": 200,
+              "Size": 591,
+              "URL": "https://badssl.com/front-page-icons/good-white.svg"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/svg+xml",
+              "DownloadTime": 391,
+              "EventId": 113,
+              "HttpStatus": 200,
+              "Size": 475,
+              "URL": "https://badssl.com/front-page-icons/dubious-white.svg"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/svg+xml",
+              "DownloadTime": 1375,
+              "EventId": 111,
+              "HttpStatus": 200,
+              "Size": 292,
+              "URL": "https://badssl.com/front-page-icons/external.svg"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/svg+xml",
+              "DownloadTime": 1140,
+              "EventId": 107,
+              "HttpStatus": 200,
+              "Size": 594,
+              "URL": "https://badssl.com/front-page-icons/good.svg"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/svg+xml",
+              "DownloadTime": 1016,
+              "EventId": 105,
+              "HttpStatus": 200,
+              "Size": 253,
+              "URL": "https://badssl.com/front-page-icons/bad.svg"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/svg+xml",
+              "DownloadTime": 563,
+              "EventId": 103,
+              "HttpStatus": 200,
+              "Size": 478,
+              "URL": "https://badssl.com/front-page-icons/dubious.svg"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/svg+xml",
+              "DownloadTime": 375,
+              "EventId": 97,
+              "HttpStatus": 200,
+              "Size": 447,
+              "URL": "https://badssl.com/front-page-icons/bullet-list.svg"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/svg+xml",
+              "DownloadTime": 375,
+              "EventId": 93,
+              "HttpStatus": 200,
+              "Size": 5288,
+              "URL": "https://badssl.com/front-page-icons/chrome.svg"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "application/javascript",
+              "DownloadTime": 375,
+              "EventId": 91,
+              "HttpStatus": 200,
+              "Size": 747,
+              "URL": "https://badssl.com/funky/funky.js"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "application/javascript",
+              "DownloadTime": 375,
+              "EventId": 89,
+              "HttpStatus": 200,
+              "Size": 3787,
+              "URL": "https://badssl.com/index.js"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "text/css",
+              "DownloadTime": 390,
+              "EventId": 85,
+              "HttpStatus": 200,
+              "Size": 1691,
+              "URL": "https://badssl.com/funky/funky.css"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "text/css",
+              "DownloadTime": 2297,
+              "EventId": 70,
+              "HttpStatus": 200,
+              "Size": 4360,
+              "URL": "https://badssl.com/github-ribbon.css"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "text/css",
+              "DownloadTime": 4000,
+              "EventId": 49,
+              "HttpStatus": 200,
+              "Size": 3784,
+              "URL": "https://badssl.com/index.css"
+            },
+            {
+              "CompressionType": "gzip",
+              "DataType": "text/html",
+              "DownloadTime": 1563,
+              "EventId": 32,
+              "HttpStatus": 200,
+              "Size": 2727,
+              "URL": "https://badssl.com/"
+            }
+          ],
+          "SSLCipher": "ECDHE-RSA-AES128-GCM-SHA256",
+          "SSLVersion": "TLS1.2"
+        }
+      ],
+      "IncludeInScript": true
+    }
+  ],
+  "WebSocket": {
+    "IncludeInScript": false,
+    "IsScriptIncludeWebSocket": false
+  },
+  "NumberOfCorrelations": 0
+}

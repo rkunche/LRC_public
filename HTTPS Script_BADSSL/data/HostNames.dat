@@ -1,0 +1,6 @@
+[hosts]
+badssl.com=
+clientservices.googleapis.com=
+accounts.google.com=
+update.googleapis.com=
+tls-v1-2.badssl.com=

@@ -1,0 +1,36 @@
+Virtual User Script started at: 3/29/2022 5:50:45 PM
+Starting action vuser_init.
+Web Turbo Replay of LoadRunner 2021.1.0 for Windows 10; build 460 (Apr 22 2021 19:27:24)  	[MsgId: MMSG-26983]
+Run mode: HTML  	[MsgId: MMSG-26993]
+Replay user agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.84 Safari/537.36  	[MsgId: MMSG-26988]
+Runtime Settings file: "C:\Users\chalothc\Desktop\Training\Run Result\Test_Run\HTTPS Script\\default.cfg"  	[MsgId: MMSG-27141]
+Ending action vuser_init.
+Running Vuser...
+Starting iteration 1.
+Maximum number of concurrent connections per server: 6  	[MsgId: MMSG-26989]
+Starting action Action.
+Action.c(4): web_set_sockets_option started  	[MsgId: MMSG-26355]
+Action.c(4): web_set_sockets_option was successful  	[MsgId: MMSG-26392]
+Action.c(6): web_url("badssl.com") started  	[MsgId: MMSG-26355]
+Action.c(6): Found resource "https://badssl.com/index.css" in HTML "https://badssl.com/"  	[MsgId: MMSG-26659]
+Action.c(6): Found resource "https://badssl.com/github-ribbon.css" in HTML "https://badssl.com/"  	[MsgId: MMSG-26659]
+Action.c(6): Found resource "https://badssl.com/index.js" in HTML "https://badssl.com/"  	[MsgId: MMSG-26659]
+Action.c(6): Found resource "https://badssl.com/funky/funky.css" in HTML "https://badssl.com/"  	[MsgId: MMSG-26659]
+Action.c(6): Found resource "https://badssl.com/funky/funky.js" in HTML "https://badssl.com/"  	[MsgId: MMSG-26659]
+Action.c(6): Found resource "https://badssl.com/front-page-icons/chrome.svg" in HTML "https://badssl.com/"  	[MsgId: MMSG-26659]
+Action.c(6): Downloading resource "https://badssl.com/front-page-icons/good-white.svg" (specified by argument number 9)  	[MsgId: MMSG-26577]
+Action.c(6): Downloading resource "https://badssl.com/front-page-icons/bad-white.svg" (specified by argument number 11)  	[MsgId: MMSG-26577]
+Action.c(6): Downloading resource "https://badssl.com/front-page-icons/dubious-white.svg" (specified by argument number 13)  	[MsgId: MMSG-26577]
+Action.c(6): Downloading resource "https://badssl.com/front-page-icons/page-white.svg" (specified by argument number 15)  	[MsgId: MMSG-26577]
+Action.c(6): Downloading resource "https://badssl.com/front-page-icons/bullet-list-white.svg" (specified by argument number 17)  	[MsgId: MMSG-26577]
+Action.c(6): Downloading resource "https://badssl.com/front-page-icons/external-white.svg" (specified by argument number 19)  	[MsgId: MMSG-26577]
+Action.c(6): web_url("badssl.com") was successful, 25124 body bytes, 3839 header bytes, 12 chunking overhead bytes  	[MsgId: MMSG-26385]
+Action.c(23): web_url("tls-v1-2.badssl.com:1012") started  	[MsgId: MMSG-26355]
+Action.c(23): Found resource "https://tls-v1-2.badssl.com:1012/style.css" in HTML "https://tls-v1-2.badssl.com:1012/"  	[MsgId: MMSG-26659]
+Action.c(23): web_url("tls-v1-2.badssl.com:1012") was successful, 1819 body bytes, 633 header bytes, 12 chunking overhead bytes  	[MsgId: MMSG-26385]
+Ending action Action.
+Ending iteration 1.
+Ending Vuser...
+Starting action vuser_end.
+Ending action vuser_end.
+Vuser Terminated.

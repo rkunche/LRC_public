@@ -1,0 +1,9 @@
+-+
+-DCCI
+-D_IDA_XL
+-DWINNT
+-IC:\Users\chalothc\Desktop\Training\Run Result\Test_Run\HTTPS Script
+-IC:\Program Files (x86)\Micro Focus\LoadRunner\include
+-ec:\users\chalothc\desktop\training\run result\test_run\https script\\logfile.log
+c:\users\chalothc\desktop\training\run result\test_run\https script\\combined_HTTPS Script.c
+c:\users\chalothc\desktop\training\run result\test_run\https script\\pre_cci.c

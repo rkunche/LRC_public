@@ -1,0 +1,172 @@
+[API Trapper      (474c:3f6c)] Recording in 64-bit mode: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+[API Trapper      (4d38:146c)] Recording in 64-bit mode: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+[API Trapper      (69ec: 4b0)] Recording in 64-bit mode: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+[Network Analyzer (69ec:473c)] ------------------------------------------------------------------------------------------
+[Network Analyzer (69ec:473c)] Load Network Traffic Analyzers:
+[Network Analyzer (69ec:473c)]     Analyzer Module: WPLUS (value=)
+[Network Analyzer (69ec:473c)]     Analyzer Module: WebBase (value=GetHttpProtocolAnalyzer:api_http_filter_x64.dll)
+[Network Analyzer (69ec:473c)]     + Network Analyzer: api_http_filter_x64.dll @ GetHttpProtocolAnalyzer Loaded!
+[Network Analyzer (69ec:473c)]     + Interception Auditors: WinInetWplusInterceptionAudit:api_http_filter_x64.dll
+[Network Analyzer (69ec:473c)]     Analyzer Module: QTWeb (value=GetWebSocketProtocolAnalyzer:WebSocketAnalyzer_x64.dll)
+[Network Analyzer (69ec:473c)]     + Network Analyzer: WebSocketAnalyzer_x64.dll @ GetWebSocketProtocolAnalyzer Loaded!
+[Network Analyzer (69ec:473c)]     Analyzer Module: local_server (value=)
+[Network Analyzer (69ec:473c)] ------------------------------------------------------------------------------------------
+[Network Analyzer (69ec:4ecc)] Address lookup for CNchalothc02 = 15.122.69.101
+[Network Analyzer (69ec:473c)] Address lookup for CNchalothc02 = 15.122.69.101
+[Network Analyzer (69ec:473c)] Request Connection: Remote Server @ 15.122.30.30:8080   (Service=)  (Sid=  1)  PROXIED!
+[Network Analyzer (69ec:473c)] Address lookup for CNchalothc02 = 15.122.69.101
+[Web Request      (69ec:4ecc)] "CONNECT clientservices.googleapis.com:443"   
+[Network Analyzer (69ec:4ecc)]   (Sid:  1) Client -> Server @ : 253 bytes (Service=HTTP)
+[Network Analyzer (69ec:473c)] Request Connection: Remote Server @ 15.122.30.30:8080   (Service=)  (Sid=  2)  PROXIED!
+[Web Request      (69ec:4ecc)] "CONNECT badssl.com:443"   
+[Network Analyzer (69ec:4ecc)]   (Sid:  2) Client -> Server @ : 215 bytes (Service=HTTP)
+[Network Analyzer (69ec:473c)] Address lookup for CNchalothc02 = 15.122.69.101
+[Network Analyzer (69ec:473c)] Request Connection: Remote Server @ 15.122.30.30:8080   (Service=)  (Sid=  3)  PROXIED!
+[Network Analyzer (69ec:4ecc)]   (Sid:  1) Server -> Client : 39 bytes 
+[Network Analyzer (69ec:4ecc)]   (Sid:  2) Server -> Client : 39 bytes 
+[Web Request      (69ec:4ecc)] "CONNECT accounts.google.com:443"   
+[Network Analyzer (69ec:4ecc)]   (Sid:  3) Client -> Server @ : 233 bytes (Service=HTTP)
+[Network Analyzer (69ec:4ecc)]   (Sid:  3) Server -> Client : 39 bytes 
+[Network Analyzer (69ec:50c8)]   (Sid:  2) Negotiate Proxy -> Server SSL Handshake (ssl:TLSv1.2, ciphers:ECDHE-RSA-AES128-GCM-SHA256)
+[Network Analyzer (69ec:50c8)]   (Sid:  2) Negotiate Client -> Proxy SSL Handshake (ssl:TLSv1.3, ciphers:TLS_AES_128_GCM_SHA256)
+[Web Request      (69ec:4ecc)] "GET /"   
+[Network Analyzer (69ec:4ecc)]   (Sid:  2) Client -> Server @ : 656 bytes (SSL)(Service=HTTP)
+[API Trapper      (2248:4a84)] Recording in 64-bit mode: C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+[Network Analyzer (69ec:4ecc)]   (Sid:  2) Server -> Client : 3023 bytes (SSL) (Service=HTTP)
+[Network Analyzer (69ec:473c)] Address lookup for CNchalothc02 = 15.122.69.101
+[Network Analyzer (69ec:4b9c)]   (Sid:  1) Negotiate Proxy -> Server SSL Handshake (ssl:TLSv1.3, ciphers:TLS_AES_256_GCM_SHA384)
+[Network Analyzer (69ec:473c)] Request Connection: Remote Server @ 15.122.30.30:8080   (Service=)  (Sid=  4)  PROXIED!
+[Network Analyzer (69ec:4b9c)]   (Sid:  1) Negotiate Client -> Proxy SSL Handshake (ssl:TLSv1.3, ciphers:TLS_AES_128_GCM_SHA256)
+[Network Analyzer (69ec:63a4)]   (Sid:  3) Negotiate Proxy -> Server SSL Handshake (ssl:TLSv1.3, ciphers:TLS_AES_256_GCM_SHA384)
+[Network Analyzer (69ec:473c)] Address lookup for CNchalothc02 = 15.122.69.101
+[Web Request      (69ec:4ecc)] "GET /chrome-variations/seed?osname=win&channel=stable&milestone=99"   
+[Network Analyzer (69ec:4ecc)]   (Sid:  1) Client -> Server @ : 458 bytes (SSL)(Service=HTTP)
+[Web Request      (69ec:4ecc)] "CONNECT update.googleapis.com:443"   
+[Network Analyzer (69ec:4ecc)]   (Sid:  4) Client -> Server @ : 237 bytes (Service=HTTP)
+[Network Analyzer (69ec:4ecc)]   (Sid:  4) Server -> Client : 39 bytes 
+[Network Analyzer (69ec:473c)] Request Connection: Remote Server @ 15.122.30.30:8080   (Service=)  (Sid=  5)  PROXIED!
+[Network Analyzer (69ec:4ecc)]   (Sid:  1) Server -> Client : 322 bytes (SSL) (Service=HTTP)
+[Web Request      (69ec:4ecc)] "CONNECT badssl.com:443"   
+[Network Analyzer (69ec:4ecc)]   (Sid:  5) Client -> Server @ : 215 bytes (Service=HTTP)
+[Web Request      (69ec:4ecc)] "GET /index.css"   
+[Network Analyzer (69ec:4ecc)]   (Sid:  2) Client -> Server @ : 531 bytes (SSL)(Service=HTTP)
+[Network Analyzer (69ec:473c)] Address lookup for CNchalothc02 = 15.122.69.101
+[Network Analyzer (69ec:473c)] Request Connection: Remote Server @ 15.122.30.30:8080   (Service=)  (Sid=  6)  PROXIED!
+[Network Analyzer (69ec:473c)] Address lookup for CNchalothc02 = 15.122.69.101
+[Network Analyzer (69ec:4ecc)]   (Sid:  2) Server -> Client : 4056 bytes (SSL) (Service=HTTP)
+[Network Analyzer (69ec:4ecc)]   (Sid:  5) Server -> Client : 39 bytes 
+[Web Request      (69ec:4ecc)] "CONNECT badssl.com:443"   
+[Network Analyzer (69ec:4ecc)]   (Sid:  6) Client -> Server @ : 215 bytes (Service=HTTP)
+[Network Analyzer (69ec:6c1c)]   (Sid:  4) Negotiate Proxy -> Server SSL Handshake (ssl:TLSv1.3, ciphers:TLS_AES_256_GCM_SHA384)
+[Network Analyzer (69ec:473c)] Request Connection: Remote Server @ 15.122.30.30:8080   (Service=)  (Sid=  7)  PROXIED!
+[Network Analyzer (69ec:473c)] Address lookup for CNchalothc02 = 15.122.69.101
+[Web Request      (69ec:4ecc)] "CONNECT badssl.com:443"   
+[Network Analyzer (69ec:4ecc)]   (Sid:  7) Client -> Server @ : 215 bytes (Service=HTTP)
+[Network Analyzer (69ec:473c)] Request Connection: Remote Server @ 15.122.30.30:8080   (Service=)  (Sid=  8)  PROXIED!
+[Web Request      (69ec:4ecc)] "CONNECT badssl.com:443"   
+[Network Analyzer (69ec:4ecc)]   (Sid:  8) Client -> Server @ : 215 bytes (Service=HTTP)
+[Web Request      (69ec:4ecc)] "GET /github-ribbon.css"   
+[Network Analyzer (69ec:4ecc)]   (Sid:  2) Client -> Server @ : 539 bytes (SSL)(Service=HTTP)
+[Network Analyzer (69ec:63a4)]   (Sid:  3) Negotiate Client -> Proxy SSL Handshake (ssl:TLSv1.3, ciphers:TLS_AES_128_GCM_SHA256)
+[Network Analyzer (69ec:6c1c)]   (Sid:  4) Negotiate Client -> Proxy SSL Handshake (ssl:TLSv1.3, ciphers:TLS_AES_128_GCM_SHA256)
+[Network Analyzer (69ec:4ecc)]   (Sid:  7) Server -> Client : 39 bytes 
+[Web Request      (69ec:4ecc)] "POST /ListAccounts?gpsia=1&source=ChromiumBrowser&json=standard"   
+[Network Analyzer (69ec:4ecc)]   (Sid:  3) Client -> Server @ : 1117 bytes (SSL)(Service=HTTP)
+[Network Analyzer (69ec:4ecc)]   (Sid:  4) Client -> Server @ : 776 bytes (SSL)(Service=HTTP)
+[Network Analyzer (69ec:4ecc)]   (Sid:  8) Server -> Client : 39 bytes 
+[Web Request      (69ec:4ecc)] "POST /service/update2/json?cup2key=11:vFjbTsAs2zf65PppyTyJCe3I6SL0bVovdtwAtZ4cFLo&cup2hreq=c5f5570147e7f2ae88a93b231611d3807323c4a56fa4c62c71aecc74f54d074b"   
+[Network Analyzer (69ec:4ecc)]   (Sid:  4) Client -> Server @ : 1998 bytes (SSL)(Service=HTTP)
+[Network Analyzer (69ec:4ecc)]   (Sid:  2) Server -> Client : 4633 bytes (SSL) (Service=HTTP)
+[Network Analyzer (69ec:4ecc)]   (Sid:  6) Server -> Client : 39 bytes 
+[Network Analyzer (69ec:4ecc)]   (Sid:  3) Server -> Client : 1425 bytes (SSL) (Service=HTTP)
+[Network Analyzer (69ec:4ecc)]   (Sid:  4) Server -> Client : 1265 bytes (SSL) (Service=HTTP)
+[Network Analyzer (69ec:4ecc)]   (Sid:  3) Server -> Client : 269 bytes (SSL) (Service=HTTP)
+[Network Analyzer (69ec:4ecc)]   (Sid:  4) Server -> Client : 462 bytes (SSL) (Service=HTTP)
+[Network Analyzer (69ec:4ecc)]   (Sid:  3) Server -> Client : 71 bytes (SSL) (Service=HTTP)
+[Network Analyzer (69ec:4ecc)]   (Sid:  4) Server -> Client : 5 bytes (SSL) (Service=HTTP)
+[Network Analyzer (69ec:4ecc)]   (Sid:  3) Server -> Client : 5 bytes (SSL) (Service=HTTP)
+[Web Request      (69ec:4ecc)] "GET /funky/funky.css"   
+[Network Analyzer (69ec:4ecc)]   (Sid:  2) Client -> Server @ : 537 bytes (SSL)(Service=HTTP)
+[Network Analyzer (69ec:6918)]   (Sid:  5) Negotiate Proxy -> Server SSL Handshake (ssl:TLSv1.2, ciphers:ECDHE-RSA-AES128-GCM-SHA256)
+[Network Analyzer (69ec:4ecc)]   (Sid:  2) Server -> Client : 1963 bytes (SSL) (Service=HTTP)
+[Web Request      (69ec:4ecc)] "GET /index.js"   
+[Network Analyzer (69ec:4ecc)]   (Sid:  2) Client -> Server @ : 516 bytes (SSL)(Service=HTTP)
+[Network Analyzer (69ec:6918)]   (Sid:  5) Negotiate Client -> Proxy SSL Handshake (ssl:TLSv1.3, ciphers:TLS_AES_128_GCM_SHA256)
+[Network Analyzer (69ec:4ecc)]   (Sid:  2) Server -> Client : 4073 bytes (SSL) (Service=HTTP)
+[Web Request      (69ec:4ecc)] "GET /funky/funky.js"   
+[Network Analyzer (69ec:4ecc)]   (Sid:  5) Client -> Server @ : 522 bytes (SSL)(Service=HTTP)
+[Web Request      (69ec:4ecc)] "GET /front-page-icons/chrome.svg"   
+[Network Analyzer (69ec:4ecc)]   (Sid:  2) Client -> Server @ : 595 bytes (SSL)(Service=HTTP)
+[Network Analyzer (69ec:4ecc)]   (Sid:  5) Server -> Client : 1032 bytes (SSL) (Service=HTTP)
+[Network Analyzer (69ec:4ecc)]   (Sid:  2) Server -> Client : 5566 bytes (SSL) (Service=HTTP)
+[Web Request      (69ec:4ecc)] "GET /front-page-icons/bullet-list.svg"   
+[Network Analyzer (69ec:4ecc)]   (Sid:  2) Client -> Server @ : 609 bytes (SSL)(Service=HTTP)
+[Web Request      (69ec:4ecc)] "GET /front-page-icons/bad.svg"   
+[Network Analyzer (69ec:4ecc)]   (Sid:  5) Client -> Server @ : 601 bytes (SSL)(Service=HTTP)
+[Network Analyzer (69ec:473c)] Address lookup for CNchalothc02 = 15.122.69.101
+[Network Analyzer (69ec:473c)] Request Connection: Remote Server @ 15.122.30.30:8080   (Service=)  (Sid=  9)  PROXIED!
+[Network Analyzer (69ec:4ecc)]   (Sid:  2) Server -> Client : 723 bytes (SSL) (Service=HTTP)
+[Web Request      (69ec:4ecc)] "CONNECT badssl.com:443"   
+[Network Analyzer (69ec:4ecc)]   (Sid:  9) Client -> Server @ : 215 bytes (Service=HTTP)
+[Web Request      (69ec:4ecc)] "GET /front-page-icons/dubious.svg"   
+[Network Analyzer (69ec:4ecc)]   (Sid:  2) Client -> Server @ : 605 bytes (SSL)(Service=HTTP)
+[Network Analyzer (69ec:4ecc)]   (Sid:  9) Server -> Client : 39 bytes 
+[Network Analyzer (69ec:4ecc)]   (Sid:  2) Server -> Client : 754 bytes (SSL) (Service=HTTP)
+[Web Request      (69ec:4ecc)] "GET /front-page-icons/good.svg"   
+[Network Analyzer (69ec:4ecc)]   (Sid:  2) Client -> Server @ : 602 bytes (SSL)(Service=HTTP)
+[Network Analyzer (69ec:4ecc)]   (Sid:  5) Server -> Client : 528 bytes (SSL) (Service=HTTP)
+[Web Request      (69ec:4ecc)] "GET /front-page-icons/external.svg"   
+[Network Analyzer (69ec:4ecc)]   (Sid:  5) Client -> Server @ : 606 bytes (SSL)(Service=HTTP)
+[Network Analyzer (69ec:4ecc)]   (Sid:  2) Server -> Client : 870 bytes (SSL) (Service=HTTP)
+[Network Analyzer (69ec:57f0)]   (Sid:  7) Negotiate Proxy -> Server SSL Handshake (ssl:TLSv1.2, ciphers:ECDHE-RSA-AES128-GCM-SHA256)
+[Network Analyzer (69ec:57f0)]   (Sid:  7) Negotiate Client -> Proxy SSL Handshake (ssl:TLSv1.3, ciphers:TLS_AES_128_GCM_SHA256)
+[Web Request      (69ec:4ecc)] "GET /front-page-icons/dubious-white.svg"   
+[Network Analyzer (69ec:4ecc)]   (Sid:  2) Client -> Server @ : 611 bytes (SSL)(Service=HTTP)
+[Web Request      (69ec:4ecc)] "GET /front-page-icons/good-white.svg"   
+[Network Analyzer (69ec:4ecc)]   (Sid:  7) Client -> Server @ : 608 bytes (SSL)(Service=HTTP)
+[Network Analyzer (69ec:4ecc)]   (Sid:  5) Server -> Client : 568 bytes (SSL) (Service=HTTP)
+[Network Analyzer (69ec:4ecc)]   (Sid:  2) Server -> Client : 751 bytes (SSL) (Service=HTTP)
+[Network Analyzer (69ec:4ecc)]   (Sid:  7) Server -> Client : 867 bytes (SSL) (Service=HTTP)
+[Web Request      (69ec:4ecc)] "GET /front-page-icons/bad-white.svg"   
+[Network Analyzer (69ec:4ecc)]   (Sid:  7) Client -> Server @ : 598 bytes (SSL)(Service=HTTP)
+[Web Request      (69ec:4ecc)] "GET /front-page-icons/dubious-white.svg"   
+[Network Analyzer (69ec:4ecc)]   (Sid:  2) Client -> Server @ : 602 bytes (SSL)(Service=HTTP)
+[Web Request      (69ec:4ecc)] "GET /front-page-icons/good-white.svg"   
+[Network Analyzer (69ec:4ecc)]   (Sid:  5) Client -> Server @ : 599 bytes (SSL)(Service=HTTP)
+[Network Analyzer (69ec:14c0)]   (Sid:  8) Negotiate Proxy -> Server SSL Handshake (ssl:TLSv1.2, ciphers:ECDHE-RSA-AES128-GCM-SHA256)
+[Network Analyzer (69ec:14c0)]   (Sid:  8) Negotiate Client -> Proxy SSL Handshake (ssl:TLSv1.3, ciphers:TLS_AES_128_GCM_SHA256)
+[Network Analyzer (69ec:4ecc)]   (Sid:  5) Server -> Client : 867 bytes (SSL) (Service=HTTP)
+[Network Analyzer (69ec:4ecc)]   (Sid:  7) Server -> Client : 525 bytes (SSL) (Service=HTTP)
+[Web Request      (69ec:4ecc)] "GET /icons/favicon-blue.ico"   
+[Network Analyzer (69ec:4ecc)]   (Sid:  8) Client -> Server @ : 590 bytes (SSL)(Service=HTTP)
+[Web Request      (69ec:4ecc)] "GET /front-page-icons/page-white.svg"   
+[Network Analyzer (69ec:4ecc)]   (Sid:  5) Client -> Server @ : 599 bytes (SSL)(Service=HTTP)
+[Web Request      (69ec:4ecc)] "GET /front-page-icons/bullet-list-white.svg"   
+[Network Analyzer (69ec:4ecc)]   (Sid:  7) Client -> Server @ : 606 bytes (SSL)(Service=HTTP)
+[Network Analyzer (69ec:473c)] Address lookup for CNchalothc02 = 15.122.69.101
+[Network Analyzer (69ec:4ecc)]   (Sid:  8) Server -> Client : 5707 bytes (SSL) (Service=HTTP)
+[Network Analyzer (69ec:4ecc)]   (Sid:  2) Server -> Client : 751 bytes (SSL) (Service=HTTP)
+[Network Analyzer (69ec:4ecc)]   (Sid:  5) Server -> Client : 967 bytes (SSL) (Service=HTTP)
+[Network Analyzer (69ec:4ecc)]   (Sid:  7) Server -> Client : 720 bytes (SSL) (Service=HTTP)
+[Network Analyzer (69ec:473c)] Request Connection: Remote Server @ 15.122.30.30:8080   (Service=)  (Sid= 10)  PROXIED!
+[Web Request      (69ec:4ecc)] "GET /front-page-icons/external-white.svg"   
+[Network Analyzer (69ec:4ecc)]   (Sid:  2) Client -> Server @ : 603 bytes (SSL)(Service=HTTP)
+[Web Request      (69ec:4ecc)] "CONNECT tls-v1-2.badssl.com:1012"   
+[Network Analyzer (69ec:4ecc)]   (Sid: 10) Client -> Server @ : 235 bytes (Service=HTTP)
+[Network Analyzer (69ec:4ecc)]   (Sid:  2) Server -> Client : 565 bytes (SSL) (Service=HTTP)
+[Network Analyzer (69ec:58cc)]   (Sid:  6) Negotiate Proxy -> Server SSL Handshake (ssl:TLSv1.2, ciphers:ECDHE-RSA-AES128-GCM-SHA256)
+[Network Analyzer (69ec:58cc)]   (Sid:  6) Negotiate Client -> Proxy SSL Handshake (ssl:TLSv1.3, ciphers:TLS_AES_128_GCM_SHA256)
+[Network Analyzer (69ec:27e4)]   (Sid:  9) Negotiate Proxy -> Server SSL Handshake (ssl:TLSv1.2, ciphers:ECDHE-RSA-AES128-GCM-SHA256)
+[Network Analyzer (69ec:27e4)]   (Sid:  9) Negotiate Client -> Proxy SSL Handshake (ssl:TLSv1.3, ciphers:TLS_AES_128_GCM_SHA256)
+[Network Analyzer (69ec:4ecc)]   (Sid: 10) Server -> Client : 39 bytes 
+[Network Analyzer (69ec:1d8c)]   (Sid: 10) Negotiate Proxy -> Server SSL Handshake (ssl:TLSv1.2, ciphers:ECDHE-RSA-AES256-GCM-SHA384)
+[Network Analyzer (69ec:1d8c)]   (Sid: 10) Negotiate Client -> Proxy SSL Handshake (ssl:TLSv1.3, ciphers:TLS_AES_128_GCM_SHA256)
+[Web Request      (69ec:4ecc)] "GET /"   
+[Network Analyzer (69ec:4ecc)]   (Sid: 10) Client -> Server @ : 705 bytes (SSL)(Service=HTTP)
+[Network Analyzer (69ec:4ecc)]   (Sid: 10) Server -> Client : 608 bytes (SSL) (Service=HTTP)
+[Web Request      (69ec:4ecc)] "GET /style.css"   
+[Network Analyzer (69ec:4ecc)]   (Sid: 10) Client -> Server @ : 559 bytes (SSL)(Service=HTTP)
+[Network Analyzer (69ec:4ecc)]   (Sid: 10) Server -> Client : 1778 bytes (SSL) (Service=HTTP)
+[Web Request      (69ec:4ecc)] "GET /icons/favicon-green.ico"   
+[Network Analyzer (69ec:4ecc)]   (Sid: 10) Client -> Server @ : 619 bytes (SSL)(Service=HTTP)
+[Network Analyzer (69ec:4ecc)]   (Sid: 10) Server -> Client : 5707 bytes (SSL) (Service=HTTP)

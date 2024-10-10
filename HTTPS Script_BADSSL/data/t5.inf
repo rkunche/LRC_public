@@ -1,0 +1,15 @@
+[t5]
+FileName1=t5.html
+URL1=https://tls-v1-2.badssl.com:1012/
+Total=3
+RequestHeaderFile=t5_RequestHeader.txt
+RequestBodyFile=NONE
+ResponseHeaderFile=t5_ResponseHeader.txt
+ContentType=text/html
+SnapshotXmlFile=snapshot_5.xml
+FileName2=t5_style.css
+URL2=https://tls-v1-2.badssl.com:1012/style.css
+FileName3=t5_favicon-green.ico
+URL3=https://tls-v1-2.badssl.com:1012/icons/favicon-green.ico
+[ProtocolInfo]
+ProtocolId=QTWeb

@@ -1,0 +1,20 @@
+[
+    {
+        "actionName": "Action",
+        "steps": [
+            {
+                "stepId": "STEP1",
+                "stepName": "Url: badssl.com",
+                "infFile": "t1.inf",
+                "time": 1648547464785
+            },
+            {
+                "stepId": "STEP2",
+                "stepName": "Url: tls-v1-2.badssl.com:1012",
+                "infFile": "t2.inf",
+                "time": 1648547470769
+            }
+        ],
+        "transactions": []
+    }
+]

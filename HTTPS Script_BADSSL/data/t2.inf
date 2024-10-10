@@ -1,0 +1,10 @@
+[t2]
+FileName1=t2_seed.html
+URL1=https://clientservices.googleapis.com/chrome-variations/seed?osname=win&channel=stable&milestone=99
+Total=3
+ContentType=text/css
+SnapshotXmlFile=snapshot_2.xml
+FileName2=t2_index.css
+URL2=https://badssl.com/index.css
+FileName3=t2_github-ribbon.css
+URL3=https://badssl.com/github-ribbon.css
