@@ -1,7 +1,6 @@
 Action()
 {
-	//Kate docker test non-prod  5.6 101024 10:26
-	//Kate docker test non-prod 5.6 autosycn 101024 10:37
+	//Kate docker test stg 5.6 101724 3:57
 	
 	web_set_sockets_option("SSL_VERSION", "AUTO");
 
