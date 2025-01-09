@@ -1,0 +1,9 @@
+[
+{
+	"handler": "AjaxBrowserNavigationCheck",
+	"id": "none",
+	"innerouter": "NONE",
+	"text": "",
+	"actionFlag": "EVAL",
+	"actionText": "setVariable('', 'AjaxBrowserNavigationCheck', 'N');"
+}]

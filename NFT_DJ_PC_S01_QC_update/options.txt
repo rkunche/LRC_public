@@ -1,0 +1,9 @@
+-+
+-DCCI
+-D_IDA_XL
+-DWINNT
+-IC:\Users\vereb\OneDrive - Hastings Insurance Services Ltd\Documents\GitHub\test2\Self Sufficient Scripts\Core Scripts\NFT_DJ_PC_S01_QC
+-IC:\Program Files (x86)\Micro Focus\LoadRunner\include
+-ec:\users\vereb\onedrive - hastings insurance services ltd\documents\github\test2\self sufficient scripts\core scripts\nft_dj_pc_s01_qc\\logfile.log
+c:\users\vereb\onedrive - hastings insurance services ltd\documents\github\test2\self sufficient scripts\core scripts\nft_dj_pc_s01_qc\\combined_NFT_DJ_PC_S01_QC.c
+c:\users\vereb\onedrive - hastings insurance services ltd\documents\github\test2\self sufficient scripts\core scripts\nft_dj_pc_s01_qc\\pre_cci.c

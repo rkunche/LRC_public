@@ -1,0 +1,3173 @@
+var notificationTimeout = null;
+var h_scrollSource = null;
+var h_prevScrollSource = null;
+var newPrice = parseInt($("#C1__FirstPrice").text()); 
+var VoluntaryExcessBefore = parseInt($("#C1__VoluntaryExcess").text());
+var preventScroll = false;
+var MONTHLY = 3;
+var integrationID;
+var needTabChange = false;
+var page_overlay = jQuery('<div id="overlay"> </div>');;
+var hashNameArray = ['#nbb','#portaldashboard','#thankyoucar','#thankyoubike','#thankyouvan','#thankyouhome','#premiumcar','#premiumTradingcar','#premiumbike','#premiumhome','#premiumvan','#ancilcar','#ancilTradingcar','#ancilbike','#ancilhome','#ancilvan','#summarycar','#summaryTradingcar','#summarybike','#summaryhome','#summaryvan','#ddcar','#ddbike','#ddhome','#ddvan','#cardcar','#cardbike','#cardhome','#cardvan'];
+var ajaxQuesId;
+var ddLoanHolderPhaseName;
+var scrollToCurrentQtbPosition;
+var isAjaxQuesAction = false;
+var wpiStatus;
+var instanceCount=0;
+var ddAccAndSortCodeErrorId="";
+var lastActioned=0 
+
+/**
+Applying style to password field tool tip popup
+*/
+$(document).ready(function(){
+	
+	showProgress();
+	checkSessionExpiry();
+	
+	//to retrive blackbox details
+	var blackbox=document.getElementById("QUE_TXT_PORTAL_IovationBbData").value;
+	
+	if(blackbox.length!=0)
+	{
+		$(".save-io-details").click();
+	}
+		
+	var iovationBb=document.getElementById("C1__QUE_TXT_IovationBbData");
+    if (iovationBb){
+       document.getElementById("C1__QUE_TXT_IovationBbData").value = blackbox;
+    }
+	
+	
+	
+	//Applying placeHolderText to LoginAndRegistration email field
+	var loginEmailField = document.getElementById ("QUE_LOGINREGISTRATION_EMAIL");
+	if(loginEmailField)
+	{
+		loginEmailField.placeholder = "Enter email address";
+	}
+    
+	//Applying placeHolderText to RegisterAccount email field
+	var registrationEmailField = document.getElementById ("QUE_REGISTERACCOUNT_EMAIL");
+	if(registrationEmailField)
+	{
+		registrationEmailField.placeholder = "Enter email address";
+	}
+	
+	addDataTitleToAllFKTables();	
+
+	enableRadioSelectionStyle();
+		
+	$('#BUT_VIEW_CDL_POLICIES').on('click',function(event) {
+		doAtariOrDigitalISLHandling(true,'Login','id_login_email');
+	});
+	
+	if ($('#activationTab')[0] && (getURLParameter('actToken') != undefined && getURLParameter('actToken') != '')) {
+		needTabChange = true;
+	}
+		
+	/* To show the error message for Sort Code based on validation in DD detail section of payment tab in portal */
+	$( document ).on('blur','#fmfMyaccountPaymentsupdateddsortcode1,#fmfMyaccountPaymentsupdateddsortcode2,#fmfMyaccountPaymentsupdateddsortcode3', function() {
+		var sortCodePattern = /^[0-9]{2,2}$/;
+		if(sortCodePattern.test($("#fmfMyaccountPaymentsupdateddsortcode1").val()) && sortCodePattern.test($("#fmfMyaccountPaymentsupdateddsortcode2").val())&& sortCodePattern.test($("#fmfMyaccountPaymentsupdateddsortcode3").val()) && 
+		$("#fmfMyaccountPaymentsupdateddsortcode1").val().length==2 && $("#fmfMyaccountPaymentsupdateddsortcode2").val().length==2 && $("#fmfMyaccountPaymentsupdateddsortcode3").val().length==2) {
+			$("#ddSortCodeError").hide();
+		} else {	
+			$("#ddSortCodeError").show();
+		}
+	});
+	
+	/* To show the error message for Account number based on validation in DD detail section of payment tab in portal */
+	$( document ).on('blur', '#fmfMyaccountPaymentsupdateddbankacctnumber', function() {
+		var accountNoPattern = /^[0-9]{8,8}$/;
+		if(accountNoPattern.test($("#fmfMyaccountPaymentsupdateddbankacctnumber").val()) && $("#fmfMyaccountPaymentsupdateddbankacctnumber").val().length==8) {
+			$("#ddAccountNoError").hide();
+			$("#fmfMyaccountPaymentsupdateddbankacctnumber").removeClass("form-control-error");
+		} else {	
+			$("#ddAccountNoError").show();
+			$("#fmfMyaccountPaymentsupdateddbankacctnumber").addClass("form-control-error");
+		}
+	});
+	
+	bindNotificationElements();	
+	autoScrollToFinance();
+	
+	$("#editDriverMTA").on('click', function(e){
+		scrollTo($('#C1__DriversDetailsSection'));	
+	});
+	
+	// handle hash addition to Motor Direct journey alone (not QtB)
+    if ($('div[id*="FMT_06031F7DEC6024D031657"]')[0] != undefined && $('div[id*="FMT_AA70CBCC4056531128777"]')[0] == undefined) {
+        $(window).on("scroll", handleHashOnScroll);      
+    }    
+
+	// handle hash addition to Home Direct journey alone (not QtB)  
+    if ($('div[id*="FMT_C4FE3902478A28C2189811"]')[0] != undefined && $('div[id*="GRP_86098E39AF668F75417264"]')[0] == undefined) {
+        $(window).on("scroll", handleHashOnScroll);      
+    }
+	
+	// US2546 Close the menu if user clicks other than menu for mobile view
+	$('.FooterContainerSection , #EDGE_CONNECT_PHASE' ).on('click', function(e) {
+		if($('.toggleCloseIcon').length > 0) {
+			$('.toggleCloseIcon').click();
+		}
+	});
+	
+	//retain the previous scroll position when QTB page refresh. Ref US4405
+	//get the previous scroll position from session storage
+	if (window.location.search.search("MODE=REDISPLAY") != -1 && sessionStorage.scrollTop != "undefined"){	    
+		(isSafariBrowser()) ? setTimeout(function() { $("body").scrollTop(sessionStorage.scrollTop); }, 1750) : document.documentElement.scrollTop = sessionStorage.scrollTop;
+	} else {
+		(isSafariBrowser()) ? setTimeout(function() { sessionStorage.clear(); }, 1750) : sessionStorage.clear();
+	}
+
+	addSuppressingContainForHJLib();
+	
+	$('a.preventscroll').click(function(e){e.preventDefault();});
+	closeProgress();
+	$('.btn-paperless , .btn-close-paperless').on('click', function(e) {
+		localStorage.setItem('onlineDocPromotedEmails', $('.PromotedEmailAddress input').val());
+	});
+	
+	if($(".PromotedEmailAddress").length >0 && $(".btn-paperless").length == 0) {
+		$('.PromotedEmailAddress input').val(localStorage.getItem('onlineDocPromotedEmails'));
+	}
+	
+	handleWpFailure();
+/* 	$('#C1__FS_QUE_963990CB76C787A6399578').click(function(){
+		$('fieldset#C1__FS_QUE_963990CB76C787A6399578 > input, textarea').each(function(){
+			$(this).prop('type','tel');
+		});
+	}); 
+	$('.dateFieldGroup').click(function(){
+			$(this).prop('type','tel');
+	}); */
+	
+	/**Menu highlight script**/
+	var has=window.location.hash;
+	//alert(has);	
+    var id;
+	$( "#MNU_MAIN_MENU .menu_container > .menuhoriz li" ).each(function( index ) {
+            //  console.log( index + ": " + $( this ).text() );
+               if($(this).hasClass('activeMenuLink'))
+                {
+                     //alert($( this ).text());
+					 var a=$( this ).attr('id');					 
+					 //alert("a:"+a);
+					 if(a==='ITM_ED08EBA54494E426709362'){
+						 $(this).removeClass('activeMenuLink');
+					 }
+					 if(a==='ITM_82929C7A1592364941277'){$(this).removeClass('activeMenuLink');}
+					 if(a==='ITM_75EBA6EBF062295F299832'){id=a;}
+                     
+                }
+		});
+		if($("#p1_HEAD_CFADD421A3CA3C63755785").length){
+				id='ITM_75EBA6EBF062295F299832';
+				//alert("exist");
+			}
+		//console.log("id:"+id);
+		if(id==='ITM_75EBA6EBF062295F299832'){
+			$("#ITM_75EBA6EBF062295F299832").addClass("activeMenuLink");
+		}else{
+			$("#ITM_75EBA6EBF062295F299832").removeClass("activeMenuLink");
+		}
+		if(id!='ITM_75EBA6EBF062295F299832'){
+		if(has==='#portaldashboard'){
+			$("#ITM_82929C7A1592364941269").addClass("activeMenuLink");
+		}else{
+		$("#ITM_82929C7A1592364941269").removeClass("activeMenuLink");
+		}
+		}
+		if(has==='#RNInCashyes' || has==='#RNInCashyesHome' || has==='#RNInCashno'){
+			$("#ITM_82929C7A1592364941275").addClass("activeMenuLink");
+		}else{
+			$("ITM_82929C7A1592364941275").removeClass("activeMenuLink");
+		}
+		if(has==='#portalpayment'){
+			$("#ITM_82929C7A1592364941273").addClass("activeMenuLink");
+		}else{
+		$("#ITM_82929C7A1592364941273").removeClass("activeMenuLink");
+		}
+		if(has==='#portaldocs'){
+			$("#ITM_82929C7A1592364941271").addClass("activeMenuLink");
+		}else{
+		$("#ITM_82929C7A1592364941271").removeClass("activeMenuLink");
+		}
+		if(has==='#portalquotes'){
+			$("#ITM_82929C7A1592364941277").addClass("activeMenuLink");
+		}else{
+		$("#ITM_82929C7A1592364941277").removeClass("activeMenuLink");
+		}
+		if(has==='#portalsettings'){
+			$("#ITM_8F5D5F6CB03C297C59825").addClass("activeMenuLink");
+		}else{
+		$("#ITM_8F5D5F6CB03C297C59825").removeClass("activeMenuLink");
+		}
+		/**Menu highlight script**/
+		/* 
+		* Initialize the capslockstate plugin.
+		* Monitoring is happening at the window level.
+		*/
+		$(window).capslockstate();
+		
+		
+});
+function clickPolicyBooklet(selectedPolicyInstance){
+	if(selectedPolicyInstance!=undefined)
+	{
+	instanceCount=selectedPolicyInstance;
+	}
+	else if(instanceCount>0){
+		$("#C2__DOC_PolicyDocument_R"+instanceCount).click();
+	}
+}
+function handleWpFailure(){
+	if(wpiStatus=='FAILURE' && $('#C1__WP_WARNING_WINDOW').length > 0) {
+		scrollTo($('#C1__C4__BUT_DebitCard'));	
+		$('.ShowWPWarning').click();
+		wpiStatus='';
+	}
+}
+
+function checkSessionExpiry() {
+	// As the firefox browser didnt work with push status, using local storage
+	if (isFirefoxBrowser() && localStorage.getItem('isSesssionLive') === "false") {
+		localStorage.setItem('isSesssionLive', "true");
+		window.location.replace(String(window.location).substring(0,String(window.location).indexOf("#")));
+	}
+}
+
+function isFirefoxBrowser(){
+	isFirefox = navigator.userAgent.search("Firefox");
+	return (isFirefox > -1);
+}
+function isSafariBrowser(){
+	isSafari = navigator.userAgent.search("Safari");
+	return (isSafari > -1);
+}
+	
+function handleHashOnScroll() {
+
+        var product = '';
+		var prefix = '#direct';
+		var hastag = '';
+
+		if ($('input[id*="hashNameFieldDirect"]')[0] != null) {
+			product = $('input[id*="hashNameFieldDirect"]')[0].value;
+		}
+
+    hastag = prefix + product;
+    if (history.pushState) {
+		try{
+			history.pushState(null, null, hastag);
+		}
+		catch(e){
+			console.log(e);
+		}
+    } else {
+        window.location.hash = hastag;
+    }
+	
+	if (window.location.search.search("MODE=REDISPLAY") != -1)
+	{
+	   sessionStorage.scrollTop = $(this).scrollTop();
+	}
+}
+
+function afterChangeTab( p_tabName, ns, p_selStyle, p_tabStyle ) {
+	if ($('#activationTab')[0] && (getURLParameter('actToken') != undefined && getURLParameter('actToken') != '') && needTabChange) {
+		needTabChange = false;
+		window.location.hash = "#registration";
+		changeTab('activationTab', '', 'StandardTabSelected BgColor3 Color3 SmallFont Bold', 'StandardTabUnselected Color2 BgColor1 SmallFont Bold');		
+	}
+}
+
+function encode(val){
+	return $.base64.encode(val);
+}
+
+function decode(val){	
+	return $.base64.decode(val);
+}
+
+function doAtariOrDigitalISLHandling(isLoggedIn,source,id) {
+	//US5063-Existing CDL Policies implementation
+	if ($('#'+id)[0] && $('#'+id).attr('value') != '') {
+		var scheme = $("input[name='scheme']").attr('value');		
+		var HDAtariDomain = $("input[name='HD_domain']").attr('value');
+		var PCAtariDomain = $("input[name='PC_domain']").attr('value');
+		var forgotPwdHref = "/portal/views/user/edge.jsf?F=15";
+		var dashBoardHref = "/portal/views/user/edge.jsf?F=10";
+		var activationHref = "/portal/views/user/edge.jsf?F=20";
+		var atariFinalHref = "";
+		var atariParamsHref = "";
+		
+		if ("Registration" == source) {
+			atariParamsHref = "&ceml="+$("input[id='id_reg_email']").attr('value');
+			var cid = $("input[id='id_reg_cid']").attr('value');
+			var dob = $("input[id='id_reg_dob']").attr('value');
+			var dobArray = dob.split('/');
+			
+			atariParamsHref = encode( atariParamsHref + "&cdob="+dobArray[2]+dobArray[1]+dobArray[0] + "&cid="+cid);
+			
+			if ("PC" == scheme) {
+				atariFinalHref = 'http://' + PCAtariDomain + activationHref + atariParamsHref;
+			} else {
+				atariFinalHref = 'http://' + HDAtariDomain + activationHref + atariParamsHref;
+			}
+		} else if ("Login" == source) {
+			atariParamsHref = "&ceml="+$("input[id='id_login_email']").attr('value');
+			var cid = $("input[id='id_login_cid']").attr('value');
+			var dob = $("input[id='id_login_dob']").attr('value');
+			var dobArray = dob.split('/');
+			
+			atariParamsHref = encode(atariParamsHref + "&cdob="+dobArray[2]+dobArray[1]+dobArray[0] + "&cid="+cid);
+			if ("PC" == scheme) {
+				atariFinalHref = 'http://' + PCAtariDomain + dashBoardHref + atariParamsHref;
+			} else {
+				atariFinalHref = 'http://' + HDAtariDomain + dashBoardHref + atariParamsHref;
+			}
+		} else if ("ForgotPwd" == source) {
+			atariParamsHref = "&ceml="+$("input[id='id_forgotpwd_email']").attr('value');
+			
+			var cid = $("input[id='id_forgotpwd_cid']").attr('value');
+			var dob = $("input[id='id_forgotpwd_dob']").attr('value');
+			var dobArray = dob.split('/');
+			
+			atariParamsHref = encode(atariParamsHref + "&cdob="+dobArray[2]+dobArray[1]+dobArray[0] + "&cid="+cid);
+			if ("PC" == scheme) {
+				atariFinalHref = 'http://' + PCAtariDomain + forgotPwdHref + atariParamsHref;
+			} else {
+				atariFinalHref = 'http://' + HDAtariDomain + forgotPwdHref + atariParamsHref;
+			}
+		}
+		if (isLoggedIn == false) {
+			window.location.href = atariFinalHref;	
+		} else {
+			window.open(atariFinalHref,'atari');
+		}	
+	}
+}
+
+function autoScrollToFinance() {
+    if($('#FMT_B8C3E9587E0C08E7689753').length){
+	   if($('#scrollToMakePayment').val() == '1') {    
+        scrollTo( $("#FMT_B8C3E9587E0C08E7689753"));
+ 		$('#scrollToMakePayment').val('');
+        }
+    }
+}
+
+function getURLParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1));
+    var sURLVariables = sPageURL.split('&');
+    for (var i = 0; i < sURLVariables.length; i++) {
+        var sParameterName = sURLVariables[i].split('=');
+        if (sParameterName[0] == sParam) {
+            return sParameterName[1];
+        }
+    }
+}
+
+function bindNotificationElements() {
+	if($('.row.notificationRow')[0]) {
+		modifyNotificationStyle();
+		$('#C1__BUT_notificationSeeLess').hide();
+		$('.row.notificationRow:gt(2)').hide();
+		$('#C1__BUT_notificationSeeAll').off('click').click(function() {
+			$('.row.notificationRow:gt(2)').show();
+			$(this).hide();
+			$('#C1__BUT_notificationSeeLess').show();
+		});
+		$('#C1__BUT_notificationSeeLess').off('click').click(function() {
+			$('.row.notificationRow:gt(2)').hide();
+			$(this).hide();
+			$('#C1__BUT_notificationSeeAll').show();
+		});
+		$('.custNotifications').show();
+	}
+}
+
+/**
+modifying background color for notifications based on notification type
+*/
+function modifyNotificationStyle() {
+	var counter = 0;
+	$('.row.notificationRow').each(function() {		
+		counter++;
+		var notificationText = $(this).children(':first').find('div.notificationTitle').find('span').html();
+		if (notificationText == 'Renewal update') {
+			$(this).addClass('newsNtfication');
+		} else if (notificationText == 'Expiry warning') {
+			$(this).addClass('expryNtfication');
+		} else {
+			$(this).addClass('pymtNtfication');
+		}
+	});
+}
+
+/**
+This is common method to add data-title attribute to fk-tables.
+*/
+function addDataTitleToAllFKTables() {
+	var $tableName, tNum, tAttr = [];
+	$('.fk-tables table').each(function() {
+	  tNum = $('th', this).length;
+	  sNum = $('tbody tr', this).length;
+	  $tableName = $(this);
+	  for (var i = 1; i <= tNum; i++) {
+		tAttr[i] = $tableName.find('tr th:nth-child(' + i + ')').text();
+		for (var j = 1; j <= sNum; j++) {
+		  if ($tableName.find('tr:nth-child(' + j + ') td:nth-child(' + i + ')').data('title') === undefined) {
+			$tableName.find('tr:nth-child(' + j + ') td:nth-child(' + i + ')').attr('data-title', tAttr[i]);
+		  }
+		}
+	  }
+	});
+}
+
+/**
+@Deprecated: This method is used to add the data-title attribute to td of "Quote Table"
+*/
+function addDataTitleAttriToQuoteTableTD(){
+	if($(".quote-table-td-data-title")){
+		$(".quote-table-td-data-title td:nth-child(1)").attr("data-title", "Start date");
+		$(".quote-table-td-data-title td:nth-child(2)").attr("data-title", "No. plate(s)");
+		$(".quote-table-td-data-title td:nth-child(3)").attr("data-title", "Product");
+		$(".quote-table-td-data-title td:nth-child(4)").attr("data-title", "Excess");
+		$(".quote-table-td-data-title td:nth-child(5)").attr("data-title", "Cover type");
+		$(".quote-table-td-data-title td:nth-child(6)").attr("data-title", "NCD");
+		$(".quote-table-td-data-title td:nth-child(7)").attr("data-title", "Last price");
+	}
+}
+
+/**
+@Deprecated: This method is used to add the data-title attribute to td of "Home Quote Table"
+*/
+function addDataTitleAttriToHomeQuoteTableTD(){
+	if($(".home-quote-table-td-data-title")){
+		$(".home-quote-table-td-data-title td:nth-child(1)").attr("data-title", "Start date");
+		$(".home-quote-table-td-data-title td:nth-child(2)").attr("data-title", "Postcode");
+		$(".home-quote-table-td-data-title td:nth-child(3)").attr("data-title", "Product");
+		$(".home-quote-table-td-data-title td:nth-child(4)").attr("data-title", "Excess");
+		$(".home-quote-table-td-data-title td:nth-child(5)").attr("data-title", "Cover type");	
+		$(".home-quote-table-td-data-title td:nth-child(6)").attr("data-title", "NCD");
+		$(".home-quote-table-td-data-title td:nth-child(7)").attr("data-title", "Last price");
+	}
+}
+
+function beforeAjaxButtonActionService(controllerName, ns, context, btn, disableInput, buttonId) {
+	if (buttonId == "BUT_8F5D5F6CB03C297C59635") { progressPostProcessResponse(); return false; } // If Hamburguer menu button close spinner return false
+	
+	if($('#'+buttonId).hasClass('getIovationBBData')){
+       var blackbox=document.getElementById("QUE_TXT_PORTAL_IovationBbData").value;
+		var iovationBb=document.getElementById("C1__QUE_TXT_IovationBbData");
+        if (iovationBb){
+            document.getElementById("C1__QUE_TXT_IovationBbData").value = blackbox;
+        }
+       if(blackbox.length!=0)
+		{
+		$(".save-io-details").click();
+		}
+	}
+	updateQuotePrice(controllerName, ns, context, btn, disableInput, buttonId);
+	if($('#'+buttonId).hasClass('scrollTop')){scrollToPageTop();}
+	return validatePasswordScore(buttonId);
+}
+
+
+function validatePasswordScore(buttonId){
+	if ( $("#" +buttonId).hasClass("validatepasscore") ) {
+		if($(".passwordScore").hasClass("check") && $(".passwordScore").val()<2){
+			//$(".badPasswordMessage").removeClass("displayNone");
+			scrollTo($('.badPasswordMessage'));
+			progressPostProcessResponse();
+			return false;
+		} else {
+			$(".badPasswordMessage").addClass("displayNone");
+			$(".okPasswordMessage").addClass("displayNone");
+			$(".strongPasswordMessage").addClass("displayNone");
+		}
+	}
+	return true;
+}
+
+var getAQuoteSubmitButtonId;
+	
+function updateQuotePrice(controllerName, ns, context, btn, disableInput, buttonId) {
+		getAQuoteSubmitButtonId = buttonId;	
+		if ( $("#C1__PaymentFreq").text() == MONTHLY){
+			//Code when policy is monthly					
+			newPrice = parseInt($("#C1__MonthlyPremium").text());
+		} else { 
+			//Code when policy is annual
+			newPrice = parseInt($("#C1__AnnualPremium").text());	
+		}
+		return true;
+}
+
+	
+function beforeAjaxQuestionActionService(controllerName, ns, context, btn, disableInput, questionId) {
+	isAjaxQuesAction = true;
+	//to prevent this specific element to autoScroll ("Not bought yet" checkbox in direct journeys)
+	if(btn.id=='C1__QUE_B4060999CE6031BC138654_0' || btn.id=='C1__QUE_F2C1AF6C6BE14781411876_0' || btn.id=='C1__QUE_98FBECE57D17A906347254_0'){ 
+	// prevent this specific element to autoScroll - Bike direct - "Not bought yet" checkbox
+		h_scrollSource = null;
+	}
+	////Disable autoScroll when the null value is selected in a dropdown
+	if(btn.type=='select-one' && document.getElementById(btn.id).value == ''){
+		preventScroll = true;
+	}
+	
+	// prevent scroll on the email question onBlur in portal registration
+	if(btn.id=="C1__C1__QUE_D4828BFE4ABB101574799") {
+		preventScroll = true;
+	}
+	
+	// prevent scroll when any-one in home property question is unanswered	
+	if (btn.type=='select-one' && btn.id.indexOf('QUE_E394464E32DACE85316300') || btn.id.indexOf('QUE_516B4303037F01F3154241')) {		
+		if  (($('select[id*="QUE_E394464E32DACE85316300"]').val() == '') || ($('select[id*="QUE_516B4303037F01F3154241"]').val() == '') ) {
+			preventScroll = true;			
+		} else {
+			preventScroll = false;			
+		}		
+	}
+	
+	VoluntaryExcessBefore = parseInt($("#C1__VoluntaryExcess").text());
+	
+	return true
+}
+
+/*****
+
+*****/	
+function postProcessAjaxQuestionActionService(p_service, p_element, p_innerOrOuter, p_text, p_actionFlag, p_actionData, p_ajaxCaller, p_dElement, ns) {
+
+	if ( $("#" +p_element).is(".Notification") ) {
+		startTimerToRemoveNotification();
+	}
+	
+	if ( p_element == "C1__PropertyUsedForBusiness") {
+	
+		var propertyDropDown = document.getElementById("C1__PropertyUsedForBusiness");
+		
+		if (propertyDropDown.value == "10" || propertyDropDown.value == "20" || propertyDropDown.value == "30") {   
+		 
+			$("#C1__WithSelfContained").removeClass("active");
+			$("#C1__WithoutSelfContained").removeClass("active");
+		}
+		
+		$("#C1__PropertyUsedForBusiness").show();
+	}
+    
+	
+	var currentVoluntaryExcess = parseInt($("#C1__VoluntaryExcess").text());
+	
+	if ( currentVoluntaryExcess != VoluntaryExcessBefore && newPrice != null){
+			
+		//3 = MONTHLY
+		if ( $("#C1__PaymentFreq").text() == MONTHLY){
+			//Code when policy is monthly				
+			var actualPrice = parseInt($("#C1__MonthlyPremium").text());
+		} else{
+			//Code when policy is annual
+			var actualPrice = parseInt($("#C1__AnnualPremium").text());
+		}
+		
+		//Show notification
+		$("#C1__VoluntaryExc").show();
+		
+		//Hide notification after 3 seconds
+		setTimeout(function() { $("#C1__VoluntaryExc").hide(); }, 3000);
+		
+		//Update price
+		newPrice = actualPrice;
+	}
+	
+	enableRadioSelectionStyle();
+	addAlphanumericValidation();
+	checkPriceChange();
+	if(p_element == "QUE_B8C3E9587E0C08E7681665" && typeof loadCustomDropdown === "function") {
+		loadCustomDropdown();
+	} 
+	isAjaxQuesAction = false;
+}
+
+
+function postProcessAjaxButtonActionService(p_service, p_element, p_innerOrOuter, p_text, p_actionFlag, p_actionData, p_ajaxCaller, p_dElement, ns) {
+	$('.autocompleteFalse').attr("autocomplete", "one-time-code");
+	if(p_element == 'C1__row_bankError') {
+		ddAccAndSortCodeErrorId = p_element;
+	}
+	
+	//applying tooltip
+	$(document).ready(function(){
+		if (ddAccAndSortCodeErrorId == "") { 
+			addDataTitleAttriToQuoteTableTD();
+			addDataTitleAttriToHomeQuoteTableTD(); 
+		} else if(p_element == 'C1__row_bankError') {
+			scrollToDDAccAndSortcodeErrMsg();
+		}
+	});
+	
+	if ( p_element == "C2__MA_BUT_CreditCard" ) {
+		$('#C2__MA_BUT_DebitCard').removeClass('btnPayselected');
+		$('#C2__MA_BUT_CreditCard').addClass('btnPayselected');
+	}
+	
+	if ( p_element == "C1__BUT_7F8751502B44A97A233690_R1"  ) {
+		if ($('#C1__QUE_2CCD4066A14FE4D4213032').val() == 'F') {			
+			$('#C1__yesMods').removeClass('selected');
+			$('#C1__noMods').addClass('selected');
+		}
+	}
+	
+	if ( p_element == "C2__MA_BUT_DebitCard" ) {
+		$('#C2__MA_BUT_CreditCard').removeClass('btnPayselected');
+		$('#C2__MA_BUT_DebitCard').addClass('btnPayselected');
+	}
+	
+	if ( p_element == "C1__secciPrintBtn" ) {
+		//Add the Print function code here
+		printDiv('C1__p1_GRP_2FDC459CAF6485C3176650');
+	}
+	//to redirect to FAQ
+	if( p_element == "C8__Renewals_FAQ_URL" ) {
+		window.open('https://hastingsinsuranceuk.epticahosting.com/selfhastingsinsuranceuk/', 'help_window');
+	}
+	
+	//Applying placeHolderText to forgotpassword email field
+	var forgotpasswordEmailField = document.getElementById ("QUE_FORGOTPASSWORD_EMAIL");
+	if(forgotpasswordEmailField)
+	{
+		forgotpasswordEmailField.placeholder = "Enter email address";
+	}
+	
+	/*
+	* @cpiedade - Add logic for Notification bar
+	*
+	*/
+
+	checkPriceChange();
+
+	//*******End @cpiedade ********
+		
+	if ( $("#" +p_element).is(".Notification") ) {
+		startTimerToRemoveNotification();
+	}
+	else if (p_element == "p1_TooManyOptions" ) {
+		if (p_text.length > 100) {
+			$("#" + p_element).addClass("showHelp");
+			showPopupMask();
+		} else {
+			hidePopupMask();
+		}
+	}
+	
+	
+	if (this["scrollToBreakDownCoverError"] && typeof scrollToBreakDownCoverError && $("#BreakdownQuestionsCompleted").length) {
+		scrollToBreakDownCoverError(); // Method defined in TPL file UpgradeHPTableViewBreakdown.tpl and TableViewBreakdown.tpl
+	} 
+
+	//Home QTB - Edit your details link scrolls to "Quick Quote Summary"
+	if ( $("#" +p_element).hasClass("scrollToQuickQuote") ) {
+		scrollTo( $("#C1__FMT_9368DD29FE844208299482") );
+	}
+
+	// After rerate scroll to top
+	if ( $("#" +p_element).hasClass("scrollToHeader") ) {
+		scrollTo( $("#EDGE_CONNECT_PHASE") );
+	}
+
+	//Hadle Car MTA Scroll options
+	handleCarMTAScrollOptions(p_element);
+	
+	//Policy Summary - 'Home LOB - Change Home address' button scrolls to 'HomeMtaChangeAddressSection'
+	if ( p_element == "C1__BUT_398B00D1D438E0F8188055" ) {
+		scrollTo( $("#C1__HomeMtaChangeAddressSection") ); 
+	}
+	
+	//Policy Summary - 'Switch payment method' button scrolls to 'Landing Page'
+	if ( p_element == "C1__BUT_DE9B989BBE62992F30130" ) {
+		scrollTo( $("#C1__FMT_C448DA45474D386713764") );
+	}
+	
+	if ( p_element == "C1__HomeQTB_SwitchPaymentMethodButton" ) {
+		scrollTo( $("#C1__HomeLandingPageSection") );
+	}
+	
+	if ( p_element == "C1__EditDetailsDrivingHistory" ||  p_element == "C1__EditDetailsExcesses") {
+		scrollTo( $("#C1__FMT_3A250B5BE8D00047178470") );
+	}
+
+	//When the post code is updated clean the address selection AddressPostcode -Direct Journey
+	if ( p_element == "C1__BUT_06031F7DEC6024D095166" && $("#QUE_06031F7DEC6024D088998").length && $("#QUE_06031F7DEC6024D088998").is(":visible")) {
+		$("#QUE_06031F7DEC6024D088998")[0].selectedIndex = -1;
+	}
+	
+	if (p_element == "C1__CancelAddAdditionalDriver"){
+		preventScroll = true;
+	}
+	
+	// if error messages on the portal registration, prevent scroll
+	if(p_element == "C1__C3__BUT_D4828BFE4ABB101574804" || p_element == "C1__C2__BUT_D4828BFE4ABB101574804") {
+		if($("#QUE_CONFIRM_PASSWORD_ERR_MSG")[0]) {
+			preventScroll = true;
+		}
+	}
+	
+	scrollToWP(p_element);
+	
+	if(p_element == "C11__BUT_RENEWALSDOCDOWNLOAD" || p_element == "C8__BUT_RENEWALSDOCDOWNLOAD" || p_element == "BUT_ResendConfirmModalViewDoc_Current" || p_element == "BUT_ResendConfirmModalViewDoc" || $("#"+p_element).hasClass('downloadIpidDocument') || $("#"+p_element).hasClass("appViewDoc")  ){
+		var docId = $("#downloadRequestedDocFileName").val();
+		if(docId){
+			$("#"+p_element).addClass('downloadDocReqButton');
+		}
+	}
+	
+	if ($("#"+p_element).hasClass('downloadDocReqButton')){
+		window.location.href = encodeURI(location.protocol+"//"+location.host+"/"+window.location.pathname.split("/")[1]+"/DownloadFileServlet?docId=Downloads/"+$("#downloadRequestedDocFileName").val());
+	}
+	
+	if (p_element == "BUT_0630D8D66027B97329973") {
+		doAtariOrDigitalISLHandling(false,'Registration','id_reg_email');
+	}
+	
+	if (p_element == "BUT_3B2AC073348038003693" || p_element == "New_LoginButton") {
+		doAtariOrDigitalISLHandling(false,'Login','id_login_email');
+		var loginStatus = $("input[name='login_status']").attr('value');
+
+		if (loginStatus == 'login failed') {
+			try{trackLoginFailure();} catch(e) {console.log(e)}
+		}
+	}
+	
+	if (p_element == "NewLoginContinue") {
+		doAtariOrDigitalISLHandling(false,'Registration','id_reg_email');
+		var regStatus = $("input[name='reg_status']").attr('value');
+			if (regStatus == 'CDL_ONLY'){
+			doAtariOrDigitalISLHandling(false,'Registration','id_reg_email');
+			}
+	}
+	
+	if (p_element == "BUT_F7D372852BF70FE5617152") {
+		doAtariOrDigitalISLHandling(false,'ForgotPwd','id_forgotpwd_email');
+	}
+	
+	$("#C1__BUT_27382086471ED7DD942103").on('click', function(e){
+		$('#C1__requireBreakdownYes').addClass('selected');
+		$('#C1__requireBreakdownNo').removeClass('selected');
+	});
+	$("#C1__BUT_27382086471ED7DD543184").on('click', function(e){
+		$('#C1__requireBreakdownYes').removeClass('selected');
+		$('#C1__requireBreakdownNo').addClass('selected');
+	});
+	//QTB - Loan Holder HCC error message auto scrolling
+	scrollToHccErrMsg(p_element);
+	
+	checkDocDownloadStatus(p_element);
+	
+	if($("#"+p_element).hasClass("button_Monthly")){
+	   var monthlyButton = $(".button_Monthly");
+	   var annuallyButton = $(".button_Annually");
+	   swapPaymentButtonText(monthlyButton, annuallyButton, "Pay monthly selected", "Switch to pay annually");		 
+	}
+	
+	if($("#"+p_element).hasClass("button_Annually")){
+	   var monthlyButton = $(".button_Monthly");
+	   var annuallyButton = $(".button_Annually");
+	   swapPaymentButtonText(annuallyButton, monthlyButton, "Pay annually selected", "Switch to pay monthly");		 
+	}
+	
+}
+
+/* Hamburguer button - QTB Basket */
+function showBasketOnMobile(btn){
+        if($(btn).hasClass('basketIcon')){
+            $(btn).removeClass('basketIcon')
+            $(btn).addClass('basketCloseIcon')
+			scrollToCurrentQtbPosition = $(this).scrollTop();
+        }else{
+            $(btn).removeClass('basketCloseIcon')
+            $(btn).addClass('basketIcon')
+        }
+        if( $("#C1__MainCol").length > 0){
+        
+            //success console.log("clicked in Hamburguer");
+            if($("#C1__MainCol").hasClass("col-xs-12")){
+                
+                $("#C1__MainCol").removeClass("col-xs-12");
+                $("#C1__MainCol").addClass("hidden-xs");
+                $("#C1__BasketParentColumn").removeClass("hidden-xs");
+                $("#C1__BasketParentColumn").removeClass("col-xs-8");
+                $("#C1__BasketParentColumn").removeClass("OffScreenRight-xs");        
+                $("#C1__BasketParentColumn").addClass("col-xs-12");
+				$("#C1__sidebar").width("91%"); // Decrease the size from 100% to 91% 
+                
+                //scroll function call to resize basket
+                //$("body").scrollTop(1);
+				document.documentElement.scrollTop = 1; // Scroll to top
+				
+            }            
+            else{
+                
+                $("#C1__MainCol").removeClass("hidden-xs");
+                $("#C1__MainCol").addClass("col-xs-12");                
+                $("#C1__BasketParentColumn").addClass("hidden-xs");
+                $("#C1__BasketParentColumn").addClass("OffScreenRight-xs");
+                $("#C1__BasketParentColumn").addClass("col-xs-8");
+                $("#C1__BasketParentColumn").removeClass("col-xs-12");
+                $("#C1__sidebar").width("100%");
+                
+                //scroll function call to resize basket
+                //$("body").scrollTop(2);
+				
+				//Retain(scroll) the place before click on basket icon
+				if (scrollToCurrentQtbPosition != "undefined"){	 
+					(isSafariBrowser()) ?  $("body").scrollTop(scrollToCurrentQtbPosition) : document.documentElement.scrollTop = scrollToCurrentQtbPosition;					
+				}
+            }            
+        }    
+
+}     
+/* Hamburguer close button for mobile  */
+function toggleCloseIcon(btn) {
+	 if($(btn).hasClass('toggleCloseIcon')){
+			$('.showcloseIcon').addClass('icon-bar');
+			$('.icon-bar').removeClass('showcloseIcon');
+			$(btn).removeClass('toggleCloseIcon');	
+        }else{
+            $('.icon-bar').addClass('showcloseIcon');
+			$('.showcloseIcon').removeClass('icon-bar');
+			$(btn).addClass('toggleCloseIcon');
+        }
+}
+
+/***********************************   
+* @cpiedade  
+* HD Aggregator - Open Brand Excesses 
+*	modal window
+************************************/	
+
+function openHPAggModalWindow(){
+	$("#C1__HPperDriversExcess").click();
+}		
+
+function openHDAggModalWindow(){
+	$("#C1__HDperDriversExcess").click();
+}
+
+function openHEAggModalWindow(){
+	$("#C1__HEperDriversExcess").click();
+}
+
+/***********************************   
+* @cpiedade  
+* QTB - Renewal 
+*	Go to Dashboard through text link
+************************************/	
+function openDashboard(){
+	$("#C1__openDashboardFromQTB").click();
+}
+
+function postProcessResponses(ns, caller) {
+
+	try{
+		//Prevent scroll to top on anchor tag clicks
+		$('a.preventscroll').click(function(e){e.preventDefault();});
+		/**
+		* Disable Password copy,cut and paste
+		* 
+		*/
+		
+			if ($("#C1__bankError").text() == "Yes" && $("#C1__QUE_91DA782A4BB486541323867").length  > 0) {
+
+				preventScroll = true;
+				$('body, html').animate({
+
+					scrollTop: $("#C1__QUE_91DA782A4BB486541323867").offset().top
+					
+						
+					}, 500, "swing", function() {
+						//scrollTo = "";
+					}); 
+			}	
+			
+			  if ( ("#C1__hardCCError").length  > 0 && $("#C1__hardCCError").text() == "Yes" && $("#C1__row_QUE_12539FA0250564FB679352").length  > 0) {
+			 
+			   preventScroll = true;
+				$('body, html').animate({
+
+					scrollTop: $("#C1__row_QUE_12539FA0250564FB679352").offset().top
+					
+						
+					}, 500, "swing", function() {
+						//scrollTo = "";
+					}); 
+			}   
+			
+		/*********************************** 
+		* 2 - Upgrade Breakdown cover Slider
+		************************************/
+		
+		var upgradeRightArrow = $("#arrowrightC1__UpgradeBreakdownSlider");
+		var upgradeLeftArrow = $("#arrowleftC1__UpgradeBreakdownSlider");
+
+		upgradeRightArrow.on('click', function() {
+			setUpgradeBreakdownDescription();
+		});
+
+		upgradeLeftArrow.on('click', function() { 
+			setUpgradeBreakdownDescription();
+		});
+		
+		$("#C1__UpgradeBreakdownSlider").on('mouseout', function() {	
+			setUpgradeBreakdownDescription();	
+		});
+		
+		/***********************************/	
+		
+
+		/*********************************** 
+		* @cpiedade - Dynamic validatiion for PolHolder Main Contact .
+		************************************/
+		if($("#C1__PolHolderMainContact").length > 0){
+			$("#C1__PolHolderMainContact").keydown(function (e) {
+			// Allow: delete, backspace, tab, escape, enter
+				if ($.inArray(e.keyCode, [46, 8, 9, 27, 13]) !== -1 ||
+					 // Allow: Ctrl+A
+					(e.keyCode == 65 && e.ctrlKey === true) ||
+					 // Allow: Ctrl+C
+					(e.keyCode == 67 && e.ctrlKey === true) ||
+					 // Allow: Ctrl+V
+					(e.keyCode == 86 && e.ctrlKey === true) ||
+					// Allow: Ctrl+X
+					(e.keyCode == 88 && e.ctrlKey === true) ||
+					 // Allow: home, end, left, right
+					(e.keyCode >= 35 && e.keyCode <= 39)) {
+						 // let it happen, don't do anything
+						 return;
+				}
+				// Ensure that it is a number and stop the keypress
+				if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+					e.preventDefault();
+				}
+			});
+		}
+
+		/**
+		* @cpiedade - Dynamic validatiion for PolHolder Mobile Contact .
+		*/	
+		if($("#C1__PolHolderMobileContact").length > 0){
+			$("#C1__PolHolderMobileContact").keydown(function (e) {
+			// Allow: backspace, delete, tab, escape, enter and .
+				if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+					 // Allow: Ctrl+A
+					(e.keyCode == 65 && e.ctrlKey === true) ||
+					 // Allow: Ctrl+C
+					(e.keyCode == 67 && e.ctrlKey === true) ||
+					 // Allow: Ctrl+X
+					(e.keyCode == 88 && e.ctrlKey === true) ||
+					 // Allow: home, end, left, right
+					(e.keyCode >= 35 && e.keyCode <= 39)) {
+						 // let it happen, don't do anything
+						 return;
+				}
+				// Ensure that it is a number and stop the keypress
+				if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+					e.preventDefault();
+				}
+			});
+		}
+		//refresh phone number help menu
+		updateHelpMenuPhoneNumber();
+		
+		//Use comma as thousands separator
+		splitWithComma($("#C1__CarMiles"));
+		splitWithComma($("input[id$='_CarMiles']"));
+		splitWithComma($("#C1__AddVehicCarMiles"));
+		splitWithComma($("#C1__C3__AddVehicCarMiles"));
+		splitWithComma($("#C1__C2__AddVehicCarMiles"));
+		//DLN Fix US10967
+		editdlnvalidation();
+		
+		//Workaround to hide mandatory * that is shown momentanily when drop down refreshes.
+		if($("#C1__p2_ConvictionType").length > 0){
+			$("#C1__p2_ConvictionType").text('');
+		}
+
+		if (caller == "ajaxHelp") {
+			$('body').addClass('modal-open');
+			$('#FixedHeader').addClass('fixed-header-fix');
+			showPopupMask();
+			$('#helpContent').removeAttr( 'style');
+			$("#HelpContainer").addClass("showHelp");
+		}
+		
+		$(".Opacity0").animate({
+			"opacity": 1
+		}, 1000, "swing");           
+		navScroll();
+
+		//addToolTipProperty();
+		
+		redirectToCdlJourney();	// test14963-Redirect to Direct journey is disabled temporarily
+		
+		if ($(window).width() < 768) {
+		// Showing NCD Table in mobile view
+			$('.ViewNCDTable').addClass('displayNone');
+			$('.ViewNCDTableMobile').removeClass('displayNone');
+		}else{
+			$('.ViewNCDTable').removeClass('displayNone');
+			$('.ViewNCDTableMobile').addClass('displayNone');
+		}
+		confirmEmailInputHandler();
+		$(":button").each(function(){
+			$(this).attr('data-section',$(this).attr('id'));
+		});
+		//Pass Strength Plugin
+		attachPassPlugin();
+	} catch(e) {
+		console.log(e)
+	}
+}
+	
+//DLN Fix US10967
+ function editdlnvalidation(){
+	$('.DLNoQtn').off( "change keyup input" );
+	$('.DLNoQtn').on('change keyup input',  function(e){
+		if (($('.DLNoQtn').val().length >= 16) || ($('.DLNoQtn').val().length == 0)) {
+			$('.btn_DLNValidation').click();
+		}
+	});
+}
+
+/*************
+updateHelpMenuPhoneNumber function can be used to updated phone number in help menu in case of ajax call
+*************/
+function updateHelpMenuPhoneNumber(){
+	var phoneNo;
+	if ($("#ITM_PHONE_NUMBER").length && ($("#ITM_PHONE_NUMBER").css("display") != "none")) {
+		phoneNo = $("#CallCentreNumber").text();
+		$("#ITM_PHONE_NUMBER > a > span").empty();
+		$("#ITM_PHONE_NUMBER > a > span").append("Tel: "+phoneNo);
+	}
+}
+
+function afterInitForm() {
+	$(".Opacity0").animate({
+			"opacity": 1
+	}, 1000, "swing");   
+}
+
+function beforeButtonClicked(p_val, p_valMand, p_rowId, ns, p_scrollToButton, p_id, p_saveFormData, p_validateAllFields) {	
+	/*
+	* Prevent HD aggregator brand buttons to run the question level rules that call rerate service (refer to HDAggregatorPage phase in Car component)
+	*/
+	switch(p_id){
+		case "C1__HEBrandResponsiveButton":
+			$('#C1__HDAgg_QLRRules').val("No");
+			break;
+		case "C1__HEBrandButton":
+			$('#C1__HDAgg_QLRRules').val("No");
+			break;
+		case "C1__HDBrandResponsiveButton":
+			$('#C1__HDAgg_QLRRules').val("No");
+			break;
+		case "C1__HDBrandButton":
+			$('#C1__HDAgg_QLRRules').val("No");
+			break;
+		case "C1__HPBrandResponsiveButton":
+			$('#C1__HDAgg_QLRRules').val("No");
+			break;
+		case "C1__HPBrandButton":
+			$('#C1__HDAgg_QLRRules').val("No");
+			break;
+		case "C1__HDModalWindowButton":
+			$('#C1__HDAgg_QLRRules').val("No");
+			break;
+	}
+	return validatePasswordScore(p_id);
+}
+/*******Hooked functions**********/
+/*******************************************************************************************************
+//@cpiedade
+-Function to run after pages are first submitted.
+********************************************************************************************************/
+function aftinitForm (ns){
+	/** 
+	* Policy Exception date - Modal window
+	*/
+	if ($("#C1__isPolicyExpired").text()=="Yes"){showModelWindow("C1__ExceptionDateModalWindow");}
+	/** 
+	*	Show referral modal window in QT
+	*/
+	if ($("#C1__isReferralModalQTBVisible").text()=="Yes"){showModelWindow("C1__QTBReferralModal");}
+	/** 
+	* Policy Exception date - Modal window
+	*/
+	if ($("#C1__isInvalidURL").text()=="Yes"){showModelWindow("C1__InvalidURLModalWindow");}
+	if ($("#C1__EditDriverModelVisibility").text()=="Yes"){showModelWindow("C1__FMT_8EAF9EC3F4D97089474183");}
+	if ($("#C1__ChangeVehicleFocusVisibility").text() == "Yes") {scrollTo($("#C1__FMT_A340DEE055CC0541343673"));}
+	if ($("#C1__hasErrorOnBankrupt").text()=="Yes"){scrollTo($("#C1__BankrupcySetQuestions"));}
+	if ($("#C1__GreyCheckModalVisible").val()=="Y"){showModelWindow("C1__GreyCheckModalWindow");}
+	if ($("#C1__CueCheckModalVisible").val()=="Y"){showModelWindow("C1__CueCheckModalWindow");}	
+	if ($("#C1__ReferralModalVisible").val()=="Y"){showModelWindow("C1__ReferralModalWindow");}			
+	if ($("#C1__IsToOpenVehicleModalWindow").val()=="Yes"){showModelWindow("C1__AddVehicleModalWindow");}
+    if ($("#C1__IsToOpenCostAndSummaryModalWindow").val()=="Yes"){showModelWindow("C1__ModalWindowCostsAndSummary");}	
+	if ($("#C1__MTAReferralModalVisible").val()=="Yes"){showModelWindow("C1__MTAReferralModalWindow");}	
+    if ($("#C1__ReferralModalVisible").val()=="Yes"){showModelWindow( "C1__HomeReferralModal");}
+	if ($("#C1__GreyModalVisible").val()=="Yes"){showModelWindow("C1__HomeGreyListModal");}	
+	if ($("#C1__CueModalVisible").val() == "Yes"){showModelWindow("C1__HomeCueErrorModal");}		
+}
+
+/*Show model window identified by given ID*/
+function showModelWindow(modelWindowId) {
+	$("#" + modelWindowId).addClass("showModal");
+	$("body").css("overflow","hidden");	
+	showPopupMask();
+}
+
+/******************************************************************************************************
+//@cpiedade - Direct journey: Set auto complete questions styling
+Auto Complete questions:
+-Vehicle Modifications
+-Employment status
+-Main Industry Type
+-SecondOccupation
+-C1__SecondIndustryType
+******************************************************************************************************/
+function autoCompleteQuestionProcess(ns, caller){
+	
+	addStylingToAutocomplete("C1__ModificationsList", caller);
+	addStylingToAutocomplete("C1__AddVehicModifications", caller);
+	addStylingToAutocomplete("C1__C2__MainOccupation", caller);
+	addStylingToAutocomplete("C1__C2__MainIndustryType", caller);
+	addStylingToAutocomplete("C1__C2__SecondOccupation", caller);
+	addStylingToAutocomplete("C1__C2__SecondIndustryType", caller);
+	
+	addStylingToAutocomplete("C1__AddDriverMainOccupation", caller);
+	addStylingToAutocomplete("C1__AddDriverMainIndustryType", caller);
+	addStylingToAutocomplete("C1__AddDriverSecondOccupation", caller);
+	addStylingToAutocomplete("C1__AddDriverSecondIndustryType", caller);
+//Modal Window Edit Details 
+	addStylingToAutocomplete("C1__C4__AddDriverMainOccupation", caller);
+	addStylingToAutocomplete("C1__C4__AddDriverMainIndustryType", caller);
+	addStylingToAutocomplete("C1__C4__AddDriverSecondOccupation", caller);
+	addStylingToAutocomplete("C1__C4__AddDriverSecondIndustryType", caller);	
+	addStylingToAutocomplete("C1__C4__AddVehicModifications", caller);
+	addStylingToAutocomplete("C1__C4__C2__MainOccupation", caller);
+	addStylingToAutocomplete("C1__C4__C2__MainIndustryType", caller);
+	addStylingToAutocomplete("C1__C4__C2__SecondOccupation", caller);
+	addStylingToAutocomplete("C1__C4__C2__SecondIndustryType", caller);
+	addStylingToAutocomplete("C1__C5__ModificationsList", caller);
+	addStylingToAutocomplete("C1__C5__C2__MainOccupation", caller);
+	addStylingToAutocomplete("C1__C5__C2__MainIndustryType", caller);
+	addStylingToAutocomplete("C1__C5__C2__SecondOccupation", caller);
+	addStylingToAutocomplete("C1__C5__C2__SecondIndustryType", caller);
+
+//Home Project
+	addStylingToAutocomplete("C1__C1__MainOccupation", caller);
+	addStylingToAutocomplete("C1__C1__MainIndustryType", caller);
+	addStylingToAutocomplete("C1__C1__SecondOccupation", caller);
+	addStylingToAutocomplete("C1__C1__SecondIndustryType", caller);
+//Adding Styling for AdditionalPolicyHolder
+	addStylingToAutocomplete("C1__APHMainOccupation", caller);
+	addStylingToAutocomplete("C1__APHIndustryType", caller);
+	addStylingToAutocomplete("C1__APHSecondJobOccupation", caller);
+	addStylingToAutocomplete("C1__APHSecondJobIndustryType", caller);
+//Additional Driver Edit Details 
+	addStylingToAutocomplete("C1__C2__AddDriverMainOccupation", caller);
+	addStylingToAutocomplete("C1__C2__AddDriverMainIndustryType", caller);
+	addStylingToAutocomplete("C1__C2__AddDriverSecondOccupation", caller);
+	addStylingToAutocomplete("C1__C2__AddDriverSecondIndustryType", caller);	
+//Edit Pol Holder information
+	addStylingToAutocomplete("C1__C2__C2__ModificationsList", caller);
+	addStylingToAutocomplete("C1__C2__AddVehicModifications", caller);
+	addStylingToAutocomplete("C1__C2__C2__AddVehicModifications", caller);
+	addStylingToAutocomplete("C1__C2__C2__MainOccupation", caller);
+	addStylingToAutocomplete("C1__C2__C2__MainIndustryType", caller);
+	addStylingToAutocomplete("C1__C2__C2__SecondOccupation", caller);
+	addStylingToAutocomplete("C1__C2__C2__SecondIndustryType", caller);
+//Edit Vehicle category
+	addStylingToAutocomplete("C1__C2__ModificationsList", caller);
+//Web form Addres change
+	addStylingToAutocomplete("C1__MainOccupation", caller);
+	addStylingToAutocomplete("C1__MainIndustryType", caller);
+	addStylingToAutocomplete("C1__SecondOccupation", caller);
+	addStylingToAutocomplete("C1__SecondIndustryType", caller);	
+}
+
+/**********
+hmeira: Set auto complete questions styling
+***********/
+function addStylingToAutocomplete(questionId, caller){
+	// Set Placeholder attribute on auto complete input text
+	$("#"+questionId).attr("placeholder","Enter first 3 letters");
+	/**
+	* Styling when auto completing
+	*/
+	//ajaxAutoComplete: Event which triggers Auto complete text actions
+	if(caller == 'ajaxAutoComplete') {
+		//1st - Check if Autocomplete question "ec_suggest_C1__ModificationsList" is being used
+		if($('#ec_suggest_'+questionId).css('display') != 'none'){
+			//Set background color on list
+			//$("#ec_suggest_"+questionId).addClass('autocomplete');
+			//$("#ec_suggest_"+questionId).children().addClass('autocompletechild');
+			//Hide error message if present
+			$("#"+questionId+"_ERRORMESSAGE").css({
+				"opacity":"0"
+			});
+			//On mouse over events - highlight selected element
+			$("#ec_suggest_"+questionId).children().mouseover(function(e){
+				$(e.target).css({
+					"background-color":"highlight",
+					"color":"highlighttext"});
+			});
+			//On mouse out events - remove highlight effect from selected element
+			$("#ec_suggest_"+questionId).children().mouseout(function(e){
+				$(e.target).css({
+					"background-color":"#FFFFFF",
+					"color":"#51626f"});
+			});
+		}	
+	}
+}
+
+/******************************************************************************************************
+//@cpiedade - All journeys: Fix multiple Modal windows display
+******************************************************************************************************/
+function hideExceededModalWindows(ns, caller){
+	//When HelpContainer element exists
+	if ($("#HelpContainer").length > 0){
+		//If it has any descendant
+		if ($("#HelpContainer").children().length > 0){
+			//Go through all descendants and hidde all the excedants
+			$('#HelpContainer').children().each(function (e) {
+				if($(this).index() > 0){
+					$(this).css({"display":"none"});
+				}
+			});
+		}		
+	}
+}
+
+/******************************************************************************************************
+//@jdassuncao - All journeys: Reset browser session timeout countdown when a communication with the 
+							  server is detected
+******************************************************************************************************/
+function browserSessionTimeoutReset(ns, caller){
+	if(typeof browserTimeout != 'undefined') {
+		browserTimeout.resetIdleTimer();
+	}
+}
+
+/******************************************************************************************************
+//@cpiedade - Direct journey: Customize error message on vehicle registration input field
+ Fields Corrected:
+ - License plate input search
+ - Vehicle value
+ - Find post code + Prevent Scroll
+ - Car Miles
+ - Driver Licence date
+ - Overnight Address Postcode + Prevent scroll
+ - Driver Licence Number
+******************************************************************************************************/
+function customizeErrorMessage(ns, caller){
+
+	/**
+	* Confirm password button in portal registration section on Direct Quote
+	*/
+	$( "#C1__BUT_PORTAL_REG_GO" ).on( "click", function() {
+		//On click event Set Error message "display" attribute to block
+		$('#C1__QUE_CONFIRM_PASSWORD_ERRORMESSAGE').css({"display":"block"});
+	});	
+		
+	/**
+	* prevent Scroll - In question errors
+	*/
+	if($('#C1__HasErrorOnOvernightPostCode').attr('value') == "Yes" ||
+	   $('#C1__HasErrorOnCarMiles').attr('value') == "Yes" ||
+	   $('#C1__HasErrorOnPostCode').attr('value') == "Yes" ||
+	   $('#C1__QUE_CEB5A3D87A62BEC8171677_ERRORMESSAGE').hasClass("qlrError") ||
+	   $('#C1__DriverLicenceNumber_ERRORMESSAGE').hasClass("qlrError")){
+		preventScroll = true;
+	}
+	
+	if (($("#C1__PropertyFloodedYear_ERRORMESSAGE").hasClass("qlrError") || $("#C1__PropertyFloodedYear_ERRORMESSAGE").hasClass("error"))
+		&& $("#C1__PropertyFloodedYear_ERRORMESSAGE").css('display') != 'none') {
+		preventScroll = true;
+	}
+	
+	if (($("#C1__FloodMeasureCode_ERRORMESSAGE").hasClass("qlrError") || $("#C1__FloodMeasureCode_ERRORMESSAGE").hasClass("error")) 
+		&& $("#C1__FloodMeasureCode_ERRORMESSAGE").css('display') != 'none'){
+		preventScroll = true;
+	}
+	
+	if (($("#C1__UnderpinningStructuralSupportYear_ERRORMESSAGE").hasClass("qlrError") || $("#C1__UnderpinningStructuralSupportYear_ERRORMESSAGE").hasClass("error")) 
+		&& $("#C1__UnderpinningStructuralSupportYear_ERRORMESSAGE").css('display') != 'none') {
+		preventScroll = true;
+	}
+	
+	if (($("#C1__RangeOfFoundationUnderpinnedCode_ERRORMESSAGE").hasClass("qlrError") || $("#C1__RangeOfFoundationUnderpinnedCode_ERRORMESSAGE").hasClass("error")) 
+		&& $("#C1__RangeOfFoundationUnderpinnedCode_ERRORMESSAGE").css('display') != 'none'){
+		preventScroll = true;
+	}
+	/**
+	* Error messages customization on AJAX Events
+	*/	
+	if (caller == 'onchange'){
+		// Check if ErrorMessage of Confirm Password in portal registration on Direct Quote is being shown		
+		if($( "#C1__QUE_CONFIRM_PASSWORD_ERRORMESSAGE" ).css('display') != 'none'){
+
+			// Set Error message "display" attribute to block
+			$('#C1__QUE_CONFIRM_PASSWORD_ERRORMESSAGE').css({"display":"block"});
+		}
+	}
+}
+
+/*******************************************************************************************************
+//Auto scroll
+********************************************************************************************************/
+var errorComponentID = false;
+function scrollToPostProcessResponses(ns, caller) {
+	if(caller == 'ajaxQLR') {
+		attachScrollSource();
+	} else if (caller == 'ajaxAutoComplete'){
+		preventScroll = true;
+	} else {
+		h_scrollSource = null;
+	}
+	
+	if(h_scrollSource && h_scrollSource.length > 0 && !preventScroll) {
+		var idx = 0; 
+
+		var sections = $('.section,.well,.section-wrap').filter(":visible");	
+		if ($(sections).length > 0) {
+			sections.each(function( index ) {
+				var id = this.id;
+				if (id == h_scrollSource){										
+					idx = index + 1;
+					return false;
+				}
+			});
+		}
+
+        try{			
+			window.history.pushState('forward', null, (phaseOrPageName == 'QTBLandingPage' || phaseOrPageName == 'HomeQTB') ? window.location : './servletcontroller');			
+		}
+		catch(e){
+			//console.log(e);
+		}
+		
+		if(errorComponentID == false){
+			/* if(ddAccAndSortCodeErrorId != "C1__row_bankError") { */
+				scrollTo( $(sections[idx]) );
+			/* } */
+		}
+		h_prevScrollSource = h_scrollSource;
+		h_scrollSource = null;	
+	}
+	errorComponentID = false;
+	preventScroll = false;
+}
+
+//This is hook that is called after the question validation. In some cases no AJAX is performed, hence we check here and we show the progress dialog only if there's going to be an AJAX call. 		
+function progressAfterAjaxQuestionActionValidation(controllerName, ns, context, elem, elemId, disableInput, ignoreErrors, urlParams, sendRequest) {
+	ajaxQuesId = elemId;
+	var hasUrlParams = urlParams && urlParams.value;
+	if (hasUrlParams) {
+		//Show the progress dialog only if there's going to be an AJAX call 
+		showProgress();
+	}
+	return true;
+};
+
+function doSortCodeRegexValidation(queId) {
+	if( queId && (queId == "C1__QUE_85DFDCD3617F47F852150" || queId == "C1__QUE_85DFDCD3617F47F852173" || queId == "C1__QUE_85DFDCD3617F47F852179" || queId == "C1__SortCode1" || queId == "C1__SortCode2" || queId == "C1__SortCode3")) {
+		queId = "#" + queId;
+		if($(queId).val().length == 2) {
+			$("#C1__QUE_SortCode_ERRORMESSAGE").addClass("displayNoneImportant");
+		} else {
+			$('#C1__QUE_SortCode_ERRORMESSAGE').removeClass('displayNoneImportant');	
+			return false;
+		}
+	}
+	return true;
+}
+
+//This is hook that is called after completing all AJAX calls 
+function progressPostProcessResponse() {
+	if(gmode !== "REDISPLAY"){closeProgress();}
+	return true;
+}
+var gmode
+//This is hook that is called before processing a form submit. 
+function progressBeforeSubmit(ns, mode) {
+	gmode = mode;
+	showProgress();
+	return true;
+};
+
+//This is hook that is called when a new page is displayed. 
+function progressAfterInitForm(ns) {
+	document.addEventListener("deviceready", closeProgress, false);
+};
+
+/*******Custom functions**********/
+function showPopupMask() {	
+	$(".popupMask").show();
+	$(".popupMask").css({
+		"opacity": "0.5"
+	});
+}
+function hidePopupMask() {
+	$(".popupMask").hide();
+	$(".popupMask").css({
+		"opacity": "0",
+	});
+}
+
+function completeEmailTransition() {
+	if ($(".emailDetailsHide").is(".emailDetailsShow") ) {
+		setTimeout(function() {
+			$(".emailDetailsHide").css("height", "100%");
+		}, 500);
+	} else {
+		$(".emailDetailsHide").css("height", "");
+	}
+}
+
+$(".popupMask").on("click", function() {
+	closePopup();
+});
+
+var x = screen.width;
+var y = screen.height;
+
+function PSpopUp(source){
+	window.open("../../" + source,"window","scrollbars=yes,resizable=yes,width=750,height=" + y + ",screenX=0,screenY=0,left=0,top=0");
+}
+function PSpopUp2(source){
+	window.open(source,"newWindow2","scrollbars=yes,resizable=yes,width=750,height=" + y + ",screenX=0,screenY=0,left=350,top=0");
+}
+
+function showPopupMask() {
+	$(".popupMask").addClass("popupMaskActive");
+	$(".popupMask").css({
+		"width": $(window).width() + "px",
+		"height": $(window).height() + "px",
+		"opacity": "0.5"
+	});
+	if($('.usePopupMaskColor').length>0) {
+		$(".popupMask").addClass("popupMaskColor");
+	}
+}
+function hidePopupMask() {
+	$(".popupMask").removeClass("popupMaskActive");
+	$(".popupMask").css({
+		"width": "0px",
+		"height": "0px",
+		"opacity": "0",
+	});
+	if($('.usePopupMaskColor').length>0) {
+		$(".popupMask").removeClass("popupMaskColor");
+	}
+	if(wpiStatus == null || wpiStatus == ''){wpiStatus = getURLParameter('status');}
+}
+
+function closePopup(){
+	var modalWindowShowModal = document.getElementsByClassName("modalWindow showModal");
+
+	// No other modal window opened
+	if(modalWindowShowModal.length < 1){
+		hidePopupMask();
+		$(".modal-body").empty();
+		$("#HelpContainer").removeClass("showHelp");
+		$('body').removeClass('modal-open');
+		$('#FixedHeader').removeClass('fixed-header-fix');		
+	}else{
+		//Modal window is currently opened
+		$("#HelpContainer").children("modal-body").empty();	
+		$("#HelpContainer").removeClass("showHelp");
+	}
+}
+
+function completeEmailTransition() {
+	if ($(".emailDetailsHide").is(".emailDetailsShow") ) {
+		setTimeout(function() {
+			$(".emailDetailsHide").css("height", "100%");
+		}, 500);
+	} else {
+		$(".emailDetailsHide").css("height", "");
+	}
+}
+
+$(".popupMask").on("click", function() {
+	closePopup();
+});
+
+var x = screen.width;
+var y = screen.height;
+
+function PSpopUp(source){
+	window.open("../../" + source,"window","scrollbars=yes,resizable=yes,width=750,height=" + y + ",screenX=0,screenY=0,left=0,top=0");
+}
+function PSpopUp2(source){
+	window.open(source,"newWindow2","scrollbars=yes,resizable=yes,width=750,height=" + y + ",screenX=0,screenY=0,left=350,top=0");
+}
+//Shows the progress dialog for hybrid
+//Call with a "message" parameter only if you want to display a custom message in the progress dialog. You can choose to display the default message or to show no message at all. 
+var isSpinning = false;
+function showProgress(message){
+	var cursess=document.getElementById('currentsession').value;
+	if(cursess){setCookie('cion', cursess, '1');} else {setCookie('cion', "0", '1');}
+	isSpinning=true;if(isAjaxQuesAction){setTimeout(function(){if(isSpinning){showLoadingOverlay();}},300);}else{if(isSpinning){showLoadingOverlay();}}}
+//Closes the progress dialog for hybrid 
+function closeProgress(){addSuppressingContainForHJLib();try{$.LoadingOverlay("hide", true);}catch(e){}isSpinning=false;}
+
+function showLoadingOverlay(){
+	try{
+		if($('.loadingoverlay').length == 1){$.LoadingOverlay("hide", true);}
+		$.LoadingOverlay("show");
+	}catch(e){}
+}
+
+$( document ).ready(function(e) {	
+	attachScrollSource();
+
+	if ($('.cs_backButton_Handling')[0]) {
+		if(window.location.hash == '' || window.location.hash == 'undefined'){
+		 window.location.hash = "#nbb";	
+		}
+		
+		$(window).on("hashchange", function(e) {
+			processBrowserAction(e);
+		});
+	}	
+	
+	/**
+	* @cpiedade - Disable browser back button to leave QTB Journey
+	*/
+	/*var backButtonDisabled = document.getElementById("C1__backButtonDisabled");
+	if( backButtonDisabled != null) {	
+	
+		window.location.hash = "#QTB";
+		
+		$(window).on("hashchange", function(e) {
+			processBrowserAction(e);				
+		});		
+	}	*/
+	
+	/**
+	* Add Hash for Registration Page
+	*/
+	$('#activationTab').click(function () {
+		window.location.hash = "#registration";
+	});
+	
+	/**
+	* Add Hash for Sign-in Page
+	*/
+	$('#loginTab').click(function () {
+		window.location.hash = "#signin";
+	});
+	
+	/**
+	* Auto scroll on browser back button click
+	*/
+	if (window.history && window.history.pushState) {
+		$(window).on('popstate', function(e) {
+			var sections = $('.scrollSource').closest('.section,.well,.section-wrap');
+			if(h_prevScrollSource !== null)	{
+				var idx = sections.index( $('#'+h_prevScrollSource)[0]);			
+				scrollTo( $(sections[idx]) );
+				h_prevScrollSource = idx > 0 ? sections[idx-1].id : null;			
+			}			
+			processBrowserAction(e);
+		});		
+	}
+});
+
+function processBrowserAction(e){
+	var hashName = window.location.hash;
+	for(var index = 0;index < hashNameArray.length;index++){
+		if (hashName == hashNameArray[index]){
+			try{
+				history.pushState(null,null,window.location);
+			}
+			catch(e){
+				console.log(e);
+			}
+			var paymentStatus = getURLParameter('status');
+			if(paymentStatus == undefined || paymentStatus == '') {			
+				$("body").scrollTop(0);
+			}	
+		}
+	}
+}
+/*******AUX **********/
+/**
+* Separate Thounds with a comma
+*/
+function splitWithComma(id){
+	var oldval;
+	if(id.length > 0){
+		id.on('input', function(){
+			var newvalInput = formatThousandSeparator.call($(this).val().split(',').join(''));
+			if(newvalInput != oldval) {
+				$(this).val(newvalInput);
+				oldval = newvalInput;
+			}
+		});	
+
+		if (id.val().indexOf(',') == -1 && id.val()!=null ){
+			var newval = formatThousandSeparator.call(id.val());
+			if(newval != oldval) {
+				id.val(newval);
+				oldval = newval;
+			}
+		}		
+	}
+}
+
+
+/*
+* Format a number to present commas as thousands separator
+*/
+function formatThousandSeparator() {
+  var comma = ',';
+  var period = '.';
+  var split = this.toString().split('.');
+  var numeric = split[0];
+  var decimal = split.length > 1 ? period + split[1] : '';
+  var reg = /(\d+)(\d{3})/;
+  while (reg.test(numeric)) {
+    numeric = numeric.replace(reg, '$1' + comma + '$2');
+  }
+  return numeric + decimal;
+}
+
+function checkPriceChange() {
+	if ( $("#C1__PaymentFreq").text() == MONTHLY){
+		//Code when policy is monthly
+		
+		var actualPrice = parseInt($("#C1__MonthlyPremium").text());
+
+		//Compare actual price with previous
+		if (newPrice != actualPrice ){
+			
+			//Show notification
+			$("#C1__Notification2").show();
+			
+			//Hide notification after 3 seconds
+			setTimeout(function() { $("#C1__Notification2").hide(); }, 3000);
+			
+			//Update price
+			newPrice = actualPrice;
+		}
+	}
+	else{
+		//Code when policy is annual
+		
+		var actualPrice = parseInt($("#C1__AnnualPremium").text());
+		
+		//Compare actual price with previous
+		if (newPrice != actualPrice ){
+
+			//Show notification
+			$("#C1__Notification2").show();
+			
+			//Hide notification after 3 seconds
+			setTimeout(function() { $("#C1__Notification2").hide(); }, 3000);
+			
+			//Update price
+			newPrice = actualPrice;
+		}
+	}
+}
+
+function attachScrollSource()
+{
+	$('.scrollSource').off( "click.h_scroller" );
+	$('.scrollSource').on( "click.h_scroller", function() {
+			h_scrollSource = $( this ).closest('.section,.well,.section-wrap').attr('id'); 
+	});
+}
+
+
+function scrollTo(target)
+{
+	if($(target).length > 0) {
+		var hasClassModalWindow = $(target).closest('.modalWindow.showModal');
+		
+		if(hasClassModalWindow.length > 0){
+			//Get Target Position
+			var currentScrollTop = hasClassModalWindow.scrollTop();
+			var targetOffsetTop = target.offset().top;
+			var modalWindowOffsetTop = hasClassModalWindow.offset().top;
+			
+
+			//Jumps to next section
+			hasClassModalWindow.animate({
+			
+				scrollTop: targetOffsetTop + currentScrollTop - modalWindowOffsetTop - 20
+				
+			},500,"swing",function(){
+			});
+		} else{
+			$('body, html').animate({
+				scrollTop: target.offset().top - $("#FixedHeader").height() - 35
+			}, 500, "swing", function() {
+			});
+		}
+
+	} else {
+		log("ScrollTo target:" + target.id + " not found!");		
+	}		
+}
+
+function startTimerToRemoveNotification() {
+	if (notificationTimeout) {
+		clearTimeout(notificationTimeout);
+	}
+	notificationTimeout = setTimeout( function()  {
+		$("#showNotification_1").attr("checked", true).trigger("click");
+	}, 5000);
+	
+	/*
+	************************************************
+	*@cpiedade - Hide notification bar after 4 secs
+	*
+	************************************************/
+	notificationTimeout = setTimeout( function()  {
+		$("#C1__Notification2").css({
+		"opacity": "0"
+		});
+	}, 4000);	
+	
+}
+
+// DE271 - Handled scroll option inside Policy Overview page specific to Car MTA.
+function handleCarMTAScrollOptions(p_element){
+	
+	//Navigate to Policy Address Section
+	if( p_element == "C1__BUT_32FEE515808D2A0B430513" // Cancel button during Address change.
+		||  p_element == "C1__BUT_32FEE515808D2A0B427936" // Close icon during address change.
+		|| p_element == "C1__BUT_8655EEB762BDDCDA216354" // Close icon during job / DOB / mobile change.
+		|| p_element == "C1__BUT_A340DEE055CC0541328602" // Change Home address button in policy overview page.
+		|| p_element == "C1__BUT_A340DEE055CC0541328607" // Change overnight address button in policy overview page.
+		|| p_element == "C1__BUT_C83D8C25E1730DA6100515" // Change costs and summary page focus
+	    || p_element == "C1__BUT_5FB3B30FCD6CD604136847" // Select driver section
+		|| p_element == "C1__BUT_32FEE515808D2A0B430518" // Next:Date and mileage 
+		){
+		scrollToTopOfModal( $("#C1__FMT_BCD5EF63BF1B06D6179924") ); // Will navigate to Policy Address Section
+	}
+	//Navigate to Driver Details section area if cancel the add driver modal window
+	if( p_element == "C1__btnMyaccountPolicyAddDriverCancel"
+	   || p_element == "C1__EditDriverCancelButton" ){		
+		scrollTo( $("#C1__DriversDetailsSection"));	
+	}
+	
+	//Navigate to MTA section where user can change job / DOB / mobile change.
+	if( p_element == "C1__BUT_32FEE515808D2A0B430518" // Next :date & mileage
+		){
+		scrollToTopOfModal( $("#C1__FMT_BCD5EF63BF1B06D6179924") );
+	}
+	
+	//Navigate to Car Address MTA Section
+	if( p_element == "C1__BUT_C83D8C25E1730DA6100486" // Back button during job / DOB / mobile change
+		){
+		scrollToTopOfModal( $("#C1__FMT_BCD5EF63BF1B06D6179924") );
+	}
+	
+	//Navigate to Car Vehicle MTA Section
+    if( p_element == "C1__BUT_A340DEE055CC0541312913_R1" // Change or edit your vehicle link
+    || p_element == "C1__BUT_2CCD4066A14FE4D4213006" // Back button change your vehicle screen
+	|| p_element == "C1__C1__BUT_BFEA28E20A47678282691" // Pay one single payment button 
+	|| p_element == "C1__C1__BUT_C89BAB304F12DF14135401" // Back to Direct debit button
+	|| p_element == "C1__BUT_2CCD4066A14FE4D4213001" // Submit button on change your vehicle scree
+	|| $('#'+p_element).hasClass('scrollToptoModel')// Change driver button on make another change in change summary model
+        ){
+        scrollToTopOfModal( $("#C1__FMT_BCD5EF63BF1B06D6179924") );
+    }
+	// Locate to Add driver model
+	if($('#'+p_element).hasClass('scrollToptoMTAModal')) {
+		scrollToTopOfModal($("#C1__FMT_BCD5EF63BF1B06D6179924"));
+	}
+
+	addAlphanumericValidation();
+	addcurrencyValidation();	
+	enableRadioSelectionStyle();
+	doMilegeValidation();
+}
+
+function scrollToTopOfModal(modelElem) {
+	if (modelElem && modelElem.length > 0) {
+		modelElem.animate({ scrollTop: 0 },500,"swing",function(){ });
+	}
+}
+
+/**
+*validate inputs for mileage field
+* valid inputs are digit, comma, dot and two digit decimal points
+**/
+function doMilegeValidation() {	
+	$('input.mileageInput').keypress(function (e) {
+		var keyCode = !e.charCode ? e.which : e.charCode;
+		if(keyCode >= 32 && keyCode <= 126) {
+			if(keyCode == 46 || keyCode == 44 ||(keyCode >= 48 && keyCode <= 57)) {
+				var inputVal = e.target.value;
+				var outputValue = inputVal.substr(0, e.target.selectionStart) + String.fromCharCode(e.charCode) + inputVal.substr(e.target.selectionEnd);
+				return validateInput(outputValue);
+			} else {
+				return false;
+			}
+		} else {
+			return true;
+		}
+	});
+}
+
+
+function validateInput(amount) {
+	var regex = /^[\d\,]+(?:\.\d{0,2})?$/;
+	return regex.test(amount);
+}
+
+function addcurrencyValidation() {
+	// Validate currency values
+	$('input.currencyInput').keypress(function (e) {
+		var keyCode = !e.charCode ? e.which : e.charCode;
+		if(keyCode >= 32 && keyCode <= 126) {
+			if(keyCode == 46 ||(keyCode >= 48 && keyCode <= 57)) {
+				var inputVal = e.target.value;
+				var outputValue = inputVal.substr(0, e.target.selectionStart) + String.fromCharCode(e.charCode) + inputVal.substr(e.target.selectionEnd);
+				return validateCurrency(outputValue);
+			} else {
+				return false;
+			}
+		} else {
+			return true;
+		}
+	});
+}
+
+function validateCurrency(amount) {
+	var regex = /^\d+(?:\.\d{0,2})?$/;
+	return regex.test(amount);
+}
+
+function addAlphanumericValidation() {
+	//Allow only alphanumeric characters in the input
+	$('input.searchInputFieldNoSpacesJS').keypress(function (e) {
+		var keyCode = !e.charCode ? e.which : e.charCode;
+		return !((keyCode >= 32 && keyCode <= 47) ||(keyCode >= 58 && keyCode <= 64)||(keyCode >= 91 && keyCode <= 96) ||(keyCode >= 123 && keyCode <= 126));
+	});	
+}
+/*******Add hooks **********/
+//	Register our interest in our functions being called by the edgeConnect Hook functions using Hookit  
+if (Hi !== 'undefined') {
+	Hi.addHook("afterInitForm",aftinitForm)
+	.addHook('postProcessResponses',autoCompleteQuestionProcess)
+	.addHook('postProcessResponses',customizeErrorMessage)
+	.addHook('postProcessResponses',hideExceededModalWindows)
+	.addHook('postProcessResponses',browserSessionTimeoutReset)
+	.addHook('afterAjaxQuestionActionValidation',progressAfterAjaxQuestionActionValidation)
+	.addHook('postProcessResponses',progressPostProcessResponse)
+	.addHook('beforeSubmit',progressBeforeSubmit)
+	.addHook("beforeAjaxButtonActionService",progressBeforeSubmit)
+	.addHook("postProcessAjaxButtonActionService",progressPostProcessResponse)
+	.addHook("postProcessResponses",motorUpdateUpgradeTablePrices)
+	.addHook("postProcessResponses", updateBreakDownSolution)
+	.addHook("postProcessResponses",homeUpdateSideBySideUpgradePrices)
+	.addHook("postProcessResponses",homeUpdateVoluExcessTypelistDispTxt)
+	.addHook('afterInitForm',progressAfterInitForm)
+	.addHook('postAjaxProcessingHook',paymentPostAjaxProcess)
+	.addHook('postAjaxProcessingHook',paymentFailurePostAjaxProcess)
+	.addHook('afterMessageAlert',postErrorMessageAlert)
+	.addHook("checkForDefaultButtonAction", keyPressQuestionProcess)
+    .addHook("postAjaxProcessingHook", displayPasswordHide);
+} else {
+	log("we were expecting Hookit global variable HI to have been declared please check Hookit has been loaded")
+}
+
+function updateBreakDownSolution() {
+  if (this["updateBreakDownCover"] && typeof updateBreakDownCover) {
+    updateBreakDownCover(); // Method defined in TPL files UpgradeHPTableView.tpl
+  }
+  Hi.addHook('postProcessResponses',scrollToPostProcessResponses);
+  return true;
+}
+
+function displayPasswordHide(service, elementId) {
+  if ($("#" + elementId).hasClass("passwordCopy") && document.getElementById("showAndHidePassword")) {
+	var passwordFields = document.getElementsByClassName("passwordCopy");
+	for (index = 0; index < passwordFields.length; ++index) {
+    if (
+      document.getElementById("showAndHidePassword").text == "Show password"
+    ) {
+      passwordFields[index].type = "password";
+    } else {
+      passwordFields[index].type = "text";
+    }
+  }
+  }
+}
+
+function showHidePassword(e) {
+  var passwordFields = document.getElementsByClassName("passwordCopy");
+  var showHideText = document.getElementById(e.target.id);
+
+  for (index = 0; index < passwordFields.length; ++index) {
+    if (passwordFields[index].type === "password") {
+      passwordFields[index].type = "text";
+      showHideText.text = "Hide password";
+    } else {
+      passwordFields[index].type = "password";
+      showHideText.text = "Show password";
+    }
+  }
+}
+
+function motorUpdateUpgradeTablePrices() {	
+	if ( this["motorUpdateSBSUpgradePrices"] && typeof motorUpdateSBSUpgradePrices === 'function' ) {
+		motorUpdateSBSUpgradePrices(); // Method defined in TPL file
+	}	
+	return true;
+}
+
+function homeUpdateSideBySideUpgradePrices() {	
+	if ( this["homeUpdateSBSUpgradePrices"] && typeof homeUpdateSBSUpgradePrices === 'function' ) {
+		homeUpdateSBSUpgradePrices(); // Method defined in TPL file
+	}	
+	return true;
+}
+
+function homeUpdateVoluExcessTypelistDispTxt() {
+	if ( this["updateVoluExcessTypelistDispTxt"] && typeof updateVoluExcessTypelistDispTxt === 'function' ) {
+		updateVoluExcessTypelistDispTxt();
+	}
+	return true;
+}
+
+function postErrorMessageAlert(p_comp, p_msg, ns, ok) {
+	
+	/* Clear autocomplete inputs if invalid */
+	// Add driver MTA
+	if ($('label[id*="fmfMyaccountPolicyAddDriverOccupation_ERRORMESSAGE"]').css('display') != 'none') {
+		$('input[id*="fmfMyaccountPolicyAddDriverOccupation"]').val('');		
+	}
+	if ($('label[id*="fmfMyaccountPolicyAddDriverOccupationIndustry_ERRORMESSAGE"]').css('display') != 'none') {
+		$('input[id*="fmfMyaccountPolicyAddDriverOccupationIndustry"]').val('');		
+	}
+	if ($('label[id*="QUE_A085535C76F632AA240514_ERRORMESSAGE"]').css('display') != 'none') {
+		$('input[id*="QUE_A085535C76F632AA240514"]').val('');		
+	}
+	if ($('label[id*="fmfMyaccountPolicyAddDriverSecondoccupation_ERRORMESSAGE"]').css('display') != 'none') {
+		$('input[id*="fmfMyaccountPolicyAddDriverSecondoccupation"]').val('');		
+	}
+	if ($('label[id*="fmfMyaccountPolicyAddDriverSecondoccupationIndustry_ERRORMESSAGE"]').css('display') != 'none') {
+		$('input[id*="fmfMyaccountPolicyAddDriverSecondoccupationIndustry"]').val('');
+	}
+	
+	// Edit driver MTA
+	if ($('label[id*="QUE_22E1D5AB0B463070247995_ERRORMESSAGE"]').css('display') != 'none') {
+		$('input[id*="QUE_22E1D5AB0B463070247995"]').val('');		
+	}
+	if ($('label[id*="QUE_22E1D5AB0B463070248009_ERRORMESSAGE"]').css('display') != 'none') {
+		$('input[id*="QUE_22E1D5AB0B463070248009"]').val('');		
+	}
+	if ($('label[id*="QUE_22E1D5AB0B463070248021_ERRORMESSAGE"]').css('display') != 'none') {
+		$('input[id*="QUE_22E1D5AB0B463070248021"]').val('');		
+	}
+	if ($('label[id*="QUE_22E1D5AB0B463070248068_ERRORMESSAGE"]').css('display') != 'none') {
+		$('input[id*="QUE_22E1D5AB0B463070248068"]').val('');		
+	}
+	if ($('label[id*="QUE_22E1D5AB0B463070248079_ERRORMESSAGE"]').css('display') != 'none') {
+		$('input[id*="QUE_22E1D5AB0B463070248079"]').val('');
+	}
+
+	// Additional Driver modal
+	if ($('label[id*="QUE_CEB5A3D87A62BEC8157545_ERRORMESSAGE"]').css('display') != 'none') {
+		$('input[id*="QUE_CEB5A3D87A62BEC8157545"]').val('');		
+	}
+	if ($('label[id*="AddDriverMainOccupation_ERRORMESSAGE"]').css('display') != 'none') {
+		$('input[id*="AddDriverMainOccupation"]').val('');		
+	}
+	if ($('label[id*="AddDriverMainIndustryType_ERRORMESSAGE"]').css('display') != 'none') {
+		$('input[id*="AddDriverMainIndustryType"]').val('');		
+	}
+	if ($('label[id*="AddDriverSecondOccupation_ERRORMESSAGE"]').css('display') != 'none') {
+		$('input[id*="AddDriverSecondOccupation"]').val('');		
+	}
+	if ($('label[id*="AddDriverSecondIndustryType_ERRORMESSAGE"]').css('display') != 'none') {
+		$('input[id*="AddDriverSecondIndustryType"]').val('');
+	}
+	// Employment Status component
+	if ($('label[id*="QUE_60BC839902790A6376452_ERRORMESSAGE"]').css('display') != 'none') {
+		$('input[id*="QUE_60BC839902790A6376452"]').val('');		
+	}
+	if ($('label[id*="MainOccupation_ERRORMESSAGE"]').css('display') != 'none') {
+		$('input[id*="MainOccupation"]').val('');		
+	}
+	if ($('label[id*="MainIndustryType_ERRORMESSAGE"]').css('display') != 'none') {
+		$('input[id*="MainIndustryType"]').val('');		
+	}
+	if ($('label[id*="SecondOccupation_ERRORMESSAGE"]').css('display') != 'none') {
+		$('input[id*="SecondOccupation"]').val('');
+	}
+	if ($('label[id*="SecondIndustryType_ERRORMESSAGE"]').css('display') != 'none') {
+		$('input[id*="SecondIndustryType"]').val('');
+	}
+	
+	// Others
+	if ($('label[id*="ModificationsList_ERRORMESSAGE"]').css('display') != 'none') {
+		$('input[id*="ModificationsList"]').val('');		
+	}
+	if ($('label[id*="AddVehicModifications_ERRORMESSAGE"]').css('display') != 'none') {
+		$('input[id*="AddVehicModifications"]').val('');		
+	}
+	if ($('label[id*="APHMainOccupation_ERRORMESSAGE"]').css('display') != 'none') {
+		$('input[id*="APHMainOccupation"]').val('');		
+	}
+	if ($('label[id*="APHIndustryType_ERRORMESSAGE"]').css('display') != 'none') {
+		$('input[id*="APHIndustryType"]').val('');
+	}
+	if ($('label[id*="APHSecondJobOccupation_ERRORMESSAGE"]').css('display') != 'none') {
+		$('input[id*="APHSecondJobOccupation"]').val('');
+	}
+	if ($('label[id*="APHSecondJobIndustryType_ERRORMESSAGE"]').css('display') != 'none') {
+		$('input[id*="APHSecondJobIndustryType"]').val('');
+	}
+	if ($('label[id*="QUE_0EB0BF5568DD8A8F88167_ERRORMESSAGE"]').css('display') != 'none') {
+		$('input[id*="QUE_0EB0BF5568DD8A8F88167"]').val('');
+	}
+	checkMandDateField();
+}
+
+function checkMandDateField() {
+	var mandErrorsList = getVariable("", "MAND_ERRORS");
+	var mandErrorsListLength;
+	var tempId;
+	if ( mandErrorsList ) {
+		mandErrorsListLength = mandErrorsList.length;
+		for ( var i = 0; i < mandErrorsListLength; i++ ){
+		  if ( mandErrorsList[i].indexOf(YEAR_SUFFIX) > -1){
+			 tempId = getDateTrimedId(mandErrorsList[i]);
+			 mandErrorsList[mandErrorsList.length] = tempId + ".DAY";
+			 mandErrorsList[mandErrorsList.length] = tempId + ".MONTH";			
+		  }
+		}
+	}
+	setVariable("", "MAND_ERRORS", mandErrorsList);
+	
+}
+function enableRadioSelectionStyle() {
+	/* Adding style for Radio button selection*/
+	$('div.block-label input:radio:checked').parent().addClass('selected');
+	$('div.block-label input:radio').change(function () {
+		$(this).parent().addClass("selected");
+		$(this).parent().siblings().removeClass("selected");
+	}); 
+}
+
+function paymentFailurePostAjaxProcess(service,elementId) {
+	var failureButtonId = $("button[id$='btnPaymentFailure']").attr('id');
+	var mtaButtonId = $("button[id$='mtaSuccessBtn']").attr('id');
+	
+	if((failureButtonId != undefined && elementId==failureButtonId) || (mtaButtonId != undefined && elementId==mtaButtonId) 
+		|| $('#'+elementId).hasClass('btnPaymentFailure')){
+		var baseUrl = window.location.origin;
+		var subSessionId = $("input[name=SUBSESSIONID]").val();
+		var pageNumber = $("#PAGEPAYMENT").val();
+		var nextURL = baseUrl + window.location.pathname + '?MODE=REDISPLAY&SUBSESSIONID='+subSessionId+'&PAGE='+pageNumber;
+		window.location.href = nextURL;
+	}
+}
+
+function paymentPostAjaxProcess(service,elementId) {
+	var btnDebitId = $("button[id$='BUT_DebitCard']").attr('id');
+	var btnCreditId = $("button[id$='BUT_CreditCard']").attr('id');
+	if((btnDebitId != undefined && btnDebitId == elementId) || (btnCreditId !=undefined && btnCreditId == elementId)) {
+		var baseUrl = window.location.origin;
+		var subSessionId = $("input[name=SUBSESSIONID]").val();
+		var pageNumber = $("#PAGEPAYMENT").val();
+		var isInRenewal = $("#ISINRENEWAL").val();
+		
+		var successURL = baseUrl + window.location.pathname + '?MODE=REDISPLAY&SUBSESSIONID='+subSessionId+'&PAGE='+pageNumber+'&status=SUCCESS';
+		if (isInRenewal == 'F')
+		{
+			successURL = baseUrl + window.location.pathname + '?MODE=FORWARD_FROM_PHASE_COMPONENT_MODE&SUBSESSIONID='+subSessionId+'&PAGE='+pageNumber+'&status=SUCCESS';
+		}
+	
+		var cancelURL = baseUrl + window.location.pathname + '?MODE=REDISPLAY&SUBSESSIONID='+subSessionId+'&PAGE='+pageNumber+'&status=FAILURE';
+		var failureURL = baseUrl + window.location.pathname + '?MODE=REDISPLAY&SUBSESSIONID='+subSessionId+'&PAGE='+pageNumber+'&status=FAILURE';
+		var pendingURL = baseUrl + window.location.pathname + '?MODE=REDISPLAY&SUBSESSIONID='+subSessionId+'&PAGE='+pageNumber+'&status=FAILURE';
+		var errorURL = baseUrl + window.location.pathname + '?MODE=REDISPLAY&SUBSESSIONID='+subSessionId+'&PAGE='+pageNumber+'&status=FAILURE';
+		var paymentUrl = $('#paymentURL').val();
+		var customOptions = {
+			type: 'iframe',
+			inject: 'immediate',
+			iframeIntegrationId: 'integrationID',
+			iframeHelperURL: baseUrl+'/'+window.location.pathname.split("/")[1]+'/html/payment/helper.html',
+			iframeBaseURL: baseUrl,
+			url: paymentUrl,
+			target: 'paymentFrame',
+			trigger: '',
+			lightboxMaskOpacity: 50,
+			lightboxMaskColor: '#000000',
+			accessibility: true,
+			debug: false,
+			language: 'en',
+			country: 'GB',
+			preferredPaymentMethod: '',
+			successURL: successURL,
+			cancelURL: cancelURL,
+			failureURL: failureURL,
+			pendingURL: pendingURL,
+			errorURL: errorURL
+		};		
+		
+		//initialise the library and pass options
+		integrationID = new WPCL.Library();
+		integrationID.setup(customOptions);
+		if($('#paymentFrame iframe').length > 0){
+			if($('#paymentFrame iframe').height() < 160 ) {
+				$('#paymentFrame iframe').css('height','398px');
+			}	
+		}
+	}
+	
+	
+	//dispatchEvent(new Event('load'));
+}
+
+function subMenu() {
+	$('#MNU_MAIN_MENU .menu_container > .menuhoriz li').each(function(index){
+		if($(this).children('ul').length){
+			$(this).addClass('hasSubMenu');
+		}
+	});
+	$('#MNU_MAIN_MENU .menu_container > .menuhoriz').on("click","li.hasSubMenu > a",function(){
+		$(this).closest('li').siblings().removeClass('hasClicked').find('> ul').hide();
+		$(this).closest('li').toggleClass('hasClicked').find('> ul').toggle();
+	});
+}
+
+
+/*
+ * Setup 'Need help?' menu and Sub-Menus on page load event
+ */
+$(document).ready(function () {
+	helpMenuLoadEvent();
+});
+
+function helpMenuLoadEvent(){
+	var phoneNo;
+	
+	if ( $("#ITM_PHONE_NUMBER").length && ($("#ITM_PHONE_NUMBER").css("display") != "none") ) {
+		phoneNo = $("#CallCentreNumber").text();
+		$("#ITM_PHONE_NUMBER > a").attr("href","tel:"+phoneNo).removeAttr("title");
+		$("#WorkingHoursInfo").appendTo("#ITM_PHONE_NUMBER > a");
+		$("#WorkingHoursInfo > div").removeClass("displayNone");
+		$("#WorkingHoursInfo").addClass("tel-header-times textAlignCenter");
+	}
+
+	if ( $("#ITM_CONTACT_US").length && ($("#ITM_CONTACT_US").css("display") != "none") ) {
+		$("#ITM_CONTACT_US > a").attr("href","http://' + location.host + '/popups/gw/contact-us.html").attr("onclick","window.open('http://' + location.host + '/popups/gw/contact-us.html', 'contact_window', 'width=800, height=600'); return false;").removeAttr("title");
+	}
+	
+	$("#ITM_HASTINGS_HELP > a").attr("href","http://www.hastingsdirect.com/help/").attr("onclick","window.open('http://www.hastingsdirect.com/help/', 'help_window', 'width=800, height=600'); return false;").removeAttr("title");
+	
+	$("#ITM_NEED_HELP > a").removeAttr("title");
+
+	$("#ITM_MENU_ITEM_ENOL_FAQ > a").attr("href","http://www.hastingsdirect.com/claims/").attr("onclick","window.open('http://www.hastingsdirect.com/claims/', 'help_window', 'width=800, height=600'); return false;").removeAttr("title");
+
+	if ($(window).width() < 768) {
+		subMenu();
+		// Showing NCD Table in mobile view
+		$('.ViewNCDTable').addClass('displayNone');
+		$('.ViewNCDTableMobile').removeClass('displayNone');
+		}else{
+			// Showing NCD Table in mobile view
+		$('.ViewNCDTable').removeClass('displayNone');
+		$('.ViewNCDTableMobile').addClass('displayNone');
+		$('#MNU_MAIN_MENU .menuhoriz li').removeClass('hasSubMenu hasClicked');
+		$('#MNU_MAIN_MENU .menuhoriz li ul').removeAttr('style');
+	}
+	$(window).resize(function(){
+		if ($(window).width() < 768) {
+			subMenu();
+			// Showing NCD Table in mobile view
+			$('.ViewNCDTable').addClass('displayNone');
+			$('.ViewNCDTableMobile').removeClass('displayNone');
+		}else{
+			// Showing NCD Table in mobile view
+			$('.ViewNCDTable').removeClass('displayNone');
+			$('.ViewNCDTableMobile').addClass('displayNone');
+		$('#MNU_MAIN_MENU .menuhoriz li').removeClass('hasSubMenu hasClicked');
+		$('#MNU_MAIN_MENU .menuhoriz li ul').removeAttr('style');
+	}	
+	});	
+	
+	// US9793 - Remove Telephone number from Login, changepassword pages
+	// test15058 - Remove Telephone number from MyAccount
+	if ($('.cs_helpbar_notelephone')[0]) {
+		if ($('.cs_myaccount')[0]) {
+			$("#ITM_PHONE_NUMBER").remove();
+		} else {	
+			$("#ITM_PHONE_NUMBER > a > span").remove();
+		}	
+	}
+	
+	// test14964 - Removing multicar option for new quote in MyAccount
+	if ($('div[id*="FMT_E9B840FC6A0FBB901488108"]')[0]) {
+		$("#dpdMyaccountNewquoteChooseproduct option[value='MultiCar_Ext']").remove();
+	}
+}
+
+function placeHolderText() {
+	var accNoId = $("input[id$='fmfMyaccountPaymentsupdateddbankacctnumber']").attr('id');
+	if(accNoId != undefined) {
+		var maskedAccNo = $("span[id$='maskedAccountNumber']").text();
+		$("input[id$='fmfMyaccountPaymentsupdateddbankacctnumber']").attr('placeholder', maskedAccNo);
+	}
+	$("input[id$='fmfMyaccountPaymentsupdateddsortcode1']").attr('placeholder', '**');
+	$("input[id$='fmfMyaccountPaymentsupdateddsortcode2']").attr('placeholder', '**');
+	$("input[id$='fmfMyaccountPaymentsupdateddsortcode3']").attr('placeholder', '**');
+}
+
+function redirectToCdlJourney() {
+	if (getAQuoteSubmitButtonId == "btnMyaccountNewquoteContinue") {
+		// As the firefox browser didnt work with push status, using local storage
+		if (isFirefoxBrowser()) {
+			localStorage.setItem('isSesssionLive', "false");
+		}	else {
+			try{
+				history.pushState(null,null,String(window.location).substring(0,String(window.location).indexOf("#")));
+			}
+			catch(e){
+				console.log(e);
+			}
+		}
+		//captured the scheme value. if the scheme is HD and lob is car then redirect to REact journey else retain in the temenos journey as part of US 506149
+		var scheme =document.getElementById("scheme").value;
+		if ($("#dpdMyaccountNewquoteChooseproduct").val() == 'PrivateCar_Ext') {
+			if (scheme == 'HD')	{
+				window.location.replace(window.location.href.split("/")[0].concat("//".concat(window.location.href.split("/")[2], "/quote-and-buy/intro?action=direct&lob=UHJpdmF0ZUNhcl9FeHQ=&brand=SEQ=&producerCode=T3RoZXJfZGlyZWN0X21hcmtldGluZw==&CampaignCode=T3RoZXJkaXJlY3RtYXJrZXRpbmdEZWZhdWx0Q2FtcGFpZ24"))); 
+			}else{				
+			window.location.replace(window.location.href.split("/")[0].concat("//".concat(window.location.href.split("/")[2], "/Portal/servletcontroller?action=direct&lob=UHJpdmF0ZUNhcl9FeHQ=&brand=SEQ=&producerCode=T3RoZXJfZGlyZWN0X21hcmtldGluZw==&CampaignCode=T3RoZXJkaXJlY3RtYXJrZXRpbmdEZWZhdWx0Q2FtcGFpZ24=#directcar"))); 
+			}
+			
+		}
+		else if ($("#dpdMyaccountNewquoteChooseproduct").val() == 'CommercialVan_Ext') {
+			window.location.replace("https://www.hastingsdirect.com/quotehisle/views/common/ProductEntryPoint.jsf?isNewQuote=true&lob=van");
+		}
+		else if ($("#dpdMyaccountNewquoteChooseproduct").val() == 'MotorCycle_Ext') {
+			window.location.replace("https://www.hastingsdirect.com/quotehisle/views/common/ProductEntryPoint.jsf?isNewQuote=true&lob=motorcycle");
+		}
+		/*else if ($("#dpdMyaccountNewquoteChooseproduct").val() == 'Home_Ext') {
+			window.location.replace("https://www.hastingsdirect.com/quotehisle/views/common/ProductEntryPoint.jsf?isNewQuote=true&lob=household");
+		}*/
+		/* US28199- link changed for direct car journey*/
+		else if ($("#dpdMyaccountNewquoteChooseproduct").val() == 'Home_Ext') {
+			window.location.replace(window.location.href.split("/")[0].concat("//".concat(window.location.href.split("/")[2], 
+			"/Portal/servletcontroller?action=direct&lob=SG9tZV9FeHQ=&brand=SEQ=&producerCode=SERfV2Vic2l0ZQ==&CampaignCode=SERXZWJzaXRlRGVmYXVsdENhbXBhaWdu&xutapkdu=wejklfjhwegfhkhg4553453453454367psafdsaf#directhome")));
+		}
+	}
+}
+
+function callKeyUpForPassword(value){
+	if((value.match('[a-z]')) ) {
+		$('#pass_letter').removeClass("unticked");
+		$('#pass_letter').addClass("ticked");
+	} else {
+		$('#pass_letter').removeClass("ticked");
+		$('#pass_letter').addClass("unticked");
+	}
+	
+	if(value.match('[A-Z]')) {
+		$('#pass_caps').removeClass("unticked");
+		$('#pass_caps').addClass("ticked");
+	} else {
+		$('#pass_caps').removeClass("ticked");
+		$('#pass_caps').addClass("unticked");
+	}
+	
+	if(value.match('[0-9]')) {
+		$('#pass_number').removeClass("unticked");
+		$('#pass_number').addClass("ticked");
+	} else {
+		$('#pass_number').removeClass("ticked");
+		$('#pass_number').addClass("unticked");
+	}
+	
+	if(value.length < 8) {
+		$('#pass_length').removeClass("ticked");
+		$('#pass_length').addClass("unticked");
+	} else {
+		$('#pass_length').removeClass("unticked");
+		$('#pass_length').addClass("ticked");
+	}
+}
+
+function afterValidateRegularExpression(c, expr, min, max, message, ns, ok, styles) {
+	// Execution method after validation of regular expression		
+	doSortCodeRegexValidation(c.id);
+	return checkRegexStopFormSubmit(c, expr, min, max, message, ns, ok, styles) 
+	&& customErrMsgValidation(c, expr, min, max, message, ns, ok, styles);
+}
+
+// Don't touch this method since this is generic regex validation for application
+function checkRegexStopFormSubmit(c, expr, min, max, message, ns, ok, styles) {	
+	var isValidInput = true;
+	var errorMsg = message[0];
+	if (c.id != '' && expr != '' ) {
+		isValidInput = doRegexValidation(expr, c.value);
+	}
+	var disablingButId = getDisablingButId(c.id);	
+	if (isValidInput) {
+		setDisablityOfBut(disablingButId, false);		
+	} else {
+		setErrMsgForElem(errorMsg, c, ns, styles);	
+		setDisablityOfBut(disablingButId, true);
+	}
+	return isValidInput;
+}
+
+// Use this method for any custom validation or error message
+function customErrMsgValidation(c, expr, min, max, message, ns, ok, styles) {
+	return checkInvalidSpecificDesc(c, expr, min, max, message, ns, ok, styles);
+}
+
+function checkInvalidSpecificDesc(c, expr, min, max, message, ns, ok, styles) {
+	var isValidInput = true;
+	var errorMsg = message[0];
+	if ("C1__coverItemDescriptionOnModal" == c.id) {
+		var desc = c.value;
+		var invalidDesc = 'No';
+		if (desc.indexOf('&') > -1) {
+			errorMsg = errorMsg.concat(' &');			
+			isValidInput = false;
+		} else if(desc.indexOf('<') > -1) {
+			 errorMsg = errorMsg.concat(' <');			 
+			 isValidInput = false;
+		} else if(desc.indexOf('"') > -1) {
+			 errorMsg = errorMsg.concat(' "');
+			 isValidInput = false;
+		}
+	}	
+	if (!isValidInput) {	
+		setErrMsgForElem(errorMsg, c, ns, styles);	
+	} 
+	return isValidInput;
+}
+
+function setErrMsgForElem(errorMsg, c, ns, styles) {
+	if(errorMsg == null || errorMsg == ''){
+		alertComp(c, getMsg(ns, "ValidationMessage"), ns, true, styles);
+	}else{
+		alertComp(c,errorMsg,ns, true, styles);
+	}
+}
+
+function doRegexValidation(expr, value) {
+	if (expr && value) {
+		var regExp = new RegExp(expr);
+		return regExp.test(value);
+	}
+	return true;
+}
+
+function setDisablityOfBut(disablingButId, flag) {
+	var buttonToChangeDisable = $("button[id$=" + disablingButId + "]")[0];
+	if (buttonToChangeDisable) {
+		buttonToChangeDisable.disabled = flag;	
+	}	
+}
+
+function getDisablingButId(domElementID) {
+	var buttonId = document.getElementById(domElementID).className;
+	if (buttonId.indexOf("disableButId-") < 0) {
+		return undefined;
+	}
+	buttonId = buttonId.slice(buttonId.indexOf("disableButId-") + 13);
+    return buttonId.substring(0, buttonId.indexOf(" "));
+}
+
+
+//Method is for triggering the documents tab button click event when view documents is clicked on Notification on dash board page.
+$(document).ready(function () {
+	$(".clickTriggerForDocsLoad").find('a').on("click", function() {
+		$('#ITM_82929C7A1592364941271 a').click(); //Trigger the Documents menu button click.
+		$('#ITM_82929C7A1592364941269').removeClass("activeMenuLink");
+	});
+});
+
+
+//Method is for re-directing from Modal pop up to corresponding Scheme home page when ever GREY, CUE or REFEREL check happens.
+$(document).ready(function () {
+	$(".HD_URL").on("click", function() {
+		location.href = "http://www.Hastingsdirect.com";
+	});
+	$(".PC_URL").on("click", function() {
+		location.href = "http://www.peopleschoice.co.uk";
+	});
+	$(".IP_URL").on("click", function() {
+		location.href = "http://www.insurepink.co.uk";
+	});
+	/* Code for logo redirect */
+	$(".rebrandLogo").on("click", function() {
+		location.href = "http://www.Hastingsdirect.com";
+	});
+	var brand=document.getElementById("img_BigLogo");
+	if(brand){
+		$(".Logo").on("click", function() {
+			if(brand.src.includes("peoples")){location.href = "https://www.peopleschoice.co.uk/";}
+			if(brand.src.includes("insurepink")){location.href = "https://www.insurepink.co.uk/";}
+		});
+	}
+	/* Code for logo redirect */
+	
+
+});
+
+$(document).on('focus click', '#QUE_D6B05F8422E8B5E7434595, #QUE_20BA6E033FDD3824756448, #C1__QUE_516955FB3D907EA31693257, #C1__QUE_516955FB3D907EA3131017, #C1__QUE_516955FB3D907EA3131017,#QUE_0630D8D66027B97328665',  function(e){checkForCreatePassword(e.target.id);});
+
+//To trigger number keypad for numeric fields
+$(document).on('focus click', '#C1__VehicleValue,#C1__ConvictionBan,#C1__PolHolderMainContact,#C1__PolHolderMobileContact,#C1__QUE_85DFDCD3617F47F852150,#C1__QUE_85DFDCD3617F47F852173,#C1__QUE_85DFDCD3617F47F852179,#C1__QUE_85DFDCD3617F47F852204,#C1__C5__VehicleValue,#C1__C5__ConvictionBan,#C1__C5__PolHolderMainContact,#C1__C5__PolHolderMobileContact,#C1__QUE_AFFF012D7024CB71564595,#C1__QUE_1128691B0520505E450947,#C1__QUE_05B9377699FF488C88976,#C1__QUE_8F4880A5E8D00529125774,#C1__QUE_8F4880A5E8D00529127557,#C1__QUE_BCE6446958EACFA3634634,#C1__QUE_FC5AA14E6EB02AC8118374,#C1__QUE_85DFDCD3617F47F852150,#C1__QUE_85DFDCD3617F47F852173,#C1__QUE_85DFDCD3617F47F852179,#C1__QUE_85DFDCD3617F47F852204,#C1__QUE_B9E094C3024FE2E8259861,#C1__QUE_5D11D93646AE2B53575726,#C1__QUE_5D11D93646AE2B53577744,#C1__QUE_5D11D93646AE2B53582132,#C1__QUE_CFC9BB26FC1FCFAA526177,#C1__QUE_472BE2A453BC3163357159,#C1__QUE_05B9377699FF488C87862,#C1__QUE_7B66AD4DB962683A194372,#C1__QUE_472BE2A453BC3163461694,#C1__SortCode1,#C1__SortCode2,#C1__SortCode3,#C1__QUE_91DA782A4BB486541323873',  function(e){
+	$('#'+e.target.id).prop('type','tel');
+});
+ 
+$(document).on('click','#C1__FS_QUE_963990CB76C787A6399578',function(){
+  $("#C1__FS_QUE_963990CB76C787A6399578 input[type != button]").each(function(key,value){
+    $(this).prop('type','tel');
+  });
+});
+
+$(document).on('click','#C1__FS_QUE_6013D3529CEB540A678195',function(){
+  $("#C1__FS_QUE_6013D3529CEB540A678195 input[type != button]").each(function(key,value){
+    $(this).prop('type','tel');
+  });
+});
+
+$(document).on('click','#C1__FS_QUE_6013D3529CEB540A1219603',function(){
+  $("#C1__FS_QUE_6013D3529CEB540A1219603 input[type != button]").each(function(key,value){
+    $(this).prop('type','tel');
+  });
+});
+
+$(document).on('click','#C1__FS_QUE_6013D3529CEB540A1220590',function(){
+  $("#C1__FS_QUE_6013D3529CEB540A1220590 input[type != button]").each(function(key,value){
+    $(this).prop('type','tel');
+  });
+});
+
+$(document).on('click','#C1__C5__FS_QUE_963990CB76C787A6399578',function(){
+  $("#C1__C5__FS_QUE_963990CB76C787A6399578 input[type != button]").each(function(key,value){
+    $(this).prop('type','tel');
+  });
+});
+
+$(document).on('click','#C1__C5__FS_QUE_6013D3529CEB540A1219603',function(){
+  $("#C1__C5__FS_QUE_6013D3529CEB540A1219603 input[type != button]").each(function(key,value){
+    $(this).prop('type','tel');
+  });
+});
+
+$(document).on('click','#C1__FS_QUE_095282B1689A36FD908914',function(){
+  $("#C1__FS_QUE_095282B1689A36FD908914 input[type != button]").each(function(key,value){
+    $(this).prop('type','tel');
+  });
+});
+
+$(document).on('click','#C1__C5__FS_QUE_963990CB76C787A6399578',function(){
+  $("#C1__C5__FS_QUE_963990CB76C787A6399578 input[type != button]").each(function(key,value){
+    $(this).prop('type','tel');
+  });
+});
+
+$(document).on('click','#C1__FS_QUE_095282B1689A36FD1048571',function(){
+  $("#C1__FS_QUE_095282B1689A36FD1048571 input[type != button]").each(function(key,value){
+    $(this).prop('type','tel');
+  });
+});
+$(document).on('click','.telcls',function(){
+  $(".telcls").each(function(key,value){
+    $(this).prop('type','tel');
+  });
+});
+
+
+// Checking Password strength for checkbox
+function checkForCreatePassword(id){
+	$('#'+id).off('input');
+	$('#'+id).on('input',function(event){
+        var value = $('#'+id).val();
+		callKeyUpForPassword(value);
+	});
+}
+
+function keyPressQuestionProcess(p_evt, p_comp, p_defaultButton, ns, p_doEvenWhenHidden) {		
+	keyUpQuestionProcess(p_comp);
+}
+
+function keyUpQuestionProcess(p_comp){	
+	if(p_comp && p_comp.id){
+		var queId = "#" + p_comp.id;
+		var regex = getRegex(queId);
+		if(regex){
+			$(queId).off('keyup');
+			$(queId).on('keyup',function(){
+				var value = $(queId).val();
+				var isValid = doRegexValidation(regex, value);
+				setDisablityOfBut(getDisablingButId(p_comp.id), !isValid);
+			});
+		}
+	}
+}
+
+function getRegex(queId){
+	if(queId) {	
+		var oHtml = $(queId).prop('outerHTML');
+		//var escapedHtml = $("#" + queId).text(someHtmlString).html();
+		if(oHtml){
+			var startIndex = oHtml.indexOf("validateRegularExpression(this, '");
+			var endIndex = oHtml.indexOf("$',");
+			
+			if (startIndex < 0 || endIndex < 0) {
+				return undefined;
+			}
+			oHtml = oHtml.substring(startIndex, endIndex);
+			oHtml = oHtml.replace("validateRegularExpression(this, '", "");
+			oHtml = oHtml.concat("$");
+			//oHtml = unescape(oHtml);
+			var regex = $('<textarea />').html(oHtml).text();
+			regex = regex.replace(new RegExp(/\\\\/g), '\\');
+			return regex;
+		}
+	}
+	return;
+}
+
+function afterMandCheckElems(formEls, ns, p_butAction, mandMessage, ok, mandComp){
+    if (displayDDLoanHolderSec(formEls, ns, p_butAction, mandMessage, ok, mandComp)) {
+		if( mandComp == null ){
+			ok = checkForQuesInError(formEls, ns, p_butAction, mandMessage, ok, mandComp);
+		} else {
+			scrollToFirstQuestionError(formEls, ns, p_butAction, mandMessage, ok, mandComp);
+		}
+	}
+	return ok;
+}
+
+function displayDDLoanHolderSec(formEls, ns, p_butAction, mandMessage, ok, mandComp) {
+	showCustomSortCodeMandErr(ns);
+	var ddLoanHolderSec = $("#C1__C1__FMT_16B4E6AB9E08F92128091"); //preventScroll = true;
+	var openModal =  document.getElementsByClassName("modalWindow showModal");
+	if (!(openModal && openModal.length > 0) && ddLoanHolderSec && ddLoanHolderPhaseName == 'DirectDebit') {
+		setTimeout(function(){	
+			ddLoanHolderSec = $("#C1__C1__FMT_16B4E6AB9E08F92128091");			
+			ddLoanHolderSec.accordion({active:0, animated:false, animate:2});
+			if( mandComp == null ){
+				ok = checkForQuesInError(formEls, ns, p_butAction, mandMessage, ok, mandComp);
+				return ok ? ok : true;
+			} else {
+				scrollTo($('#C1__C1__QUE_C77A8CA12996D9E127392'));
+			}
+		}, 600);
+		return false;
+	}
+	return true;
+}
+
+function showCustomSortCodeMandErr(ns) {
+	var sortCodeMandErrorText = $("#C1__QUE_SortCode_ERRORMESSAGE");	
+	if (sortCodeMandErrorText) {
+		sortCodeMandErrorText.addClass("displayNoneImportant");	
+		var mandErrorsList = getVariable(ns, "MAND_ERRORS");
+		if ( mandErrorsList ) {
+			for ( var i = 0; i < mandErrorsList.length; i++ ){
+				if ( mandErrorsList[i] == "C1__QUE_85DFDCD3617F47F852150" || mandErrorsList[i] == "C1__QUE_85DFDCD3617F47F852173" || mandErrorsList[i] == "C1__QUE_85DFDCD3617F47F852179" || mandErrorsList[i] == "C1__SortCode1" || mandErrorsList[i] == "C1__SortCode2" || mandErrorsList[i] == "C1__SortCode3" ){
+						sortCodeMandErrorText.removeClass("displayNoneImportant");							
+				}
+			}	
+		}	
+	}
+}
+
+function checkForVehicleRegErr(errId) {
+	if($('#C1__QUE_VEHREG_ERROR').is(':visible') || $('#C1__QUE_VEHREG_ERROR').hasClass('displayNone')) {
+		if($('#QTB_EditVehicle_RegError').is(':visible') && $('#QTB_EditVehicle_RegError').css('display') != 'none') {
+			return '#QTB_EditVehicle_RegError';
+		} else if($('#C1__C5__C1__HEAD_VEHREG_ERR_TXT').is(':visible') && $('#C1__C5__C1__HEAD_VEHREG_ERR_TXT').css('display') != 'none') {
+			return '#C1__C5__C1__HEAD_VEHREG_ERR_TXT';
+		} else if($('#C1__C5__C1__TXT_9DC55FCEA993F0CA289096').is(':visible') && $('##C1__C5__C1__TXT_9DC55FCEA993F0CA289096').css('display') != 'none') {
+			return '#C1__C5__C1__TXT_9DC55FCEA993F0CA289096';
+		} else{
+			return errId;
+		}
+	} else {
+		return errId;
+	}
+}
+
+function scrollToFirstQuestionError(formEls, ns, p_butAction, mandMessage, ok, mandComp, timeToAnimate, isDDLoanHolderSec) {
+	if(!ns) {
+		ns = ''; 
+	}
+	var errId = null;
+	var errorElement = null;
+	for (var i = 0; i < formEls.length ; i++) {
+		var tmp = formEls[i];
+		if(tmp.id){
+			var id = "#" + ns + tmp.id;
+			//Below code is used for date fields
+			var endIndex = id.indexOf(".");
+			if(endIndex > 0) {
+				id = id.substring(0, endIndex); 
+			}
+			var errMsgId = id + '_ERRORMESSAGE';
+			
+			if (id == '#C1__QUE_SortCodeError') {
+				errMsgId = $('#C1__QUE_SortCode_ERRORMESSAGE');
+            }
+
+			if($(errMsgId).is(':visible') && $(errMsgId).css('display') != 'none' && $(errMsgId).text() !== ""){
+				errId = id;
+				errorElement = tmp;
+			}
+		} else if (mandComp) {
+			errId = "#" + ns + mandComp.id + '_ERRORMESSAGE';
+			//errorElement = $(errId)[0];
+			errorElement = mandComp;
+			break;
+		}
+	}
+	var vehicleErrorId = checkForVehicleRegErr(errId);
+	if(vehicleErrorId != errId){errId = vehicleErrorId; errorElement = $(vehicleErrorId)[0];}
+	
+	if(errorElement){
+		errorComponentID = true;
+		if(errorElement.id.endsWith('.DAY')||errorElement.id.endsWith('.MONTH')||errorElement.id.endsWith('.YEAR')){
+			var questionId = errorElement.id.split('.DAY')[0];
+			var day = document.getElementById(questionId+'.DAY');
+			var month = document.getElementById(questionId+'.MONTH');
+			var year = document.getElementById(questionId+'.YEAR');
+			var error = document.getElementById(questionId+'_ERRORMESSAGE');
+			if(day.value==''){
+				setFocus(day); 
+			} else if(month.value=='' || month.value>12){
+				setFocus(month); 
+			} else {
+				setFocus(year); 
+			}
+			setTimeout(function(){error.style.removeProperty('display');},100);
+		}else{
+			setFocus(errorElement);  // Comment reason - Mandatory error message getting vanished for date field due to setFocus()
+		}
+		if (timeToAnimate && isDDLoanHolderSec) {
+			scrollToErrorMessages(errorElement, ns, timeToAnimate, isDDLoanHolderSec);
+		} else {		
+			scrollToErrorMessage(errorElement, ns);
+		}
+	}
+	return errId;
+}
+
+function scrollToErrorMessage(target, ns) {
+	scrollToErrorMessages(target, ns, 500, false);
+}
+
+function scrollToErrorMessages(target, ns, timeToAnimate, isDDLoanHolderSec) {             
+	if($(target).length > 0) {          
+		var hasClassModalWindow = $(target).closest('.modalWindow.showModal');
+		if(!ns) {
+			ns = ''; 
+		}
+		var id = "#" + ns + target.id;
+		if(hasClassModalWindow.length > 0){
+			//<START>ios input text additonal line issue</START>
+			var modalInstance = $('.modalWindow.showModal')
+			if(modalInstance) {
+				if ( target.type && target.type == "text" ) {
+					$(id).blur();
+				}
+			}
+			//<END>ios input text additonal line issue</END>
+			var errorElement = $(id + "_ERRORMESSAGE");
+			if(typeof errorElement != 'undefined' && errorElement.length){
+				scrollTo(errorElement);
+			} else {
+				scrollTo($(id));
+			}
+		}else{
+			if(id){
+				try {
+					if (isDDLoanHolderSec) { scrollTopPos = ($(id+"_ERRORMESSAGE").offset()) ? $(id+"_ERRORMESSAGE").offset().top:($(getValidDateId(id)).offset().top + 300) - $("#FixedHeader").height(); scrollTopPos -= 100; $('body, html').animate({scrollTop: scrollTopPos}, timeToAnimate, "swing", function(){});}
+					else {var errorElement = $(id + "_ERRORMESSAGE");if(typeof errorElement != 'undefined' && errorElement.length){scrollTo(errorElement);} else {scrollTo($(id));}}
+				} catch(e) {
+					//console.log("(id).offset()"+id);
+				}
+			}
+		}
+	}
+}
+
+function getDateTrimedId(id) {
+	if (id.indexOf(YEAR_SUFFIX) > -1) { return id.replace(YEAR_SUFFIX, ""); }
+	if (id.indexOf(DAY_SUFFIX) > -1) { return id.replace(DAY_SUFFIX, ""); }
+	if (id.indexOf(MONTH_SUFFIX) > -1) { return id.replace(MONTH_SUFFIX, ""); }
+}
+
+function afterValidYearDatePart(c, m, d1, d2, min, max, message, format, separator, ns, clientMin, clientMax, ok) {
+	var id = getDateTrimedId(c.id);
+	afterValidDatePartCustom(c, (id + DAY_SUFFIX), m, ns);
+	afterValidDatePartCustom(c, (id + MONTH_SUFFIX), m, ns);
+	return ok;
+}
+function afterValidMonthDatePart(c, m, d1, d2, min, max, message, format, separator, ns, clientMin, clientMax, ok) {
+	var id = getDateTrimedId(c.id);
+	afterValidDatePartCustom(c, (id + DAY_SUFFIX), m, ns);
+	afterValidDatePartCustom(c, (id + YEAR_SUFFIX), m, ns);
+	return ok;
+}
+function afterValidDayDatePart(c, m, d1, d2, min, max, message, format, separator, ns, clientMin, clientMax, ok) {	
+	var id = getDateTrimedId(c.id);
+	afterValidDatePartCustom(c, (id + MONTH_SUFFIX), m, ns);
+	afterValidDatePartCustom(c, (id + YEAR_SUFFIX), m, ns);	
+	return ok;
+}
+function afterValidDatePartCustom(c, id, m, ns) {
+	var comp = c;
+	var styleArray = null;
+	var dElement = null;
+	if (comp && (!comp.onchange && !comp.onblur) && (comp.id.indexOf(YEAR_SUFFIX) > -1 || comp.id.indexOf(MONTH_SUFFIX) > -1 || comp.id.indexOf(DAY_SUFFIX) > -1) && comp.value == "") {	
+		try {
+			styleArray =  extractStyleArray(comp);		   
+		} catch (e){}
+		dElement = document.getElementById(id);
+		if (dElement != null) { 			
+			alertComp(c,m,ns, true, styleArray);
+		}
+	}
+	return true;
+}
+
+function checkForQuesInError(formEls, ns, p_butAction, mandMessage, ok, mandComp){
+    if(!ns) {
+	    ns = ''; 
+	}
+
+	for (var i = 0; i < formEls.length ; i++) {
+        var tmp = formEls[i];
+        var id = '#' + ns + tmp.id;
+		
+		//var hasClassModalWindow = $(id).closest('.modalWindow.showModal');
+		//var activeElement = $(document.activeElement).attr('id');
+		//if (hasClassModalWindow.length > 0 && tmp.type && tmp.type == "text") {
+			//$(id).blur();
+		//}
+        //Below code is used for date fields
+        var endIndex = id.indexOf(".");
+
+        if(endIndex > 0) { 
+		    id = id.substring(0, endIndex); 
+		}
+
+        var errMsgId = id + '_ERRORMESSAGE';
+
+        //Default question level error
+        var v = getVariable(ns, "invalidQuestions");
+        if (v != null && v.length > 0) {
+            scrollTo($(errMsgId));
+			setFocus(tmp);
+            return false;
+        }
+        if(id!='#' && ($(id).hasClass('checkPassStrength') || $(id).hasClass('confirmPassScore') || $(id).hasClass('checkPassScore'))){
+			return ok ? ok : true;
+		}
+		//Custom question level error
+        if($(errMsgId).is(':visible') && $(errMsgId).css('display') != 'none' && $(errMsgId).text() !== ""){
+			var hasClassModalWindow = $(errMsgId).closest('.modalWindow.showModal');
+            scrollTo($(errMsgId));
+			setFocus(tmp);
+			if(hasClassModalWindow.length > 0) {
+				return false;
+			}
+        }
+    }    
+	return ok;
+}
+
+/* Overridding function of connect_ajax.js */
+function runScriptAtLDLevel(scriptSrc) {
+	try {
+		$.globalEval(scriptSrc);
+	} catch(e) {
+		console.log(e);
+	}
+}
+
+function validateDependentItems(ids, btn, p_valMand, p_rowId, ns, inlineErrors) {
+	if(checkForInvalidQuestions(ns)) { 
+		return validateDependentItemsForEC(ids, btn, p_valMand, p_rowId, ns, inlineErrors);
+	}
+	return false;
+}
+
+function checkForInvalidQuestions(ns){
+	if (ns == null) ns = "";
+	//Get invalid questions in current scope
+	var v = getVariable(ns, "invalidQuestions");
+	var keys = getKeys(v);
+	//Check whether error message is in scope or not
+	for(var i=0; i<keys.length; i++){
+		var id = keys[i];
+		var errMsgId = "#"+keys;
+		if(id=="passwordNewJourney"){
+			$('input[type="password"]#passwordNewJourney').val('');
+		}else if(id.includes('.DAY')||id.includes('.MONTH')||id.includes('.YEAR')){
+			errMsgId="#"+getValidDateId(id)+"_ERRORMESSAGE"
+		}else {
+			errMsgId="#"+keys+"_ERRORMESSAGE"
+		}
+
+		if(!($(errMsgId).is(':visible')) || $(errMsgId).css('display') == 'none' || $(errMsgId).text() == ""){
+			if (v != null) delete v[keys];
+		}
+	}
+	//Post check for invalid questions after delete
+	v = getVariable(ns, "invalidQuestions");
+	keys = getKeys(v);
+	if(keys && keys.length > 0){
+		//var tmp = v[0];
+		var id = keys[0];
+		scrollTo( $('#'+ getValidDateId(id)) );
+		return false;
+	}
+	return true;
+}
+
+function getValidDateId(id) {
+	if (id.indexOf(YEAR_SUFFIX) > -1 || id.indexOf(MONTH_SUFFIX) > -1 || id.indexOf(DAY_SUFFIX) > -1) {
+		id = id.replace(".", "\\.");
+	}
+	return id;
+}
+
+function validateDependentItemsForEC(ids, btn, p_valMand, p_rowId, ns, inlineErrors) {
+	var urlProps = "";
+	var compArr = new Array();
+	var idArr = splitstring(ids, "|", false);
+	var idArrLength = idArr.length;
+	if (idArrLength > 0 && idArr[0] != "")
+	{
+		for (var i = 0; i < idArrLength; i++)
+		{
+		   var compID = getCompID(ns, idArr[i]);
+		   if (compID == null) compID = "";
+					var idWithoutCompPref = stripPrefix(ns, idArr[i]);
+			var id = ns + compID + "SEL_" + idWithoutCompPref;
+			var comp = findElement(id, "");
+			if (comp == null) {
+				id = ns + idArr[i];
+				comp = findElement(id, "");
+			}
+			if (comp != null && !comp.disabled && comp.type != "button" && comp.type != "image" ) // it may be hidden...
+			{
+				urlProps += "&"+comp.name+"="+encodeParam(getElementValue(comp, ns));
+				compArr[compArr.length] = comp;
+				if (comp.id.indexOf(YEAR_SUFFIX) > -1) {
+					var dElement = null;
+					dElement = document.getElementById(getDateTrimedId(id) + ".MONTH");
+					if (dElement != null) { compArr[compArr.length] = dElement; }
+					dElement = null;
+					dElement = document.getElementById(getDateTrimedId(id) + ".DAY")
+					if (dElement != null) { compArr[compArr.length] = dElement; }
+			}
+		}
+		}
+		//validate before sending - if validation.js loaded...
+		if (this["formatCheckElems"])
+		{
+			if (!doFieldValidation(btn, p_rowId, p_valMand, compArr, false, ns, inlineErrors))
+			{
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+function getKeys(obj){
+	if (obj !== Object(obj))
+		return '';//throw new TypeError('Object.keys called on non-object');
+    var ret=[],p;
+    for(p in obj) if(Object.prototype.hasOwnProperty.call(obj,p)) ret.push(p);
+    return ret;
+}
+
+/* <START>Function to check document download status and scroll to error message if download fails</START> */
+function checkDocDownloadStatus(p_element){
+	if($("#"+p_element).hasClass('DownloadDocumentRequest') && $('#DOC_DOWNLOAD_ERROR').length) {
+		scrollTo($("#DOC_DOWNLOAD_ERROR"));
+	}
+}
+/* <END>Function to check document download status and scroll to error message if download fails</END> */
+
+function printDiv(divId) {
+	var divToPrint = document.getElementById(divId);
+	var popupWin = window.open('', '_blank', 'width=300,height=400,location=no,left=200px');
+	popupWin.document.open();
+	popupWin.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</html>');
+	popupWin.document.close();
+	
+	$('#'+divId).printThis({
+   // header: "<h1>Amazing header</h1>"
+	});
+}
+function toPaymentScreen(){
+	$("#"+"C8__BUT_TOPAYSCREEN").click();
+}
+
+function scrollToHccErrMsg(buttonId) {
+	if(buttonId == "C1__BUT_215B4840B00F0F14101677" && ($("#C1__C1__TXT_38242018B274B4A417238").length) > 0){
+		//var errMsgId = $("#C1__C1__TXT_38242018B274B4A417238").length;
+		//if(errMsgId > 0){
+			setTimeout(function(){	
+				scrollTo($("#C1__C1__TXT_38242018B274B4A417238"));
+			}, 600);
+		//}
+	}
+}
+
+
+function scrollToDDAccAndSortcodeErrMsg() {
+	 if(ddAccAndSortCodeErrorId == "C1__row_bankError" && ($("#C1__ddAccAndSortCodeErrorText").length) > 0){
+		setTimeout(function(){
+				scrollTo($("#C1__ddAccAndSortCodeErrorText"));
+			}, 600);
+	}
+}
+
+function gotoDocumentPage(){
+	$("#"+"C1__TODOCSCREEN").click();
+}
+
+function swapPaymentButtonText(button1, button2, button1Text, button2Text){
+	   button1.text(button1Text); 
+	   button1.addClass("btn-addSelectedColorPaymentButton");
+	   button1.addClass("btn-primary");   
+	   button1.removeClass("selectCTA-Button"); 
+	   button2.text(button2Text); 
+	   button2.removeClass("btn-addSelectedColorPaymentButton"); 
+	   button2.removeClass("btn-primary"); 
+	   button2.addClass("selectCTA-Button");
+}
+
+function addSuppressingContainForHJLib() {
+	// US9450 - Dig - New Business: Insert code to suppress text in user recordings
+	var hjSuppressingContainElems = $(".hjSuppressingContain");
+	if (hjSuppressingContainElems) {
+		hjSuppressingContainElems.attr("data-hj-suppress", "");	
+	}
+}
+
+function clickViewDocument() {
+	$("#BUT_ResendConfirmModalViewDoc").click();
+	$("#BUT_ResendConfirmModalViewDoc_Current").click();
+}
+
+
+
+function confirmEmailInputHandler(){$('.confirm-email-address').on('input',function(){if($(".confirm-email-address").val().toLowerCase() == $(".email-address").val().toLowerCase()){setFocus($(".confirm-email-btn"));}});}
+/*
+ * Overriden method of connect_ajax.js
+ * Overrided for browser refresh intermittenly at middle of any journey(US11550)
+ */
+function updatePageWithObjectResponse(ns, ajaxCaller, doUpdate, respArray, currPos) {
+	var obj = respArray[currPos];
+	var service = obj.handler;// tok[0];
+	var element = obj.id;// tok[1];
+	var innerOrOuter = obj.innerouter;// tok[2];
+	var text = replaceAll(obj.text, 'aggservletcontroller', 'servletcontroller');// tok[3];
+	var actionFlag = obj.actionFlag;// (tok[4] != null)?tok[4]:"";
+	var actionData = obj.actionText;// (tok[5] != null)?tok[5]:"";
+	var dElement;
+  //none will be set by the controller for errors which we need to carry on with ..
+	if ("none" != element) 
+	{
+		dElement = findElement(element, innerOrOuter);
+		if (innerOrOuter != "NONE" && (!dElement || !dElement.id)) {
+			return true; // Q. Really this should be logged .. maybe via an AjaxLogService?
+		}
+	}
+
+	var continueProcessing = true;
+	var hookResp = postAjaxCallHook(service, element, innerOrOuter, text, actionFlag, actionData, ajaxCaller, dElement, ns);
+
+	if (hookResp === true || hookResp.continueAfterHook === true) {
+		element 			= hookResp.element 		? hookResp.element 		: element;
+		innerOrOuter     	= hookResp.innerOrOuter ? hookResp.innerOrOuter : innerOrOuter;
+		text     			= hookResp.text 		? hookResp.text 		: text;
+		actionFlag 			= hookResp.actionFlag 	? hookResp.actionFlag 	: actionFlag;
+		actionData 			= hookResp.actionData 	? hookResp.actionData 	: actionData;
+		dElement 			= hookResp.dElement 	? hookResp.dElement 	: dElement;
+		continueProcessing  = processAjaxResponse(service, element, innerOrOuter, text, actionFlag,	actionData, ajaxCaller, dElement, ns, doUpdate, respArray, currPos);
+	}
+	postAjaxProcessingHook(service, element, innerOrOuter, text, actionFlag, actionData, ajaxCaller, dElement, ns);
+	
+	return continueProcessing;
+}
+
+function replaceAll(str, find, replace){return str.replace(new RegExp(find, 'g'), replace);}
+function docudownload(url){
+	var u = url;
+	//console.log("url",u);
+	if ($("#downloadNotifiDocFileName").hasClass('downloadNotdoc')){
+		window.open(location.protocol+"//"+location.host+"/"+window.location.pathname.split("/")[1]+"/DownloadFileServlet?docId=Downloads/"+$("#downloadNotifiDocFileName").val(),'_blank');
+	}
+	
+}
+function scrollToPageTop() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}
+
+function setCookie(key, value, expiry) {
+	var expires = new Date();
+	expires.setTime(expires.getTime() + (expiry * 24 * 60 * 60 * 1000));
+	document.cookie = key + '=' + value + ';expires=' + expires.toUTCString();
+}
+
+function scrollToWP(p_element){
+	var comp_prefix=null;
+	if(p_element.indexOf("BUT_DebitCard") > 0){
+		comp_prefix = p_element.replace("BUT_DebitCard","");
+	} else if(p_element.indexOf("BUT_CreditCard") > 0){
+		comp_prefix = p_element.replace("BUT_CreditCard","");
+	}
+	
+	if(comp_prefix!=null) {
+		scrollTo($("#"+comp_prefix+"FMT_57ECAB7F8E603D77495010"));
+	}
+}
+
+function sessionManagement(event){
+	var actionedTime = new Date().getTime();
+	if((actionedTime - lastActioned) >= 60000){
+		$('.sessionmgmt').click();
+		lastActioned = new Date().getTime();
+		console.log('****Last Actioned*****' + lastActioned);
+	}
+}
+
+function paButtonsSelection(addPAFlag) {
+		var el = document.querySelector('#C1__QUE_5A1A3E9A79851C2F297578');
+		 if (el.value !== 'comprehensive') {
+			paButtons(addPAFlag, true);
+		 }
+		 else {
+			paButtons(addPAFlag, false);
+		 }
+}
+function paButtons(addFlag, nonCompFlag) {
+	if (addFlag) {
+		nonCompFlag? $("#C1__AddPersonalHE").click() : $("#C1__AddPersonal").click();
+	}
+	else {
+		nonCompFlag? $("#C1__NoPersonalHE").click() : $("#C1__NoPersonal").click();
+	}
+}
+
+function gotoDashboard(){
+	$('.btn-dashboard').click();
+}
+
+function invokeGAForNB(){
+	console.log("Google Analytics - Auto Renewal opt out ");
+
+var policyNumber =document.getElementById("policyNumber").value;
+var brandType = document.getElementById("brandType").value;
+var lineOfBusiness = document.getElementById("lineOfBusiness").value;
+if (lineOfBusiness == "CommercialVanLine_Ext") {
+	lineOfBusiness = 'Van';
+} else if (lineOfBusiness == "MotorCycleLine_Ext") {
+	lineOfBusiness = 'Bike';
+} else if (lineOfBusiness == "PrivateCarLine_Ext") {
+	lineOfBusiness = 'Car';
+} else if (lineOfBusiness == "HomeLine_Ext") {
+	lineOfBusiness = 'Home';
+}
+var optOutCode =document.getElementById("GIPP_NB_AUTO_RN_OPT_OUT_REASON");
+var optOutReasonCode = optOutCode.options[optOutCode.selectedIndex].text;
+var optOutReason;
+if(optOutReasonCode == 'Other') {
+optOutReason = document.getElementById("GIPP_NB_AUTO_RN_OPT_OUT_REASON_OTHER").value;
+
+optOutReason = optOutReason.replace("\n", " ");
+var optOutReasonEmail =optOutReason.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/gi);
+
+if (optOutReasonEmail != null ) {
+  var emailArray = optOutReasonEmail.toString().split(",");
+    var i;
+    for (i =0; i <emailArray.length; i++) {
+          var emailId =emailArray[i];
+         optOutReason = optOutReason.replace(emailId, "email_deleted");
+    }
+}
+
+var optOutReasonNum= optOutReason.match(/\d+/g);
+if (optOutReasonNum != null ) {
+var j;
+for (j =0; j <optOutReasonNum.length; j++) {
+var numb =optOutReasonNum[j];
+optOutReason = optOutReason.replace(numb, "num_deleted");
+}
+}
+
+
+}
+else{
+	optOutReason = document.getElementById("QUE_9CD4B75C12D50DD61167740_NB").textContent;
+}
+
+console.log("Auto Renewal is Opt out for policy_Reason : ",optOutReason);
+console.log("Auto Renewal is Opt out for policy : ",policyNumber);
+
+
+window.dataLayer = window.dataLayer || [];
+
+var product ={
+'policyNumber' : policyNumber,
+'brandType' : brandType,
+'lineOfBusiness' : lineOfBusiness,
+'optOutReasonCode' : optOutReasonCode,
+'optOutReason' : optOutReason
+};
+
+
+dataLayer.push(product);	
+
+
+console.log('NB Thank you page - Auto Renewal Opt out');
+}
+
+		/** mP and Phone numbr overlay popup mask **/
+
+$(document).ready(function(){
+	if($("#FMT_0F53797A271C87211894311").hasClass('showModal')){
+			showPopupMask();
+		} else {
+			hidePopupMask();
+		}
+		/*Combined overlay*/
+		if($("#FMT_C39765F05099417B2299682").length != 0){
+			$('.modal-phone-overlay').css('padding-top','15px')	
+		}
+		/*Combined overlay*/
+});

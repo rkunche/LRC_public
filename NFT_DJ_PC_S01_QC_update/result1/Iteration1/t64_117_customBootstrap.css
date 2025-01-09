@@ -1,0 +1,9 @@
+@import "bootstrap.css";
+/***
+@cpiedade 
+24/07/2015
+
+Styles for button remove
+
+***/
+.glyphiconForRemove{position:relative;top:0;display:inline-block;font-family:'Glyphicons Halflings';font-style:normal;font-weight:normal;line-height:1;background-color:white;font-size:20px;border-style:none;padding-left:21px;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.glyphiconForRemove:empty{width:3em;background-color:white!important}

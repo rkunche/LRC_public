@@ -1,0 +1,11 @@
+[t5]
+FileName1=t5.txt
+URL1=https://android.clients.google.com/c2dm/register3
+Total=1
+RequestHeaderFile=t5_RequestHeader.txt
+RequestBodyFile=t5_RequestBody.txt
+ResponseHeaderFile=t5_ResponseHeader.txt
+ContentType=text/plain
+SnapshotXmlFile=snapshot_5.xml
+[ProtocolInfo]
+ProtocolId=QTWeb

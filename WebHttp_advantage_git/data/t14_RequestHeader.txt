@@ -1,0 +1,18 @@
+POST /j/collect?v=1&_v=j96&a=1743053746&t=pageview&_s=1&dl=http%3A%2F%2Fadvantageonlineshopping.com%2F&ul=en-us&de=UTF-8&dt=%C2%A0Advantage%20Shopping&sd=24-bit&sr=1920x1200&vp=1920x1057&je=0&_u=IEBAAEABAAAAAC~&jid=541781372&gjid=984602362&cid=1195912750.1656909195&tid=UA-81334227-1&_gid=2032250741.1656909195&_r=1&_slc=1&z=927377494 HTTP/1.1
+Host: www.google-analytics.com
+Connection: keep-alive
+Content-Length: 0
+sec-ch-ua: ".Not/A)Brand";v="99", "Google Chrome";v="103", "Chromium";v="103"
+sec-ch-ua-mobile: ?0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36
+sec-ch-ua-platform: "Windows"
+Content-Type: text/plain
+Accept: */*
+Origin: http://advantageonlineshopping.com
+Sec-Fetch-Site: cross-site
+Sec-Fetch-Mode: cors
+Sec-Fetch-Dest: empty
+Referer: http://advantageonlineshopping.com/
+Accept-Encoding: gzip, deflate, br
+Accept-Language: en-US,en;q=0.9
+

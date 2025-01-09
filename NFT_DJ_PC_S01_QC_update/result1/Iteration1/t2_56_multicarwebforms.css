@@ -1,0 +1,49 @@
+.table-responsive th > div, .table-responsive td > div {
+    padding: 0px !important;
+    text-align: left;
+}
+
+.tableHDAgg {
+	white-space: normal !important;
+	font-size: 12px !important;	
+    text-align: center !important;
+}
+
+.table-responsive thead > tr {
+	border-bottom: 2px solid rgba(0,102,161, 0.2) !important;
+}
+.table-responsive th {
+    color: #0066a1;
+    font-size: 1.286em;
+    font-weight: 400;
+    text-align: left;
+    white-space: nowrap;
+    padding: 8px;
+}
+
+.table-responsive.tableBlueHeader thead,.table-responsive.tableBlueHeader thead th{
+	background: #0066a1;
+	color:#fff;
+}
+
+.table-responsive td {
+	padding:8px;
+}
+
+.table-responsive th > div,.table-responsive td > div{
+	padding:0px !important;
+}
+
+/*.table-responsive  tbody > tr{
+    border-top: 1px solid rgba(0, 102, 161, 0.2);
+	text-align: right;	
+}*/
+
+.table-responsive  thead > tr > :first-child {
+	text-align: left !important;
+}
+
+.table-responsive  tbody > tr > :first-child {
+	text-align: left !important;
+}
+

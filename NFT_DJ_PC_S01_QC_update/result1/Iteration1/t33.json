@@ -1,0 +1,7 @@
+[
+{
+	"handler": "AjaxAutoComplete",
+	"id": "ec_suggest_C1__C2__MainIndustryType",
+	"innerouter": "OUTER",
+	"text": "<div id=\"ec_suggest_C1__C2__MainIndustryType\" class=\"autoCompleteListDefault positionRelative\" style=\"position: absolute; z-index:100;\"><div onmousedown=\"javascript:autoCompleteSetValue('C1__C2__MainIndustryType', 'ec_suggest_C1__C2__MainIndustryType', this.innerHTML,true);\">Accountancy<span style='display: none'>001<\/span><\/div><\/div>"
+}]

@@ -1,0 +1,384 @@
+function attachPassPlugin(){
+	if(!isPluginAttached('checkPassStrength')){
+		//Create Password
+		$('.checkPassStrength').passtrength({
+		  minChars: 1,
+		  passwordToggle: true,
+		  tooltip: true,
+		  meter: true,
+		  checkCaps: true,
+		  checkSpace: true,
+		  checkPassScore: true,
+		  passToggleClass: "createShowPassword",
+		  checkCapsClass: "createCheckCaps",
+		  checkSpaceClass: "createCheckSpace",
+		  passScoreClass: "createPasScore"
+		});
+	}
+	
+	if(!isPluginAttached('confirmPassScore')){
+		//Confirm Password
+		$('.confirmPassScore').passtrength({
+		  minChars: 1,
+		  passwordToggle: true,
+		  tooltip: false,
+		  meter: false,
+		  checkCaps: true,
+		  checkSpace: true,
+		  checkPassScore: false,
+		  passToggleClass: "confirmShowPassword",
+		  checkCapsClass: "confirmCheckCaps",
+		  checkSpaceClass: "confirmCheckSpace",
+		  passScoreClass: "confirmPasScore"
+		});
+	}
+	
+	if(!isPluginAttached('checkPassScore')){
+		//Enter Password
+		$('.checkPassScore').passtrength({
+		  minChars: 1,
+		  passwordToggle: true,
+		  tooltip: false,
+		  meter: false,
+		  checkCaps: true,
+		  checkSpace: false,
+		  checkPassScore: false,
+		  passToggleClass: "enterShowPassword",
+		  checkCapsClass: "enterCheckCaps",
+		  checkSpaceClass: "enterCheckSpace",
+		  passScoreClass: "enterPasScore"
+		});
+	}
+}
+
+function isPluginAttached(className){
+	var str=$('.'+className).parent().attr("class");
+	if(str && str != undefined && str.includes("passtrengthMeter")) {
+		return true;
+	}
+	return false;
+}
+
+function showPasswordMsg(status){
+	if(status == 'weak'){
+		$(".badPasswordMessage").removeClass("displayNone");
+		$(".okPasswordMessage").addClass("displayNone");
+		$(".strongPasswordMessage").addClass("displayNone");
+	} else if(status == 'medium'){
+		$(".badPasswordMessage").addClass("displayNone");
+		$(".okPasswordMessage").removeClass("displayNone");
+		$(".strongPasswordMessage").addClass("displayNone");
+	} else if(status == 'strong'){
+		$(".badPasswordMessage").addClass("displayNone");
+		$(".okPasswordMessage").addClass("displayNone");
+		$(".strongPasswordMessage").removeClass("displayNone");
+	} else {
+		$(".badPasswordMessage").addClass("displayNone");
+		$(".okPasswordMessage").addClass("displayNone");
+		$(".strongPasswordMessage").addClass("displayNone");
+	}
+}
+
+;(function($, window, document, undefined) {
+
+  var pluginName = "passtrength",
+      defaults = {
+        minChars: 8,
+        passwordToggle: true,
+        tooltip: true,
+		meter: true,
+		checkCaps: false,
+		checkSpace: false,
+		checkPassScore: true,
+        textWeak: "Weak",
+        textMedium: "Ok",
+        textStrong: "Strong",
+		passToggleClass: "showPassword",
+		checkCapsClass: "checkCaps",
+		checkSpaceClass: "checkSpace",
+		passScoreClass: "passScore"
+        //textVeryStrong: "Very Strong",
+		//eyeImgOpen : "./images/smallicons/eyeOpen.png",
+		//eyeImgClose : "./images/smallicons/eyeClosed.png",
+      };
+
+  function Plugin(element, options){
+    this.element = element;
+    this.$elem = $(this.element);
+    this.options = $.extend({}, defaults, options);
+    this._defaults = defaults;
+    this._name = pluginName;
+    _this      = this;
+    this.init();
+  }
+
+  Plugin.prototype = {
+    init: function(){
+      var _this    = this,
+          meter    = /*$(this.element).parent().setClass("passtrengthMeter")*/jQuery("<div/>", {class: "passtrengthMeter"}),
+          tooltip = jQuery("<div/>", {class: "tooltip", text: ""/*"Min " + this.options.minChars + " chars"*/}),
+		  passScore = jQuery("<div/>", {class: "passScoreDiv", html: "<input type='hidden' class='" + this.options.passScoreClass +" passwordScore' value='0' />"}),
+		  checkCaps = jQuery("<div/>", {class: "checkCapsDiv", html: "<p style='display:none' class='" + this.options.checkCapsClass + " checkCaps error'>Your caps lock is on</p>"}),
+		  checkSpace = jQuery("<div/>", {class: "checkSpaceDiv", html: "<p style='display:none' class='" + this.options.checkSpaceClass + " checkSpace error'>Please don't start or end with a blank space</p>"});
+
+      meter.insertAfter(this.element);
+	  if($(this.element).hasClass('setMaxWidth')){
+		meter.css("width", '100%');
+		$(".passtrengthInfo").css("width", '100%');
+		checkCaps.css("width", '100%');
+	  }
+	  
+      $(this.element).appendTo(meter);
+	  
+	   if(this.options.checkCaps){
+		  //checkCaps.insertBefore(meter);
+		  checkCaps.insertAfter(meter);
+	  }
+	  
+	   if(this.options.checkSpace){
+		  checkSpace.insertBefore(meter);
+	  }	  
+	  
+	  if(this.options.checkPassScore){
+		  passScore.insertBefore(meter);
+		  $("."+this.options.passScoreClass).addClass('check');
+		  _this.check($(this.element).val());
+	  }
+
+      if(this.options.tooltip){
+        tooltip.appendTo(meter);
+        var tooltipWidth = tooltip.outerWidth() / 2;
+        tooltip.css("margin-left", -tooltipWidth);
+      }
+
+      this.$elem.bind("keyup keydown", function() {
+          value = $(this).val();
+          _this.check(value);
+      });
+	  
+	  this.$elem.bind("click", function() {
+          value = $(this).val();
+          _this.check(value);
+      });
+
+      if(this.options.passwordToggle){
+        _this.togglePassword();
+      }
+
+    },
+
+    check: function(value){
+      var secureTotal  = 0,
+          chars        = 0,
+		  score		   = 0;
+
+      if(value.length >= this.options.minChars){
+        chars = 1;
+      }else{
+        chars = -1;
+      }
+	  
+	  score=(zxcvbn(value).score);
+	  
+	  $("."+this.options.passScoreClass).val(score);
+	  
+	  if(score > 0){score=score-1;}
+	  
+      secureTotal = chars + score;
+      securePercentage = (secureTotal / 4) * 100;
+
+      this.addStatus(securePercentage);
+    },
+
+    addStatus: function(percentage){
+      var status = "",
+          //text = "Min " + this.options.minChars + " chars",
+		  text = "",
+          meter = $(this.element).closest(".passtrengthMeter"),
+          tooltip = meter.find(".tooltip");
+
+      meter.attr("class", "passtrengthMeter");
+
+      if(percentage >= 75){
+        meter.attr("class", "passtrengthMeter");
+        status = "strong";
+        text = this.options.textStrong;
+      } 
+	  else if(percentage >= 50){
+        meter.attr("class", "passtrengthMeter");
+        status = "medium";
+        text = this.options.textMedium;
+      }
+	  else if(percentage >= 25){
+        meter.attr("class", "passtrengthMeter");
+        status = "weak";
+        text = this.options.textWeak;
+      }
+      /*if(percentage >= 100){
+        meter.attr("class", "passtrengthMeter");
+        status = "very-strong";
+        text = this.options.textVeryStrong;
+      }*/
+	  if(this.options.meter){
+		meter.addClass(status);
+		showPasswordMsg(status);
+	  }
+      if(this.options.tooltip){
+        tooltip.text(text);
+      }
+    },
+
+    togglePassword: function(){
+      var buttonShow = jQuery("<span/>", {class: this.options.passToggleClass +" showPassword"/*, html: "<img src="+ this.options.eyeImgOpen +" />"*/}),
+          input      =  jQuery("<input/>", {type: "text", class: ""}),
+          passwordInput      = this,
+		  checkCaps = $("."+this.options.checkCapsClass),
+		  checkSpace = $("."+this.options.checkSpaceClass),
+		  capsState = this.options.checkCaps;
+		  
+      buttonShow.appendTo($(this.element).closest(".passtrengthMeter"));
+      input.appendTo($(this.element).closest(".passtrengthMeter")).hide();
+	  input.setClass($(passwordInput.element).prop("classList"));
+	  input.val($(passwordInput.element).val());
+	  
+	  if($(this.element).hasClass('eyeRight60px')){
+		  buttonShow.css("right", '60px');
+	  }
+	  
+	  if(capsState){
+		var isCapsOn = false;
+		/* 
+		* Bind to capslockstate events and update display based on state 
+		*/
+		$(window).bind("capsOn", function(event) {
+			if($(passwordInput.element).is(':focus')){
+				checkCaps.show();
+			}
+			/*if ($("#" + $(passwordInput.element).attr('id') + ":focus").length > 0) {
+				checkCaps.show();
+			}*/
+		});
+		
+		/*
+		* Additional event notifying there has been a change, but not the state
+		*/
+		$(window).bind("capsChanged", function(event) {
+			/*if($(window).capslockstate("state") != 'unknown'){
+				isCapsOn = $(window).capslockstate("state");
+			}*/
+			//checkCaps.html("changed").show().fadeOut();
+		});
+	
+		$(window).bind("capsOff capsUnknown", function(event) {
+			checkCaps.hide();
+		});
+		
+		$(passwordInput.element).bind("focusout", function(event) {
+			//if($(event.relatedTarget).prop('type') === 'button'){ event.preventDefault(); }
+			setTimeout(function(){
+				if($(passwordInput.element).is(":visible") || input.is(":visible")){
+					value = $(passwordInput.element).val();
+					startIndex = value.indexOf(' ');
+					lastIndex = value.lastIndexOf(' ');
+					if(value!='' && (startIndex==0 || lastIndex == (value.length-1))){checkSpace.show(); $('.validatepasscore').prop("disabled", true);} else {checkSpace.hide(); if(!$('.checkSpace').is(":visible")){$('.validatepasscore').prop("disabled", false);}}
+					if($('.showPassword' + ':hover').length){ return; }
+					else if($(event.relatedTarget) && $(event.relatedTarget)!=null){ /*$(event.relatedTarget).click();*/ } 
+					checkCaps.hide();
+				}
+			},1);
+			return;
+		});
+		
+		$(passwordInput.element).bind("focusin", function(event) {
+			if ($(window).capslockstate("state") === true || isCapsOn) {
+				checkCaps.show();
+			}
+		});
+		
+		$(passwordInput.element).bind("click", function(event) {
+			if (event.originalEvent.getModifierState("CapsLock")) {
+				checkCaps.show();
+			} else {
+				checkCaps.hide();
+			}
+		});
+		
+	  }
+
+      $(this.element).bind("keyup keydown", function(event) {
+          input.val($(passwordInput.element).val());
+		  //if(checkSpace.is(":visible")){
+			  value = $(passwordInput.element).val();
+			  startIndex = value.indexOf(' ');
+			  lastIndex = value.lastIndexOf(' ');
+			  if(value!='' && (startIndex==0 || lastIndex == (value.length-1))){checkSpace.show();$('.validatepasscore').prop("disabled", true);} else {checkSpace.hide(); if(!$('.checkSpace').is(":visible")){$('.validatepasscore').prop("disabled", false);}}
+		  //}
+		  if(capsState){
+			  if (event.originalEvent.getModifierState("CapsLock") && !buttonShow.hasClass('active')) {
+				checkCaps.show();
+			  } else {
+				checkCaps.hide();
+			  }
+		  }
+      });
+
+      input.bind("keyup keydown", function(event) {
+          $(passwordInput.element).val(input.val());
+		  $(passwordInput.element).trigger(event);
+          //value = $(this).val();
+          //_this.check(value);
+      });
+	  
+	  input.bind("focusout", function(event) {
+		  $(passwordInput.element).trigger(event); 
+	  });
+	  
+	  var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+	  if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        $("."+this.options.passToggleClass).bind("touchstart", function(){
+		  buttonShow.toggleClass("active");
+		  input.toggle();
+		  input.setClass($(passwordInput.element).prop("classList"));
+		  input.setPlaceHolder($(passwordInput.element).attr("placeholder"));
+		  input.val($(passwordInput.element).val());
+          $(passwordInput.element).toggle();
+	    });
+      } else {
+		  $(document).on("click", "."+this.options.passToggleClass, function() {
+			  checkCaps.hide();
+			  buttonShow.toggleClass("active");
+			  input.toggle();
+			  input.setClass($(passwordInput.element).prop("classList"));
+			  input.setPlaceHolder($(passwordInput.element).attr("placeholder"));
+			  input.val($(passwordInput.element).val());
+			  $(passwordInput.element).toggle();
+			
+			/*if($(passwordInput.element).attr('type') === "password" ){
+				$(passwordInput.element).attr('type', 'text');
+			} else {
+				$(passwordInput.element).attr('type', 'password');
+			}*/
+		  });
+	  }
+    }
+  };
+
+  $.fn[pluginName] = function(options) {
+      return this.each(function() {
+          if (!$.data(this, "plugin_" + pluginName)) {
+              $.data(this, "plugin_" + pluginName, new Plugin(this, options));
+          }
+      });
+  };
+  
+  $.fn.setClass = function(classes) {
+	 this.attr('class', classes);
+	 return this;
+  };
+  
+  $.fn.setPlaceHolder = function(value) {
+	 this.attr('placeholder', value);
+	 return this;
+  };
+
+})(jQuery, window, document);

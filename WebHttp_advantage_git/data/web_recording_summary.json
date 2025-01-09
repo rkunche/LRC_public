@@ -1,0 +1,980 @@
+{
+  "FilterHeaders": [
+    {
+      "Header": "x-requested-with",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "x-http-method-override",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "x-goog-update-updater",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "x-goog-update-interactivity",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "x-goog-update-appid",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "x-goog-encode-response-if-executable",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "x-goog-api-key",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "x-client-data",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "user-agent",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "upgrade-insecure-requests",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "soapaction",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "sec-fetch-site",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "sec-fetch-mode",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "sec-fetch-dest",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "sec-ch-ua-platform",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "sec-ch-ua-mobile",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "sec-ch-ua",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "pragma",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "origin",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "if-none-match",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "content-encoding",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "cache-control",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "authorization",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "accept-language",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "accept-encoding",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "accept",
+      "IncludeInScript": false
+    },
+    {
+      "Header": "a-im",
+      "IncludeInScript": false
+    }
+  ],
+  "FilterResources": [
+    {
+      "IsNonResource": true,
+      "type": "text/xml"
+    },
+    {
+      "IsNonResource": false,
+      "type": "text/plain"
+    },
+    {
+      "IsNonResource": false,
+      "type": "text/javascript"
+    },
+    {
+      "IsNonResource": true,
+      "type": "text/html"
+    },
+    {
+      "IsNonResource": false,
+      "type": "text/css"
+    },
+    {
+      "IsNonResource": false,
+      "type": "image/x-icon"
+    },
+    {
+      "IsNonResource": false,
+      "type": "image/svg+xml"
+    },
+    {
+      "IsNonResource": false,
+      "type": "image/png"
+    },
+    {
+      "IsNonResource": false,
+      "type": "image/jpeg"
+    },
+    {
+      "IsNonResource": false,
+      "type": "image/gif"
+    },
+    {
+      "IsNonResource": false,
+      "type": "font/woff"
+    },
+    {
+      "IsNonResource": false,
+      "type": "application/x-protobuf"
+    },
+    {
+      "IsNonResource": false,
+      "type": "application/vnd.google.octet-stream-compressible"
+    },
+    {
+      "IsNonResource": true,
+      "type": "application/json"
+    },
+    {
+      "IsNonResource": false,
+      "type": "application/javascript"
+    }
+  ],
+  "GeneralInfo": {
+    "BrowserVersion": "",
+    "IsWinInetMode": false,
+    "MaxUsedConnections": 17,
+    "RecordedBrowser": "Chrome",
+    "RecordingDate": "Jul-04-2022",
+    "RecordingDuration": 95031,
+    "RecordingMode": "N/A",
+    "RecordingTimeStamp": 1656909141,
+    "RecordingType": "Browser",
+    "TotalBytesReceived": 2646670,
+    "TotalBytesSent": 59966,
+    "TotalRequests": 71,
+    "UserAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36"
+  },
+  "HostInfo": [
+    {
+      "DomainName": "googleapis.com",
+      "Domains": [
+        {
+          "HTTPVersion": "HTTP/1.1",
+          "IP": "142.250.66.138",
+          "IncludeInScript": true,
+          "Name": "www.googleapis.com",
+          "Port": 443,
+          "Requests": [
+            {
+              "CompressionType": "gzip",
+              "DataType": "application/json",
+              "DownloadTime": 750,
+              "EventId": 110,
+              "HttpStatus": 200,
+              "Size": 352,
+              "URL": "https://www.googleapis.com/oauth2/v4/token"
+            }
+          ],
+          "SSLCipher": "TLS_AES_256_GCM_SHA384",
+          "SSLVersion": "TLS1.3"
+        },
+        {
+          "HTTPVersion": "HTTP/1.1",
+          "IP": "172.217.27.35",
+          "IncludeInScript": true,
+          "Name": "update.googleapis.com",
+          "Port": 443,
+          "Requests": [
+            {
+              "CompressionType": "gzip",
+              "DataType": "application/json",
+              "DownloadTime": 344,
+              "EventId": 492,
+              "HttpStatus": 200,
+              "Size": 976,
+              "URL": "https://update.googleapis.com/service/update2/json?cup2key=12:NZPbMM-Xq1RfseDCzU9hsZzdpZ5UTq4oWbXylCLesso&cup2hreq=26e706e9b36c1d8651afbada300b7d424b6da1166c11b09a8c23db5e5b3a0295"
+            },
+            {
+              "CompressionType": "gzip",
+              "DataType": "application/json",
+              "DownloadTime": 344,
+              "EventId": 181,
+              "HttpStatus": 200,
+              "Size": 279,
+              "URL": "https://update.googleapis.com/service/update2/json?cup2key=12:VA9RPjpkut3YDxGB4fleANgNmRNPVv35ZgzTqVaIhW8&cup2hreq=7a573f74fa3af2e82050edc96d624eef82051e5a2672b2a81aa6aeb322398b43"
+            }
+          ],
+          "SSLCipher": "TLS_AES_256_GCM_SHA384",
+          "SSLVersion": "TLS1.3"
+        },
+        {
+          "HTTPVersion": "HTTP/1.1",
+          "IP": "142.250.66.106",
+          "IncludeInScript": true,
+          "Name": "safebrowsing.googleapis.com",
+          "Port": 443,
+          "Requests": [
+            {
+              "CompressionType": "gzip",
+              "DataType": "application/x-protobuf",
+              "DownloadTime": 704,
+              "EventId": 932,
+              "HttpStatus": 200,
+              "Size": 143615,
+              "URL": "https://safebrowsing.googleapis.com/v4/threatListUpdates:fetch?$req=Ch0KDGdvb2dsZWNocm9tZRINMTAzLjAuNTA2MC42NhopCAUQARobCg0IBRAGGAEiAzAwMTABEKb8DRoCGAS4EjUVIgQgASACKAEaKQgBEAEaGwoNCAEQBhgBIgMwMDEwARCW6goaAhgEL9I_yiIEIAEgAigBGikIBxABGhsKDQgHEAYYASIDMDAxMAEQlbkLGgIYBF-ElG8iBCABIAIoARonCAEQARoZCg0IARAGGAEiAzAwMTADEBQaAhgET11C7iIEIAEgAigDGigIARAIGhoKDQgBEAgYASIDMDAxMAQQgykaAhgEG3MEQiIEIAEgAigEGigIDxABGhoKDQgPEAYYASIDMDAxMAEQ9nEaAhgEJKnuDiIEIAEgAigBGicIChAIGhkKDQgKEAgYASIDMDAxMAEQBxoCGATvnpdlIgQgASACKAEaJwgJEAEaGQoNCAkQBhgBIgMwMDEwARAgGgIYBHyN5fwiBCABIAIoARooCAgQARoaCg0ICBAGGAEiAzAwMTABEPsPGgIYBOUFim0iBCABIAIoARopCA0QARobCg0IDRAGGAEiAzAwMTABEMnAARoCGASZpePFIgQgASACKAEaKQgDEAEaGwoNCAMQBhgBIgMwMDEwARCBxgoaAhgEP0YlZSIEIAEgAigBGikIDhABGhsKDQgOEAYYASIDMDAxMAEQ578GGgIYBMa_srAiBCABIAIoARooCBAQARoaCg0IEBAGGAEiAzAwMTABEN8SGgIYBOLbU7AiBCABIAIoASICCAE=&$ct=application/x-protobuf&key=AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw"
+            }
+          ],
+          "SSLCipher": "TLS_AES_256_GCM_SHA384",
+          "SSLVersion": "TLS1.3"
+        },
+        {
+          "HTTPVersion": "HTTP/1.1",
+          "IP": "172.217.25.10",
+          "IncludeInScript": true,
+          "Name": "optimizationguide-pa.googleapis.com",
+          "Port": 443,
+          "Requests": [
+            {
+              "CompressionType": "gzip",
+              "DataType": "application/x-protobuf",
+              "DownloadTime": 3593,
+              "EventId": 242,
+              "HttpStatus": 200,
+              "Size": 229,
+              "URL": "https://optimizationguide-pa.googleapis.com/v1:GetModels?key=AIzaSyBOti4mM-6x9WDnZIjIeyEU21OpBXqWBgw"
+            }
+          ],
+          "SSLCipher": "TLS_AES_256_GCM_SHA384",
+          "SSLVersion": "TLS1.3"
+        },
+        {
+          "HTTPVersion": "HTTP/1.1",
+          "IP": "172.217.25.10",
+          "IncludeInScript": true,
+          "Name": "content-autofill.googleapis.com",
+          "Port": 443,
+          "Requests": [
+            {
+              "CompressionType": "gzip",
+              "DataType": "text/plain",
+              "DownloadTime": 344,
+              "EventId": 392,
+              "HttpStatus": 200,
+              "Size": 118,
+              "URL": "https://content-autofill.googleapis.com/v1/pages/ChRDaHJvbWUvMTAzLjAuNTA2MC42NhJICTjttzVXNodrEgUN541ADhIFDc5BTHoSBQ14bxIZEgUNDxa-KxIFDYTmmOASBQ32cphZEgUNx3Y4UBIFDVrGPO0SBQ1yl1wvGKupygE=?alt=proto"
+            },
+            {
+              "CompressionType": "gzip",
+              "DataType": "text/plain",
+              "DownloadTime": 359,
+              "EventId": 357,
+              "HttpStatus": 200,
+              "Size": 60,
+              "URL": "https://content-autofill.googleapis.com/v1/pages/ChRDaHJvbWUvMTAzLjAuNTA2MC42NhIlCYUHFcrkecL4EgUN541ADhIFDc5BTHoSBQ14bxIZEgUNDxa-KxirqcoB?alt=proto"
+            }
+          ],
+          "SSLCipher": "",
+          "SSLVersion": ""
+        },
+        {
+          "HTTPVersion": "HTTP/1.1",
+          "IP": "142.250.204.67",
+          "IncludeInScript": true,
+          "Name": "clientservices.googleapis.com",
+          "Port": 443,
+          "Requests": [
+            {
+              "CompressionType": "",
+              "DataType": "",
+              "DownloadTime": 343,
+              "EventId": 46,
+              "HttpStatus": 304,
+              "Size": 0,
+              "URL": "https://clientservices.googleapis.com/chrome-variations/seed?osname=win&channel=stable&milestone=103"
+            }
+          ],
+          "SSLCipher": "TLS_AES_256_GCM_SHA384",
+          "SSLVersion": "TLS1.3"
+        }
+      ],
+      "IncludeInScript": true
+    },
+    {
+      "DomainName": "google.com",
+      "Domains": [
+        {
+          "HTTPVersion": "HTTP/1.1",
+          "IP": "172.217.25.14",
+          "IncludeInScript": true,
+          "Name": "clients4.google.com",
+          "Port": 443,
+          "Requests": [
+            {
+              "CompressionType": "gzip",
+              "DataType": "application/vnd.google.octet-stream-compressible",
+              "DownloadTime": 906,
+              "EventId": 208,
+              "HttpStatus": 200,
+              "Size": 338,
+              "URL": "https://clients4.google.com/chrome-sync/command/?client=Google+Chrome&client_id=UC0f1QxWQMrxeGVssuT2dA%3D%3D"
+            },
+            {
+              "CompressionType": "gzip",
+              "DataType": "application/vnd.google.octet-stream-compressible",
+              "DownloadTime": 875,
+              "EventId": 201,
+              "HttpStatus": 200,
+              "Size": 372,
+              "URL": "https://clients4.google.com/chrome-sync/command/?client=Google+Chrome&client_id=UC0f1QxWQMrxeGVssuT2dA%3D%3D"
+            },
+            {
+              "CompressionType": "gzip",
+              "DataType": "application/vnd.google.octet-stream-compressible",
+              "DownloadTime": 484,
+              "EventId": 196,
+              "HttpStatus": 200,
+              "Size": 274,
+              "URL": "https://clients4.google.com/chrome-sync/command/?client=Google+Chrome&client_id=UC0f1QxWQMrxeGVssuT2dA%3D%3D"
+            }
+          ],
+          "SSLCipher": "TLS_AES_256_GCM_SHA384",
+          "SSLVersion": "TLS1.3"
+        },
+        {
+          "HTTPVersion": "HTTP/1.1",
+          "IP": "142.250.66.142",
+          "IncludeInScript": true,
+          "Name": "android.clients.google.com",
+          "Port": 443,
+          "Requests": [
+            {
+              "CompressionType": "gzip",
+              "DataType": "text/plain",
+              "DownloadTime": 641,
+              "EventId": 173,
+              "HttpStatus": 200,
+              "Size": 158,
+              "URL": "https://android.clients.google.com/c2dm/register3"
+            }
+          ],
+          "SSLCipher": "TLS_AES_256_GCM_SHA384",
+          "SSLVersion": "TLS1.3"
+        },
+        {
+          "HTTPVersion": "HTTP/1.1",
+          "IP": "142.250.204.45",
+          "IncludeInScript": true,
+          "Name": "accounts.google.com",
+          "Port": 443,
+          "Requests": [
+            {
+              "CompressionType": "gzip",
+              "DataType": "application/json",
+              "DownloadTime": 594,
+              "EventId": 55,
+              "HttpStatus": 200,
+              "Size": 340,
+              "URL": "https://accounts.google.com/ListAccounts?gpsia=1&source=ChromiumBrowser&json=standard"
+            }
+          ],
+          "SSLCipher": "TLS_AES_256_GCM_SHA384",
+          "SSLVersion": "TLS1.3"
+        }
+      ],
+      "IncludeInScript": true
+    },
+    {
+      "DomainName": "google-analytics.com",
+      "Domains": [
+        {
+          "HTTPVersion": "HTTP/1.1",
+          "IP": "142.250.66.142",
+          "IncludeInScript": true,
+          "Name": "www.google-analytics.com",
+          "Port": 443,
+          "Requests": [
+            {
+              "CompressionType": "",
+              "DataType": "image/gif",
+              "DownloadTime": 984,
+              "EventId": 1128,
+              "HttpStatus": 200,
+              "Size": 35,
+              "URL": "https://www.google-analytics.com/collect?v=1&_v=j96&a=1743053746&t=pageview&_s=3&dl=http%3A%2F%2Fadvantageonlineshopping.com%2F&dp=%2Fcategory%2FLaptops%2F1&ul=en-us&de=UTF-8&dt=%C2%A0Advantage%20Shopping&sd=24-bit&sr=1920x1200&vp=1920x1057&je=0&_u=KEBAAEABAAAAAC~&jid=&gjid=&cid=1195912750.1656909195&tid=UA-81334227-1&_gid=2032250741.1656909195&z=1802992700"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/gif",
+              "DownloadTime": 344,
+              "EventId": 572,
+              "HttpStatus": 200,
+              "Size": 35,
+              "URL": "https://www.google-analytics.com/collect?v=1&_v=j96&a=1743053746&t=pageview&_s=2&dl=http%3A%2F%2Fadvantageonlineshopping.com%2F&dp=%2F&ul=en-us&de=UTF-8&dt=%C2%A0Advantage%20Shopping&sd=24-bit&sr=1920x1200&vp=1920x1057&je=0&_u=KEBAAEABAAAAAC~&jid=&gjid=&cid=1195912750.1656909195&tid=UA-81334227-1&_gid=2032250741.1656909195&z=1110997822"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "text/plain",
+              "DownloadTime": 344,
+              "EventId": 355,
+              "HttpStatus": 200,
+              "Size": 2,
+              "URL": "https://www.google-analytics.com/j/collect?v=1&_v=j96&a=1743053746&t=pageview&_s=1&dl=http%3A%2F%2Fadvantageonlineshopping.com%2F&ul=en-us&de=UTF-8&dt=%C2%A0Advantage%20Shopping&sd=24-bit&sr=1920x1200&vp=1920x1057&je=0&_u=IEBAAEABAAAAAC~&jid=541781372&gjid=984602362&cid=1195912750.1656909195&tid=UA-81334227-1&_gid=2032250741.1656909195&_r=1&_slc=1&z=927377494"
+            },
+            {
+              "CompressionType": "gzip",
+              "DataType": "text/javascript",
+              "DownloadTime": 547,
+              "EventId": 330,
+              "HttpStatus": 200,
+              "Size": 20006,
+              "URL": "https://www.google-analytics.com/analytics.js"
+            }
+          ],
+          "SSLCipher": "",
+          "SSLVersion": ""
+        }
+      ],
+      "IncludeInScript": true
+    },
+    {
+      "DomainName": "advantageonlineshopping.com",
+      "Domains": [
+        {
+          "HTTPVersion": "HTTP/1.1",
+          "IP": "54.227.55.203",
+          "IncludeInScript": true,
+          "Name": "advantageonlineshopping.com",
+          "Port": 80,
+          "Requests": [
+            {
+              "CompressionType": "",
+              "DataType": "font/woff",
+              "DownloadTime": 953,
+              "EventId": 1079,
+              "HttpStatus": 200,
+              "Size": 24944,
+              "URL": "http://advantageonlineshopping.com/css/fonts/roboto_thin_macroman/Roboto-Thin-webfont.woff"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "font/woff",
+              "DownloadTime": 938,
+              "EventId": 1074,
+              "HttpStatus": 200,
+              "Size": 24808,
+              "URL": "http://advantageonlineshopping.com/css/fonts/roboto_bold_macroman/Roboto-Bold-webfont.woff"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/jpeg",
+              "DownloadTime": 625,
+              "EventId": 1061,
+              "HttpStatus": 200,
+              "Size": 61923,
+              "URL": "http://advantageonlineshopping.com/catalog/fetchImage?image_id=1800"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/png",
+              "DownloadTime": 657,
+              "EventId": 1042,
+              "HttpStatus": 200,
+              "Size": 1415,
+              "URL": "http://advantageonlineshopping.com/css/images/Filter.png"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/jpeg",
+              "DownloadTime": 1297,
+              "EventId": 1025,
+              "HttpStatus": 200,
+              "Size": 42737,
+              "URL": "http://advantageonlineshopping.com/css/images/Popular-item1.jpg"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/jpeg",
+              "DownloadTime": 1000,
+              "EventId": 1016,
+              "HttpStatus": 200,
+              "Size": 28087,
+              "URL": "http://advantageonlineshopping.com/css/images/Popular-item2.jpg"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/jpeg",
+              "DownloadTime": 625,
+              "EventId": 984,
+              "HttpStatus": 200,
+              "Size": 25978,
+              "URL": "http://advantageonlineshopping.com/css/images/Popular-item3.jpg"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/jpeg",
+              "DownloadTime": 938,
+              "EventId": 981,
+              "HttpStatus": 200,
+              "Size": 28946,
+              "URL": "http://advantageonlineshopping.com/catalog/fetchImage?image_id=1400"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/jpeg",
+              "DownloadTime": 406,
+              "EventId": 922,
+              "HttpStatus": 200,
+              "Size": 48700,
+              "URL": "http://advantageonlineshopping.com/catalog/fetchImage?image_id=1245"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/jpeg",
+              "DownloadTime": 406,
+              "EventId": 908,
+              "HttpStatus": 200,
+              "Size": 30727,
+              "URL": "http://advantageonlineshopping.com/catalog/fetchImage?image_id=1200"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/jpeg",
+              "DownloadTime": 438,
+              "EventId": 866,
+              "HttpStatus": 200,
+              "Size": 51626,
+              "URL": "http://advantageonlineshopping.com/catalog/fetchImage?image_id=1300"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/jpeg",
+              "DownloadTime": 422,
+              "EventId": 796,
+              "HttpStatus": 200,
+              "Size": 51082,
+              "URL": "http://advantageonlineshopping.com/catalog/fetchImage?image_id=11100"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/jpeg",
+              "DownloadTime": 422,
+              "EventId": 783,
+              "HttpStatus": 200,
+              "Size": 49974,
+              "URL": "http://advantageonlineshopping.com/catalog/fetchImage?image_id=1100"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/jpeg",
+              "DownloadTime": 407,
+              "EventId": 781,
+              "HttpStatus": 200,
+              "Size": 28687,
+              "URL": "http://advantageonlineshopping.com/catalog/fetchImage?image_id=1700"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/jpeg",
+              "DownloadTime": 422,
+              "EventId": 763,
+              "HttpStatus": 200,
+              "Size": 38520,
+              "URL": "http://advantageonlineshopping.com/catalog/fetchImage?image_id=1250"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/jpeg",
+              "DownloadTime": 407,
+              "EventId": 707,
+              "HttpStatus": 200,
+              "Size": 26778,
+              "URL": "http://advantageonlineshopping.com/catalog/fetchImage?image_id=1249"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/jpeg",
+              "DownloadTime": 407,
+              "EventId": 613,
+              "HttpStatus": 200,
+              "Size": 33229,
+              "URL": "http://advantageonlineshopping.com/catalog/fetchImage?image_id=1600"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/png",
+              "DownloadTime": 406,
+              "EventId": 610,
+              "HttpStatus": 200,
+              "Size": 224086,
+              "URL": "http://advantageonlineshopping.com/css/images/category_banner_1.png"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/jpeg",
+              "DownloadTime": 500,
+              "EventId": 605,
+              "HttpStatus": 200,
+              "Size": 68456,
+              "URL": "http://advantageonlineshopping.com/css/images/Banner3.jpg"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/jpeg",
+              "DownloadTime": 406,
+              "EventId": 602,
+              "HttpStatus": 200,
+              "Size": 496378,
+              "URL": "http://advantageonlineshopping.com/css/images/Banner1.jpg"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/jpeg",
+              "DownloadTime": 390,
+              "EventId": 600,
+              "HttpStatus": 200,
+              "Size": 85091,
+              "URL": "http://advantageonlineshopping.com/css/images/Banner2.jpg"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/png",
+              "DownloadTime": 406,
+              "EventId": 597,
+              "HttpStatus": 200,
+              "Size": 2064,
+              "URL": "http://advantageonlineshopping.com/css/images/twitter.png"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/png",
+              "DownloadTime": 406,
+              "EventId": 594,
+              "HttpStatus": 200,
+              "Size": 1707,
+              "URL": "http://advantageonlineshopping.com/css/images/linkedin.png"
+            },
+            {
+              "CompressionType": "gzip",
+              "DataType": "text/html",
+              "DownloadTime": 1031,
+              "EventId": 592,
+              "HttpStatus": 200,
+              "Size": 741,
+              "URL": "http://advantageonlineshopping.com/app/views/category-page.html"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/png",
+              "DownloadTime": 422,
+              "EventId": 589,
+              "HttpStatus": 200,
+              "Size": 1583,
+              "URL": "http://advantageonlineshopping.com/css/images/facebook.png"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/png",
+              "DownloadTime": 422,
+              "EventId": 586,
+              "HttpStatus": 200,
+              "Size": 2114,
+              "URL": "http://advantageonlineshopping.com/css/images/GoUp.png"
+            },
+            {
+              "CompressionType": "gzip",
+              "DataType": "application/json",
+              "DownloadTime": 688,
+              "EventId": 582,
+              "HttpStatus": 200,
+              "Size": 552,
+              "URL": "http://advantageonlineshopping.com/catalog/api/v1/categories/attributes"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/png",
+              "DownloadTime": 422,
+              "EventId": 576,
+              "HttpStatus": 200,
+              "Size": 3003,
+              "URL": "http://advantageonlineshopping.com/css/images/chat_logo.png"
+            },
+            {
+              "CompressionType": "gzip",
+              "DataType": "application/json",
+              "DownloadTime": 860,
+              "EventId": 558,
+              "HttpStatus": 200,
+              "Size": 3181,
+              "URL": "http://advantageonlineshopping.com/catalog/api/v1/categories/1/products"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/jpeg",
+              "DownloadTime": 406,
+              "EventId": 394,
+              "HttpStatus": 200,
+              "Size": 80826,
+              "URL": "http://advantageonlineshopping.com/css/images/Special-offer.jpg"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/jpeg",
+              "DownloadTime": 329,
+              "EventId": 389,
+              "HttpStatus": 200,
+              "Size": 60070,
+              "URL": "http://advantageonlineshopping.com/catalog/fetchImage?image_id=headphones"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/png",
+              "DownloadTime": 329,
+              "EventId": 387,
+              "HttpStatus": 200,
+              "Size": 91647,
+              "URL": "http://advantageonlineshopping.com/catalog/fetchImage?image_id=mice"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/png",
+              "DownloadTime": 406,
+              "EventId": 384,
+              "HttpStatus": 200,
+              "Size": 996,
+              "URL": "http://advantageonlineshopping.com/css/images/arrow_right.png"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/jpeg",
+              "DownloadTime": 359,
+              "EventId": 382,
+              "HttpStatus": 200,
+              "Size": 47798,
+              "URL": "http://advantageonlineshopping.com/catalog/fetchImage?image_id=laptops"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/jpeg",
+              "DownloadTime": 359,
+              "EventId": 379,
+              "HttpStatus": 200,
+              "Size": 63833,
+              "URL": "http://advantageonlineshopping.com/catalog/fetchImage?image_id=tablets"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/png",
+              "DownloadTime": 343,
+              "EventId": 376,
+              "HttpStatus": 200,
+              "Size": 228775,
+              "URL": "http://advantageonlineshopping.com/catalog/fetchImage?image_id=speakers"
+            },
+            {
+              "CompressionType": "gzip",
+              "DataType": "text/html",
+              "DownloadTime": 2391,
+              "EventId": 371,
+              "HttpStatus": 200,
+              "Size": 2232,
+              "URL": "http://advantageonlineshopping.com/app/views/home-page.html"
+            },
+            {
+              "CompressionType": "gzip",
+              "DataType": "application/json",
+              "DownloadTime": 421,
+              "EventId": 369,
+              "HttpStatus": 200,
+              "Size": 500,
+              "URL": "http://advantageonlineshopping.com/app/tempFiles/popularProducts.json"
+            },
+            {
+              "CompressionType": "gzip",
+              "DataType": "application/json",
+              "DownloadTime": 500,
+              "EventId": 367,
+              "HttpStatus": 200,
+              "Size": 351,
+              "URL": "http://advantageonlineshopping.com/catalog/api/v1/deals/search?dealOfTheDay=true"
+            },
+            {
+              "CompressionType": "gzip",
+              "DataType": "application/json",
+              "DownloadTime": 484,
+              "EventId": 327,
+              "HttpStatus": 200,
+              "Size": 4488,
+              "URL": "http://advantageonlineshopping.com/catalog/api/v1/categories"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "font/woff",
+              "DownloadTime": 531,
+              "EventId": 321,
+              "HttpStatus": 200,
+              "Size": 24576,
+              "URL": "http://advantageonlineshopping.com/css/fonts/roboto_light_macroman/Roboto-Light-webfont.woff"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "text/xml",
+              "DownloadTime": 500,
+              "EventId": 319,
+              "HttpStatus": 200,
+              "Size": 823,
+              "URL": "http://advantageonlineshopping.com/accountservice/ws/GetAccountConfigurationRequest"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "font/woff",
+              "DownloadTime": 422,
+              "EventId": 307,
+              "HttpStatus": 200,
+              "Size": 25048,
+              "URL": "http://advantageonlineshopping.com/css/fonts/roboto_medium_macroman/Roboto-Medium-webfont.woff"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/png",
+              "DownloadTime": 1156,
+              "EventId": 304,
+              "HttpStatus": 200,
+              "Size": 1098,
+              "URL": "http://advantageonlineshopping.com/css/images/closeDark.png"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "font/woff",
+              "DownloadTime": 422,
+              "EventId": 301,
+              "HttpStatus": 200,
+              "Size": 25020,
+              "URL": "http://advantageonlineshopping.com/css/fonts/roboto_regular_macroman/Roboto-Regular-webfont.woff"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/png",
+              "DownloadTime": 406,
+              "EventId": 287,
+              "HttpStatus": 200,
+              "Size": 2645,
+              "URL": "http://advantageonlineshopping.com/css/images/logo.png"
+            },
+            {
+              "CompressionType": "gzip",
+              "DataType": "application/json",
+              "DownloadTime": 406,
+              "EventId": 284,
+              "HttpStatus": 200,
+              "Size": 6541,
+              "URL": "http://advantageonlineshopping.com/catalog/api/v1/DemoAppConfig/parameters/by_tool/ALL"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "",
+              "DownloadTime": 406,
+              "EventId": 278,
+              "HttpStatus": 200,
+              "Size": 1010,
+              "URL": "http://advantageonlineshopping.com/services.properties"
+            },
+            {
+              "CompressionType": "gzip",
+              "DataType": "application/javascript",
+              "DownloadTime": 1172,
+              "EventId": 106,
+              "HttpStatus": 200,
+              "Size": 268242,
+              "URL": "http://advantageonlineshopping.com/main.min.js"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/x-icon",
+              "DownloadTime": 406,
+              "EventId": 102,
+              "HttpStatus": 200,
+              "Size": 1150,
+              "URL": "http://advantageonlineshopping.com/css/images/favicon.ico"
+            },
+            {
+              "CompressionType": "gzip",
+              "DataType": "application/javascript",
+              "DownloadTime": 422,
+              "EventId": 41,
+              "HttpStatus": 200,
+              "Size": 20995,
+              "URL": "http://advantageonlineshopping.com/vendor/requirejs/require.js"
+            },
+            {
+              "CompressionType": "",
+              "DataType": "image/svg+xml",
+              "DownloadTime": 422,
+              "EventId": 37,
+              "HttpStatus": 200,
+              "Size": 795,
+              "URL": "http://advantageonlineshopping.com/css/images/Down_arrow.svg"
+            },
+            {
+              "CompressionType": "gzip",
+              "DataType": "text/css",
+              "DownloadTime": 406,
+              "EventId": 32,
+              "HttpStatus": 200,
+              "Size": 30100,
+              "URL": "http://advantageonlineshopping.com/css/main.min.css"
+            },
+            {
+              "CompressionType": "gzip",
+              "DataType": "text/html",
+              "DownloadTime": 516,
+              "EventId": 22,
+              "HttpStatus": 200,
+              "Size": 2805,
+              "URL": "http://advantageonlineshopping.com/"
+            }
+          ],
+          "SSLCipher": "None",
+          "SSLVersion": "None"
+        }
+      ],
+      "IncludeInScript": true
+    }
+  ],
+  "WebSocket": {
+    "IncludeInScript": false,
+    "IsScriptIncludeWebSocket": false
+  },
+  "NumberOfCorrelations": 0
+}

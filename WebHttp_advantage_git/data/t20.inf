@@ -1,0 +1,15 @@
+[t20]
+FileName1=t20_attributes.json
+URL1=http://advantageonlineshopping.com/catalog/api/v1/categories/attributes
+Total=3
+ContentType=application/json
+SnapshotXmlFile=snapshot_20.xml
+RequestHeaderFile=t20_RequestHeader.txt
+RequestBodyFile=NONE
+ResponseHeaderFile=t20_ResponseHeader.txt
+FileName2=t20_GoUp.png
+URL2=http://advantageonlineshopping.com/css/images/GoUp.png
+FileName3=t20_facebook.png
+URL3=http://advantageonlineshopping.com/css/images/facebook.png
+[ProtocolInfo]
+ProtocolId=QTWeb

@@ -1,0 +1,9 @@
+[
+{
+	"handler": "AjaxValidationService",
+	"id": "C1__C2__MainOccupation",
+	"innerouter": "NONE",
+	"text": "",
+	"actionFlag": "EVAL",
+	"actionText": "updateStyles(\"\", findElement(\"C1__C2__MainOccupation\", \"NONE\"), ['','','','','','form-control-error','','','error','','form-label','displayNone','','form-group','form-control  form-control-temp','','glyphicon glyphicon-info-sign helpQ','','','form-label','displayNone','','form-group','form-control  form-control-temp','','glyphicon glyphicon-info-sign helpQ','','','form-label','displayNone','','form-group','form-control  form-control-temp','','glyphicon glyphicon-info-sign helpQ',''], \"remove\");hideErrorMessage(\"\", findElement(\"C1__C2__MainOccupation\", \"NONE\"), ['','','','','','form-control-error','','','error','','form-label','displayNone','','form-group','form-control  form-control-temp','','glyphicon glyphicon-info-sign helpQ','','','form-label','displayNone','','form-group','form-control  form-control-temp','','glyphicon glyphicon-info-sign helpQ','','','form-label','displayNone','','form-group','form-control  form-control-temp','','glyphicon glyphicon-info-sign helpQ','']);"
+}]

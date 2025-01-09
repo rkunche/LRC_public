@@ -1,0 +1,14 @@
+HTTP/1.1 200 OK
+Date: Fri, 17 Jun 2022 11:14:01 GMT
+Accept-Ranges: bytes
+X-OneAgent-JS-Injection: true
+X-ruxit-JS-Agent: true
+Vary: Accept-Encoding,User-Agent
+Access-Control-Allow-Origin: https://nft01.hastingsdirect.com
+Set-Cookie: dtCookie=v_4_srv_2_sn_9A5F43658CBCA28391BC93BA8274A99B_perc_100000_ol_0_mul_1_app-3Aeabedb3a6d1930b1_1_rcs-3Acss_0; Path=/; Domain=.hastingsdirect.com
+Keep-Alive: timeout=5, max=36
+Connection: Keep-Alive
+Content-Type: text/html
+Content-Encoding: gzip
+Content-Length: 15021
+

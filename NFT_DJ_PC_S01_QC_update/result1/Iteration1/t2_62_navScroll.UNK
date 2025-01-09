@@ -1,0 +1,149 @@
+/* SideBar scrolling issue when screen size is too small to allow for sidebar to be fixed.
+ * This will check the height of the bar and when an anchor point meets the footer it will change its positioning.
+ * Therefore scrolling with the page
+ */
+
+$(document).ready(function () {
+	navScroll();
+});
+
+$(document).ready(function () {
+	/* Autocomplete button text forced to use JQuery to insert it */
+	$('.ui-button-text').html("Submit");
+});
+
+function navScroll() {
+	var sticky = $("div[id$='sidebar']");
+	var MainCol = $("div[id$='MainCol']");
+	if (sticky.length == 0) {
+		return;
+	}
+	$(window).on("resize", calcSideBarPos);
+	$(window).on("scroll", handleScrollFunctions);
+	function handleScrollFunctions() {
+		changeURLHash()
+	    calcSideBarPos();
+		//retain the previous scroll position when QTB page refresh. Ref US4405
+	    //set the previous scroll position to the session storage
+	    if (window.location.search.search("MODE=REDISPLAY") != -1){
+		   sessionStorage.scrollTop = $(this).scrollTop();
+		}
+	}
+	function calcSideBarPos() {
+		var mql = window.matchMedia("(max-width:767px)");
+		if (mql.matches) {
+			sticky.css('position', 'static');
+			sticky.css('width', "100%");
+			return;
+		}
+		var mainColBottomPosition = MainCol.offset().top + MainCol.height();
+		var sidebarBottomPosition = sticky.offset().top + sticky.height();
+		var docPostion = $(window).scrollTop() + $(window).height();
+		var scrollFromBottom = ($(document).height() - $(window).height() - $(window).scrollTop())
+		var scrollTop = $(window).scrollTop();
+		if (scrollTop > 200 && sidebarBottomPosition >= mainColBottomPosition) { //scrollFromBottom < 75 //docPostion > mainColBottomPosition ){
+			sticky.parent().css("height", MainCol.height() + "px");
+			sticky.css('position', 'absolute');
+			sticky.css('top', ''); //this value is based on the stopHeight. I have hardcoded it.
+			sticky.css("bottom", "0px");
+			sticky.css('width', sticky.parent().closest("div").width() + "px"); //this value is based on the stopHeight. I have hardcoded it.
+		} else {
+			sticky.css('position', 'fixed');
+			sticky.css('top', '160px'); //this value is based on the stopHeight. I have hardcoded it.
+			sticky.css("bottom", "");
+			sticky.css('width', sticky.parent().closest("div").width() + "px"); //this value is based on the stopHeight. I have hardcoded it.
+			//Recalculate the new position
+			mainColBottomPosition = MainCol.offset().top + MainCol.height();
+			sidebarBottomPosition = sticky.offset().top + sticky.height();
+			//Reset the position as absolute if the basket is after the mainCol
+			if (sidebarBottomPosition >= mainColBottomPosition) {
+				sticky.parent().css("height", MainCol.height() + "px");
+				sticky.css('position', 'absolute');
+				sticky.css('top', ''); //this value is based on the stopHeight. I have hardcoded it.
+				sticky.css("bottom", "0px");
+				sticky.css('width', sticky.parent().closest("div").width() + "px"); //this value is based on the stopHeight. I have hardcoded it.
+			}
+		}
+	}
+	function changeURLHash() {
+		var product = '';
+		var prefix = '';
+		var hastag = '';
+		var tradingPrefix= '';
+		var brandCode = '';
+		if ($('input[id*="hashNameField"]')[0] != null) {
+			product = $('input[id*="hashNameField"]')[0].value;
+		}
+		if ($('input[id*="tradingJourneyHashNameField"]')[0] != null) {
+			tradingPrefix = $('input[id*="tradingJourneyHashNameField"]')[0].value;
+		}
+		if ($('input[id*="HashNameBrandCode"]')[0] != null) {
+			brandCode = $('input[id*="HashNameBrandCode"]')[0].value;
+		}
+		// Add Home or Motor check here - below id check is specific to motor
+		if ((product == "car" || product == "bike" || product == "van") && brandCode != "YD") {
+			if ($('div[id*="paymentSectionPayByCard"]').css('display') != 'none') { // Payment section
+				prefix = "#card";
+			} else if ($('div[id*="GRP_77659045F2159DCB5490"]').css('display') != 'none') { // DD payer section
+				prefix = "#dd";
+			} else if ($('div[id*="GRP_AAA77AC867E9399982622"]').css('display') != 'none') { // PolicySummary section
+				prefix = "#summary";
+			} else if (($('div[id*="GRP_2F93543A9FF27E4368496"]').css('display') != 'none') || ($('div[id*="GRP_77659045F2159DCB3722"]').css('display') != 'none')
+				 || ($('div[id*="GRP_77659045F2159DCB6175"]').css('display') != 'none') || ($('div[id*="GRP_77659045F2159DCB14203"]').css('display') != 'none')
+				 || ($('div[id*="GRP_3DB183A2705607C0353883"]').css('display') != 'none') || ($('div[id*="GRP_12920A7600B3374A145622"]').css('display') != 'none')
+				 || ($('div[id*="GRP_77659045F2159DCB21275"]').css('display') != 'none') || ($('div[id*="GRP_77659045F2159DCB24940"]').css('display') != 'none')) { // Ancillaries section
+				prefix = "#ancil";
+			} else {
+				prefix = "#premium"; // Landing section
+			}
+		}
+		if ((product == "car" || product == "bike" || product == "van") && brandCode == "YD") {
+			if ($('div[id*="paymentSectionPayByCard"]').css('display') != 'none') { // Payment section
+				prefix = "#cardYD";
+			} else if ($('div[id*="GRP_77659045F2159DCB5490"]').css('display') != 'none') { // DD payer section
+				prefix = "#ddYD";
+			} else if ($('div[id*="GRP_AAA77AC867E9399982622"]').css('display') != 'none') { // PolicySummary section
+				prefix = "#summaryYD";
+			} else if ($('div[id*="GRP_794BC53694C1FEB6578888"]').css('display') != 'none') { // Important Info about YD section	
+				prefix = "#InfoYD";
+			} else if (($('div[id*="GRP_2F93543A9FF27E4368496"]').css('display') != 'none') || ($('div[id*="GRP_77659045F2159DCB3722"]').css('display') != 'none')
+				 || ($('div[id*="GRP_77659045F2159DCB6175"]').css('display') != 'none') || ($('div[id*="GRP_77659045F2159DCB14203"]').css('display') != 'none')
+				 || ($('div[id*="GRP_3DB183A2705607C0353883"]').css('display') != 'none') || ($('div[id*="GRP_12920A7600B3374A145622"]').css('display') != 'none')
+				 || ($('div[id*="GRP_77659045F2159DCB21275"]').css('display') != 'none') || ($('div[id*="GRP_77659045F2159DCB24940"]').css('display') != 'none')) { // Ancillaries section
+				prefix = "#ancilYD";
+			} else if ($('div[id*="GRP_54D4AF1286C34EC7636519"]').css('display') != 'none') { // Why YouDrive section
+				prefix = "#whyYD";
+			} else {
+				prefix = "#premiumYD"; // Landing section
+			}
+		}
+		if (product == 'home') {
+
+			if ($('div[id*="GRP_EF542D140CDBD0E4184047"]').css('display') != 'none') { // Payment section
+				prefix = "#card";
+			} else if ($('div[id*="GRP_91DA782A4BB486541323848"]').css('display') != 'none') { // DD payer section
+				prefix = "#dd";
+			} else if ($('div[id*="GRP_23A1364335C87A45536476"]').css('display') != 'none') { // PolicySummary section
+				prefix = "#summary";
+			} else if ($('div[id*="GRP_7344C5154EAF3FEA234281"]').css('display') != 'none') { // Ancillaries section
+				prefix = "#ancil";
+			} else {
+				prefix = "#premium"; // Landing section
+			}
+		}
+		try{
+			var urlhashtag = document.URL.substr(document.URL.indexOf('#'));
+			hastag = prefix + tradingPrefix + product;
+			if(urlhashtag != hastag){
+				if (history.pushState) {
+					history.pushState(null, null, hastag);
+				} else {
+					window.location.hash = hastag;
+				}
+			}
+		}
+		catch(e){
+			console.log(e);
+		}
+	}
+}

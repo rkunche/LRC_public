@@ -1,0 +1,16 @@
+HTTP/1.1 200 OK
+Date: Fri, 17 Jun 2022 11:14:17 GMT
+X-Powered-By: Servlet/3.0
+X-OneAgent-JS-Injection: true
+Content-Type: text/html; charset=UTF-8
+Content-Language: en-GB
+Expires: Thu, 01 Dec 1994 16:00:00 GMT
+Cache-Control: private, no-cache=set-cookie
+Set-Cookie: JSESSIONIDEdge=0000hYpODqrWj6kYmMeeAAgxsSb:-1; Path=/; HttpOnly
+Vary: Accept-Encoding,User-Agent
+Access-Control-Allow-Origin: https://nft01.hastingsdirect.com
+Keep-Alive: timeout=5, max=100
+Connection: Keep-Alive
+Content-Encoding: gzip
+Content-Length: 43814
+

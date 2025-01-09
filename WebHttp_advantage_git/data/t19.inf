@@ -1,0 +1,15 @@
+[t19]
+FileName1=t19_products.json
+URL1=http://advantageonlineshopping.com/catalog/api/v1/categories/1/products
+Total=3
+ContentType=application/json
+SnapshotXmlFile=snapshot_19.xml
+RequestHeaderFile=t19_RequestHeader.txt
+RequestBodyFile=NONE
+ResponseHeaderFile=t19_ResponseHeader.txt
+FileName2=t19_collect.gif
+URL2=https://www.google-analytics.com/collect?v=1&_v=j96&a=1743053746&t=pageview&_s=2&dl=http%3A%2F%2Fadvantageonlineshopping.com%2F&dp=%2F&ul=en-us&de=UTF-8&dt=%C2%A0Advantage%20Shopping&sd=24-bit&sr=1920x1200&vp=1920x1057&je=0&_u=KEBAAEABAAAAAC~&jid=&gjid=&cid=1195912750.1656909195&tid=UA-81334227-1&_gid=2032250741.1656909195&z=1110997822
+FileName3=t19_chat_logo.png
+URL3=http://advantageonlineshopping.com/css/images/chat_logo.png
+[ProtocolInfo]
+ProtocolId=QTWeb

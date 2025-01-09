@@ -1,0 +1,7 @@
+[
+{
+	"handler": "AjaxAutoComplete",
+	"id": "ec_suggest_C1__C2__MainOccupation",
+	"innerouter": "OUTER",
+	"text": "<div id=\"ec_suggest_C1__C2__MainOccupation\" class=\"autoCompleteListDefault positionRelative ui-autocomplete\" style=\"position: absolute; z-index:100;\"><div onmousedown=\"javascript:autoCompleteSetValue('C1__C2__MainOccupation', 'ec_suggest_C1__C2__MainOccupation', this.innerHTML,true);\">Accountant<span style='display: none'>A01<\/span><\/div><div onmousedown=\"javascript:autoCompleteSetValue('C1__C2__MainOccupation', 'ec_suggest_C1__C2__MainOccupation', this.innerHTML,true);\">Accountant - Chartered or Certified<span style='display: none'>A02<\/span><\/div><div onmousedown=\"javascript:autoCompleteSetValue('C1__C2__MainOccupation', 'ec_suggest_C1__C2__MainOccupation', this.innerHTML,true);\">Certified Accountant<span style='display: none'>060<\/span><\/div><div onmousedown=\"javascript:autoCompleteSetValue('C1__C2__MainOccupation', 'ec_suggest_C1__C2__MainOccupation', this.innerHTML,true);\">Chartered Accountant<span style='display: none'>063<\/span><\/div><div onmousedown=\"javascript:autoCompleteSetValue('C1__C2__MainOccupation', 'ec_suggest_C1__C2__MainOccupation', this.innerHTML,true);\">Turf Accountant<span style='display: none'>A03<\/span><\/div><\/div>"
+}]

@@ -1,0 +1,102 @@
+var idToToggle;
+var mainColumn = "#C1__MainCol";
+var fixedHeader = "#FixedHeader";
+var rmProgress = "rm-progress";
+var vehicleRegistrationRM = "C1__C1__FMT_06031F7DEC6024D029062_RM";
+var vehicleRegistration = "#C1__C1__FMT_06031F7DEC6024D029062";
+var continueButton = "#C1__row_BUT_DirectContinue";
+var aboutYouCategory = "#C1__FMT_06031F7DEC6024D090705";
+var aboutYouCategoryRM = "C1__FMT_06031F7DEC6024D090705_RM";
+var drivingLicenceHistoryRM = "C1__FMT_263FD52B9B69BB1622086_RM";
+var yourPolicyCategoryRM = "C1__FMT_263FD52B9B69BB1661303_RM";
+var classToShowHelp = "showme";
+var helpRm = "help_rm";
+var menuSection = "#FMT_C09E1E136C0E2FFB130324";
+var menuColumn = "#COL_EDEC759354300201436585";
+var itemPlaceholder = "#ITM_PLACEHOLDER_1";
+var itemNeedHelp = "#ITM_NEED_HELP";
+var headerColumn = "#COL_C09E1E136C0E2FFB130353";
+var helpSection = "#FMT_0D6871117C27965F233728";
+var pageNameRM = ["Direct:PrivateCar_Ext:HD", "Direct:PrivateCar_Ext:HP", "Direct:PrivateCar_Ext:HE", "Direct:PrivateCar_Ext:IP", "Direct:PrivateCar_Ext:PC"];
+$(document).ready(function() {
+    if (pageNameRM.indexOf(dataLayer.pageName) != -1) {
+        $(fixedHeader).append('<div id="' + rmProgress + '"><div class="section one" id="' + vehicleRegistrationRM + '"><i>1</i><span>Your Car</span></div><div class="section two" id="' + aboutYouCategoryRM + '"><i>2</i><span>About You</span></div><div class="section three" id="' + drivingLicenceHistoryRM + '"><i>3</i><span>Driving History</span></div><div class="section four" id="' + yourPolicyCategoryRM + '"><i>4</i><span>Your Cover</span></div></div>');
+        $(menuSection).css({
+            "position": "relative"
+        });
+        if ($(window).width() < 769) {
+            $(helpSection).css({
+                "display": "block",
+                "overflow-y": "hidden",
+                "height": "auto !important"
+            });
+            $(menuColumn).css({
+                "display": "none"
+            });
+
+        }
+    }
+    if ($("#" + rmProgress).length != 0) {
+        helpAlignment();
+        if (($(mainColumn).find(vehicleRegistration).length > 0) && (!$("#" + rmProgress + ' ' + "#" + vehicleRegistrationRM).hasClass('active')) && ($(mainColumn).find(aboutYouCategory).length == 0)) {
+            addActiveClass("#" + rmProgress + ' ' + "#" + vehicleRegistrationRM);
+        }
+    } else {
+        $("#" + rmProgress).remove();
+    }
+});
+MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+var observer = new MutationObserver(function(mutations, observer) {
+    prgressBarChange();
+});
+observer.observe(document, {
+    subtree: true,
+    attributes: true
+});
+
+function helpAlignment() {
+    $('<div id="' + helpRm + '">Help</div>').appendTo(headerColumn);
+    $(itemNeedHelp + ' ul').appendTo("#" + helpRm);
+    $(helpSection).appendTo(headerColumn);
+    $(itemPlaceholder).remove();
+    $(itemNeedHelp).remove();
+    /* if ($(window).width() > 769) { */
+        $("#" + helpRm).mouseover(function() {
+            $(this).addClass(classToShowHelp);
+        });
+        $("#" + helpRm).mouseout(function() {
+            $(this).removeClass(classToShowHelp);
+        });
+        $("#" + helpRm).click(function() {
+            $(this).toggleClass(classToShowHelp);
+        });
+    /* } */
+
+}
+
+function toggleActiveCompleted(idToToggle) {
+    $(idToToggle).removeClass('active');
+    $(idToToggle).addClass('completed');
+}
+
+function addActiveClass(idToToggle) {
+    $(idToToggle).addClass('active');
+}
+
+function prgressBarChange() {
+    if (($(mainColumn).find(aboutYouCategory).length > 0) && (!$("#" + rmProgress + ' ' + "#" + vehicleRegistrationRM).hasClass('completed'))) {
+        toggleActiveCompleted("#" + rmProgress + ' ' + "#" + vehicleRegistrationRM);
+        addActiveClass("#" + rmProgress + ' ' + "#" + aboutYouCategoryRM);
+    }
+    if (($(mainColumn + ' > div > div:nth-child(4) > div > div:nth-child(11) section').length > 0) && (!$("#" + rmProgress + ' ' + "#" + aboutYouCategoryRM).hasClass('completed'))) {
+        toggleActiveCompleted("#" + rmProgress + ' ' + "#" + aboutYouCategoryRM);
+        addActiveClass("#" + rmProgress + " " + "#" + drivingLicenceHistoryRM);
+    }
+    if (($(mainColumn + ' > div > div:nth-child(6) > div section').length > 0) && (!$("#" + rmProgress + " " + "#" + drivingLicenceHistoryRM).hasClass('completed'))) {
+        toggleActiveCompleted("#" + rmProgress + " " + "#" + drivingLicenceHistoryRM);
+        addActiveClass("#" + rmProgress + " " + "#" + yourPolicyCategoryRM);
+    }
+    if (($(mainColumn).find(continueButton).length > 0) && ($("#" + rmProgress + " " + "#" + drivingLicenceHistoryRM).hasClass('completed'))) {
+        toggleActiveCompleted("#" + rmProgress + " " + "#" + yourPolicyCategoryRM);
+    }
+}

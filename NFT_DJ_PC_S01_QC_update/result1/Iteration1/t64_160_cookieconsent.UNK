@@ -1,0 +1,29 @@
+window.addEventListener("load", function(){
+	var cookieUrl='/legal/cookie-policy.shtml';
+	var popupBg='#f1f1f1';
+	var popupTxt='#51626f';
+	var btnBg='#0066a1';
+	var btnTxt='#ffffff';
+	var pos='bottom';
+	if(scheme=='IP'){cookieUrl='/legal/cookie-policy/';popupBg='#a2a2a2';popupTxt='#ffffff';btnBg='#eb138b';btnTxt='#ffffff';pos='bottom-left';}
+	window.cookieconsent.initialise({
+	  "palette": {
+	    "popup": {
+	      "background": popupBg,
+	      "text": popupTxt
+	    },
+	    "button": {
+	      "background": btnBg,
+	      "text": btnTxt
+	    }
+	  },
+	  "theme": "classic",
+	  "position": pos,
+	  "content": {
+	    "message": "By continuing to use this website you are agreeing to the use of cookies. For further details, review our",
+	    "dismiss": "Continue",
+	    "link": "cookie policy.",
+		"href": location.protocol +'//'+ location.host + cookieUrl
+	  }
+	})}
+);

@@ -1,0 +1,18 @@
+function swipedetect(el,callback){var touchsurface=el,swipedir,startX,startY,distX,distY,threshold=50,restraint=100,allowedTime=700,elapsedTime,startTime,handleswipe=callback||function(swipedir){}
+var startEvent=window.navigator.msPointerEnabled?"MSPointerDown":"touchstart";touchsurface.addEventListener(startEvent,function(e){swipedir='none';dist=0;if(e.changedTouches){var touchobj=e.changedTouches[0]
+startX=touchobj.pageX
+startY=touchobj.pageY}else{startX=e.pageX
+startY=e.pageY}
+startTime=new Date().getTime()
+e.preventDefault()},false)
+var moveEvent=window.navigator.msPointerEnabled?"MSPointerMove":"touchmove";touchsurface.addEventListener(moveEvent,function(e){e.preventDefault()},false)
+var endEvent=window.navigator.msPointerEnabled?"MSPointerUp":"touchend";touchsurface.addEventListener(endEvent,function(e){if(e.changedTouches){var touchobj=e.changedTouches[0]
+distX=touchobj.pageX-startX
+distY=touchobj.pageY-startY}else{distX=e.pageX-startX
+distY=e.pageY-startY}
+elapsedTime=new Date().getTime()-startTime
+if(elapsedTime<=allowedTime){if(Math.abs(distX)>=threshold&&Math.abs(distY)<=restraint){swipedir=(distX<0)?'left':'right';handleswipe(el,swipedir);e.preventDefault();return false;}
+else if(Math.abs(distY)>=threshold&&Math.abs(distX)<=restraint){swipedir=(distY<0)?'up':'down'
+handleswipe(el,swipedir);e.preventDefault();return false;}}
+{e.target.focus();e.target.click();}
+return true;},false)}

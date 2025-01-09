@@ -1,0 +1,9 @@
+[
+{
+	"handler": "AjaxButtonActionService",
+	"id": "BUT_AD20D9C75E359F0A78587",
+	"innerouter": "NONE",
+	"text": "",
+	"actionFlag": "EVAL",
+	"actionText": "setVariable('', 'CURRENT_FOCUS', 'BUT_AD20D9C75E359F0A78587');focusOnCurrent('');"
+}]

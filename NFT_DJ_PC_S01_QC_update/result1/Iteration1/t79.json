@@ -1,0 +1,97 @@
+[
+{
+	"handler": "AjaxQuestionActionService",
+	"id": "C1__row_ansRowQUE_7F8751502B44A97A89651",
+	"innerouter": "OUTER",
+	"text": "<div style=\"clear: left;\" id=\"C1__row_ansRowQUE_7F8751502B44A97A89651\"><div style=\"width: 49%;width: 100.0%;float: left;text-align: left; ; \" id=\"C1__p4_QUE_7F8751502B44A97A89651\" class=\"form-group form-inline dateFieldGroup  \"><label class=\"error  \" id=\"C1__QUE_7F8751502B44A97A89651_ERRORMESSAGE\" for=\"C1__QUE_7F8751502B44A97A89651\" style=\"display: none;\"><\/label><div><label for=\"C1__QUE_7F8751502B44A97A89651\" class=\"accessibilityStyle\">Date<\/label><span id=\"C1__p2_QUE_7F8751502B44A97A89651\" class=\"displayNone\">*<\/span><fieldset style=\"border: none; padding: 0px; margin-left: 0px; display: inline; vertical-align:middle;\" id=\"C1__FS_QUE_7F8751502B44A97A89651\"><legend class=\"accessibilityStyle\">Date<\/legend><label for=\"C1__QUE_7F8751502B44A97A89651.MONTH\" class=\"accessibilityStyle\">Date Month<\/label><select name=\"C1__WORKINGELEMENTS[1].VEHICLEDATE[1].PURCHASEDATE.MONTH()\" id=\"C1__QUE_7F8751502B44A97A89651.MONTH\" class=\"form-control form-control-temp form-control-select  \" size=\"0\" onfocus=\"doOnFocus('', this.id, '');  ;setUpFocusValue('',this);\" onkeypress=\"return(searchList(event, this, 'C1__F', ''))\" onblur=\"javascript:startJob('', 'onblur', 'C1__QUE_7F8751502B44A97A89651.MONTH');if (validMonthDatePart(this, '.DAY()', '.YEAR()', '', '', '', '', ['', '', '', '', '', ''], 'mm yyyy', '\/', '', true, ['','','','','','form-control-error','','','error','','form-label','displayNone','','form-group form-inline dateFieldGroup','form-control form-control-temp form-control-select','','glyphicon glyphicon-info-sign helpQ','','','form-label','displayNone','','form-group form-inline dateFieldGroup','form-control form-control-temp form-control-select','','glyphicon glyphicon-info-sign helpQ','','','form-label','displayNone','','form-group form-inline dateFieldGroup','form-control form-control-temp form-control-select','','glyphicon glyphicon-info-sign helpQ',''])){ajaxQuestionAction('7F8751502B44A97A Question 147', 'C1__QUE_7F8751502B44A97A89651.MONTH' , true, '', 'servletcontroller', '', true, event, true, true, true); endJob('', 'onblur', true, 'C1__QUE_7F8751502B44A97A89651.MONTH'); return true;} else {endJob('', 'onblur', false, 'C1__QUE_7F8751502B44A97A89651.MONTH'); return false;}\"><option value=\"\">Month<\/option><option value=\"1\">January<\/option><option value=\"2\">February<\/option><option value=\"3\" selected=\"selected\">March<\/option><option value=\"4\">April<\/option><option value=\"5\">May<\/option><option value=\"6\">June<\/option><option value=\"7\">July<\/option><option value=\"8\">August<\/option><option value=\"9\">September<\/option><option value=\"10\">October<\/option><option value=\"11\">November<\/option><option value=\"12\">December<\/option><\/select> <label for=\"C1__QUE_7F8751502B44A97A89651.YEAR\" class=\"accessibilityStyle\">Date Year<\/label><select name=\"C1__WORKINGELEMENTS[1].VEHICLEDATE[1].PURCHASEDATE.YEAR()\" id=\"C1__QUE_7F8751502B44A97A89651.YEAR\" class=\"form-control form-control-temp form-control-select  \" size=\"0\" onfocus=\"doOnFocus('', this.id, '');  ;setUpFocusValue('',this);\" onkeypress=\"return(searchList(event, this, 'C1__F', ''))\" onblur=\"javascript:startJob('', 'onblur', 'C1__QUE_7F8751502B44A97A89651.YEAR');if (validYearDatePart(this, '.MONTH()', '.DAY()', '', '', '', '', ['', '', '', '', '', ''], 'mm yyyy', '\/', '', true, ['','','','','','form-control-error','','','error','','form-label','displayNone','','form-group form-inline dateFieldGroup','form-control form-control-temp form-control-select','','glyphicon glyphicon-info-sign helpQ','','','form-label','displayNone','','form-group form-inline dateFieldGroup','form-control form-control-temp form-control-select','','glyphicon glyphicon-info-sign helpQ','','','form-label','displayNone','','form-group form-inline dateFieldGroup','form-control form-control-temp form-control-select','','glyphicon glyphicon-info-sign helpQ',''])){ajaxQuestionAction('7F8751502B44A97A Question 147', 'C1__QUE_7F8751502B44A97A89651.YEAR' , true, '', 'servletcontroller', '', true, event, true, true, true); endJob('', 'onblur', true, 'C1__QUE_7F8751502B44A97A89651.YEAR'); return true;} else {endJob('', 'onblur', false, 'C1__QUE_7F8751502B44A97A89651.YEAR'); return false;}\"><option value=\"\">Year<\/option><option value=\"2022\">2022<\/option><option value=\"2021\">2021<\/option><option value=\"2020\">2020<\/option><option value=\"2019\">2019<\/option><option value=\"2018\" selected=\"selected\">2018<\/option><option value=\"2017\">2017<\/option><option value=\"2016\">2016<\/option><option value=\"2015\">2015<\/option><option value=\"2014\">2014<\/option><option value=\"2013\">2013<\/option><option value=\"2012\">2012<\/option><option value=\"2011\">2011<\/option><option value=\"2010\">2010<\/option><option value=\"2009\">2009<\/option><option value=\"2008\">2008<\/option><option value=\"2007\">2007<\/option><option value=\"2006\">2006<\/option><option value=\"2005\">2005<\/option><option value=\"2004\">2004<\/option><option value=\"2003\">2003<\/option><option value=\"2002\">2002<\/option><\/select><\/fieldset><span style=\"display: none\" id=\"C1__MM_QUE_7F8751502B44A97A89651\">Mandatory<\/span><\/div><\/div><div style=\"clear: both; height: 0px; overflow: hidden\" class=\"clearBoth\"><\/div><\/div>"
+},
+{
+	"handler": "AjaxQuestionActionService",
+	"id": "C1__QUE_7F8751502B44A97A89651_ERRORMESSAGE",
+	"innerouter": "OUTER",
+	"text": "<label class=\"error  \" id=\"C1__QUE_7F8751502B44A97A89651_ERRORMESSAGE\" for=\"C1__QUE_7F8751502B44A97A89651\" style=\"display: none;\"><\/label>"
+},
+{
+	"handler": "AjaxQuestionActionService",
+	"id": "C1__row_ansRowVehicleValue",
+	"innerouter": "OUTER",
+	"text": "<div style=\"clear: left;width:85%; \" id=\"C1__row_ansRowVehicleValue\" class=\"input-group  \"><div style=\"width: 24.5%;width: 100.0%;float: left;text-align: left; ; \" id=\"C1__p4_VehicleValue\" class=\"width100  \"><label class=\"error  \" id=\"C1__VehicleValue_ERRORMESSAGE\" for=\"C1__VehicleValue\" style=\"display: none;\"><\/label><div><label for=\"C1__VehicleValue\" class=\"accessibilityStyle\">Value<\/label><span id=\"C1__p2_VehicleValue\" class=\"displayNoneImportant\">*<\/span><span class=\"prefixPound\">&pound;<\/span><!-- $Revision: 1.2 $ -->\n<input type=\"number\" step=\"any\" name=\"C1__WEBSERVICES[1].DOMAINMODEL[1].CARPOLICYCOLLECTION[1].CARPOLICY[1].VEHICLECOLLECTION[1].VEHICLE[1].CURRENTVALUEFORCUSTOMER[1].CURRENTVALUEFORCUSTOMER\" id=\"C1__VehicleValue\" class=\"form-control currencyControl  \" maxlength=\"9\" value=\"3500\" onfocus=\"doOnFocus('', this.id, '');  ;setUpFocusValue('',this);\" onblur=\"if (FORMAT_VALIDATION_TRIGGER == getTriggeredReason() || '' == getTriggeredReason()) {doOnBlur('', this.id);  if ( hasChanged( '', this ) ) {startJob('', 'onblur', 'C1__VehicleValue');if (validDouble(this, '1', '999999', '.NN' , ['', 'Minimum value is £1', 'Maximum value is £999,999'], '', true, ['','','','','','error','','','error','input-group {width:85%}','','displayNoneImportant','prefixPound','width100','form-control currencyControl','','glyphicon glyphicon-info-sign helpQ','','input-group {width:85%}','','displayNoneImportant','prefixPound','width100','form-control currencyControl','','glyphicon glyphicon-info-sign helpQ','','input-group {width:85%}','','displayNoneImportant','prefixPound','width100','form-control currencyControl','','glyphicon glyphicon-info-sign helpQ',''])){; endJob('', 'onblur', true, 'C1__VehicleValue'); return true;} else {endJob('', 'onblur', false, 'C1__VehicleValue'); return false;}}}\" onkeypress=\"return(checkForDefaultButtonAction(event, this, 'C1____06031F7DEC6024D0 FormButton 61', ''))\" \/><span style=\"display: none\" id=\"C1__MM_VehicleValue\">Mandatory<\/span><\/div><\/div><div class=\"input-group-btn  \" style=\"width: 24%;  float: left;  float: none; width:1%  \" id=\"C1__p4_ConfirmVehicleValue\"><div><button onclick=\"ajaxButtonAction('preInGrpC1__GRP_06031F7DEC6024D032070', 'C1____06031F7DEC6024D0 FormButton 61', 'C1__ConfirmVehicleValue', true, null, '', 'servletcontroller', '', false, true, '');\" type=\"button\" name=\"C1____06031F7DEC6024D0 FormButton 61\" onmouseover=\"this.style.cursor='pointer'\" value=\"Go\" class=\"back-btn btn-primary scrollSource field-btn\" id=\"C1__ConfirmVehicleValue\">Go<\/button><\/div><\/div><div style=\"clear: both; height: 0px; overflow: hidden\" class=\"clearBoth\"><\/div><\/div>"
+},
+{
+	"handler": "AjaxQuestionActionService",
+	"id": "C1__VehicleValue_ERRORMESSAGE",
+	"innerouter": "OUTER",
+	"text": "<label class=\"error  \" id=\"C1__VehicleValue_ERRORMESSAGE\" for=\"C1__VehicleValue\" style=\"display: none;\"><\/label>"
+},
+{
+	"handler": "AjaxQuestionActionService",
+	"id": "C1__row_HEAD_06031F7DEC6024D088879",
+	"innerouter": "OUTER",
+	"text": "<div style=\"clear: left;\" id=\"C1__row_HEAD_06031F7DEC6024D088879\"><div id=\"C1__p1_HEAD_06031F7DEC6024D088879\" style=\"text-align: left; ; float: left;margin-bottom: -20px;width: 100.0%;\"><div><h4 id=\"C1__HEAD_06031F7DEC6024D088879\">Surname<\/h4><\/div><\/div><div id=\"C1__p2_QUE_06031F7DEC6024D088881\" style=\"text-align: left; float: left;  width: 1%;\" class=\"displayNone\"><div>*<\/div><\/div><div id=\"C1__p3_QUE_06031F7DEC6024D088881\" style=\"text-align: left; float: left;  width: 0.5%;\"><div>&nbsp;<\/div><\/div><div style=\"width: 24.5%;float: left;text-align: left; ; width:100%; \" id=\"C1__p4_QUE_06031F7DEC6024D088881\" class=\"form-group  \"><label class=\"error  \" id=\"C1__QUE_06031F7DEC6024D088881_ERRORMESSAGE\" for=\"C1__QUE_06031F7DEC6024D088881\" style=\"display: none;\"><\/label><div><input type=\"text\" name=\"C1__WEBSERVICES[1].DOMAINMODEL[1].CARPOLICYCOLLECTION[1].CARPOLICY[1].MOTORPOLICYHOLDER[1].PERSON[1].LASTNAME[1].LASTNAME\" id=\"C1__QUE_06031F7DEC6024D088881\" class=\"form-control form-control-temp  \" size=\"15\" maxlength=\"40\" value=\"OCSLX\" onfocus=\"doOnFocus('', this.id, '');  ;setUpFocusValue('',this);\" onblur=\"if (FORMAT_VALIDATION_TRIGGER == getTriggeredReason() || '' == getTriggeredReason()) {doOnBlur('', this.id);  startJob('', 'onblur', 'C1__QUE_06031F7DEC6024D088881');if (validAllChars(this, '', '40', ['', '', ''], '', true, ['','','','','','form-control-error','','','error','','form-label','displayNone','','form-group {width:100%}','form-control  form-control-temp','','glyphicon glyphicon-info-sign helpQ','','','form-label','displayNone','','form-group {width:100%}','form-control  form-control-temp','','glyphicon glyphicon-info-sign helpQ','','','form-label','displayNone','','form-group {width:100%}','form-control  form-control-temp','','glyphicon glyphicon-info-sign helpQ',''])) {ajaxQuestionAction('06031F7DEC6024D0 Question 108', 'C1__QUE_06031F7DEC6024D088881' , true, '', 'servletcontroller', '', true, event, true, true, false); endJob('', 'onblur', true, 'C1__QUE_06031F7DEC6024D088881'); return true;} else {endJob('', 'onblur', false, 'C1__QUE_06031F7DEC6024D088881'); return false;}}\" onkeypress=\"return(checkForDefaultButtonAction(event, this, 'C1__F', ''))\" \/><span style=\"display: none\" id=\"C1__MM_QUE_06031F7DEC6024D088881\">Mandatory<\/span><\/div><\/div><div style=\"clear: both; height: 0px; overflow: hidden\" class=\"clearBoth\"><\/div><\/div>"
+},
+{
+	"handler": "AjaxQuestionActionService",
+	"id": "C1__QUE_06031F7DEC6024D088881_ERRORMESSAGE",
+	"innerouter": "OUTER",
+	"text": "<label class=\"error  \" id=\"C1__QUE_06031F7DEC6024D088881_ERRORMESSAGE\" for=\"C1__QUE_06031F7DEC6024D088881\" style=\"display: none;\"><\/label>"
+},
+{
+	"handler": "AjaxQuestionActionService",
+	"id": "C1__row_QUE_CEB5A3D87A62BEC8111701",
+	"innerouter": "OUTER",
+	"text": "<div style=\"clear: left;\" id=\"C1__row_QUE_CEB5A3D87A62BEC8111701\"><div id=\"C1__p1_QUE_CEB5A3D87A62BEC8111701\" style=\"display: none;text-align: left; ; float: left;width: 48%;\" class=\"form-label\"><\/div><div style=\"clear: both; height: 0px; overflow: hidden\" class=\"clearBoth\"><\/div><\/div>"
+},
+{
+	"handler": "AjaxQuestionActionService",
+	"id": "C1__row_ansRowQUE_CEB5A3D87A62BEC8111701",
+	"innerouter": "OUTER",
+	"text": "<div style=\"clear: left;\" id=\"C1__row_ansRowQUE_CEB5A3D87A62BEC8111701\"><div style=\"width: 49%;width: 100.0%;float: left;text-align: left; ; \" id=\"C1__p4_QUE_CEB5A3D87A62BEC8111701\" class=\"form-group  \"><label class=\"error  \" id=\"C1__QUE_CEB5A3D87A62BEC8111701_ERRORMESSAGE\" for=\"C1__QUE_CEB5A3D87A62BEC8111701\" style=\"display: none;\"><\/label><div><span id=\"C1__p2_QUE_CEB5A3D87A62BEC8111701\" class=\"displayNone\">*<\/span><select name=\"C1__WORKINGELEMENTS[1].ADDITIONALDRIVERCOLLECTION[1].ADDITIONALDRIVER[1].RELATIONSHIPTOPOLICYHOLDER[1].RELATIONSHIPTOPOLICYHOLDER\" id=\"C1__QUE_CEB5A3D87A62BEC8111701\" class=\"form-control form-control-temp  \" size=\"0\" onfocus=\"doOnFocus('', this.id, '');  ;setUpFocusValue('',this);\" onblur=\"if (FORMAT_VALIDATION_TRIGGER == getTriggeredReason() || '' == getTriggeredReason()) {doOnBlur('', this.id);}\" onkeypress=\"return(searchList(event, this, 'C1__F', ''))\" onchange=\"startJob('', 'onchange', 'C1__QUE_CEB5A3D87A62BEC8111701');var valid=validAllChars(this, '', '', '', '', true, ['','','','','','form-control-error','','','error','','form-label','displayNone','','form-group','form-control  form-control-temp','','glyphicon glyphicon-info-sign helpQ','','','form-label','displayNone','','form-group','form-control  form-control-temp','','glyphicon glyphicon-info-sign helpQ','','','form-label','displayNone','','form-group','form-control  form-control-temp','','glyphicon glyphicon-info-sign helpQ','']); if (valid) {ajaxQuestionAction('CEB5A3D87A62BEC8 Question 260', 'C1__QUE_CEB5A3D87A62BEC8111701' , true, '', 'servletcontroller', '', true, event, true, true, false); }; endJob('', 'onchange', valid, ''); return valid;\"><option value=\"\" selected=\"selected\">Please select<\/option><option value=\"S\">Spouse<\/option><option value=\"W\">Partner - Common Law<\/option><option value=\"J\">Partner - Civil<\/option><option value=\"A\">Brother or Sister<\/option><option value=\"O\">Daughter Or Son<\/option><option value=\"M\">Parent<\/option><option value=\"F\">Other Family Member<\/option><option value=\"U\">Other \/ No Relation<\/option><option value=\"C\">Business Partner<\/option><option value=\"E\">Employee Of Proposer<\/option><option value=\"B\">Employer Of Proposer<\/option><\/select><span style=\"display: none\" id=\"C1__MM_QUE_CEB5A3D87A62BEC8111701\">Mandatory<\/span><\/div><\/div><div style=\"clear: both; height: 0px; overflow: hidden\" class=\"clearBoth\"><\/div><\/div>"
+},
+{
+	"handler": "AjaxQuestionActionService",
+	"id": "C1__QUE_CEB5A3D87A62BEC8111701_ERRORMESSAGE",
+	"innerouter": "OUTER",
+	"text": "<label class=\"error  \" id=\"C1__QUE_CEB5A3D87A62BEC8111701_ERRORMESSAGE\" for=\"C1__QUE_CEB5A3D87A62BEC8111701\" style=\"display: none;\"><\/label>"
+},
+{
+	"handler": "AjaxQuestionActionService",
+	"id": "C1__row_QUE_CEB5A3D87A62BEC8111701_NSP",
+	"innerouter": "OUTER",
+	"text": "<div style=\"clear: left;display: none;\" id=\"C1__row_QUE_CEB5A3D87A62BEC8111701_NSP\"><\/div>"
+},
+{
+	"handler": "AjaxQuestionActionService",
+	"id": "C1__row_ansRowQUE_CEB5A3D87A62BEC8111701_NSP",
+	"innerouter": "OUTER",
+	"text": "<div style=\"clear: left;display: none;\" id=\"C1__row_ansRowQUE_CEB5A3D87A62BEC8111701_NSP\"><\/div>"
+},
+{
+	"handler": "AjaxQuestionActionService",
+	"id": "C1__QUE_CEB5A3D87A62BEC8111701_NSP_ERRORMESSAGE",
+	"innerouter": "OUTER",
+	"text": "<label class=\"error  \" id=\"C1__QUE_CEB5A3D87A62BEC8111701_NSP_ERRORMESSAGE\" for=\"C1__QUE_CEB5A3D87A62BEC8111701_NSP\" style=\"display: none;\"><\/label>"
+},
+{
+	"handler": "AjaxQuestionActionService",
+	"id": "C1__QUE_06031F7DEC6024D088881",
+	"innerouter": "NONE",
+	"text": "",
+	"actionFlag": "EVAL",
+	"actionText": "enableControls('', true);"
+},
+{
+	"handler": "AjaxQuestionActionService",
+	"id": "C1__QUE_06031F7DEC6024D088881",
+	"innerouter": "NONE",
+	"text": "",
+	"actionFlag": "EVAL",
+	"actionText": "document.title='Hastings Direct';"
+},
+{
+	"handler": "AjaxQuestionActionService",
+	"id": "C1__QUE_06031F7DEC6024D088881",
+	"innerouter": "NONE",
+	"text": "",
+	"actionFlag": "EVAL",
+	"actionText": "setVariable('', 'CURRENT_FOCUS', 'FMT_C09E1E136C0E2FFB130324');focusOnCurrent('');"
+}]

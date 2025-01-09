@@ -1,0 +1,14 @@
+POST /Portal/ajaxservletcontroller HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+Cache-Control: no-cache
+Referer: https://nft01.hastingsdirect.com/Portal/servletcontroller
+X-dynaTrace: NA=DJ_PC_S01_QC_30_Enter_Industry_Type;PC=ajaxservletcontroller_35;VU=-1;ID=1655464687670
+User-Agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.1; WOW64; Trident/7.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; .NET4.0C; .NET4.0E)
+Accept-Encoding: gzip, deflate
+Accept-Language: en-GB
+Accept: */*
+Connection: Keep-Alive
+Host: nft01.hastingsdirect.com
+Cookie: mt.tav=bW9uZXRhdGVJZD01LjUwNTQwNTE2MS4xNjU1NDY0NDU3Nzk5DQp0YXJnZXRVcmw9b2xkIFFUQg==; dtCookie=v_4_srv_2_sn_9A5F43658CBCA28391BC93BA8274A99B_perc_100000_ol_0_mul_1_app-3Aeabedb3a6d1930b1_1_rcs-3Acss_0; mt.v=5.505405161.1655464457799; BIGipServerGW_NFT_EC_VS_9080=942892042.30755.0000; JSESSIONIDEdge=0000hYpODqrWj6kYmMeeAAgxsSb:-1
+Content-Length: 204
+
