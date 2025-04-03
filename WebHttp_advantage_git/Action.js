@@ -125,20 +125,20 @@ function Action()
 	web.addCookie('__Secure-3PSIDCC=AJi4QfG6QRTL83-EJn7N8Md-aPWGcGI64ezGZuB7VOBZQ5ly-uZhCvyw3xD8D2P8YsIqqXncf9U; DOMAIN=accounts.google.com');
 
 	web.addCookie('NID=511=qDfVqspnog3XbxgGdOgteLUqnIgnIPMfKs7eaMc9Vr_poCbvGK6hacETTNADjN73w6CkasAFGOBTtSR1tlO6dgvOn0W5Mfy9SUvS5M-iY94uED2KOIqJH1mut6vInFJJK02IvqgQg0nFUTeR6MquQ4LlluFWysbzLm0-xEOKQm9nV3oHECVvZHpyEsyubqxK0kmNCq1PN8Uqq9Q693DoE9S2_L8q03-cwwdZx_wAy6mXTMJpfL8; DOMAIN=accounts.google.com');
-
-	// web.customRequest(
-	// 	{
-	// 		name : 'ListAccounts', 
-	// 		url : 'https://accounts.google.com/ListAccounts?gpsia=1&source=ChromiumBrowser&json=standard', 
-	// 		method : 'POST', 
-	// 		resource : 0, 
-	// 		recContentType : 'application/json', 
-	// 		referer : '', 
-	// 		snapshot : 't3.inf', 
-	// 		mode : 'HTML', 
-	// 		body : ' '
-	// 	}
-	// );
+//uncommented
+	web.customRequest(
+		{
+			name : 'ListAccounts', 
+			url : 'https://accounts.google.com/ListAccounts?gpsia=1&source=ChromiumBrowser&json=standard', 
+			method : 'POST', 
+			resource : 0, 
+			recContentType : 'application/json', 
+			referer : '', 
+			snapshot : 't3.inf', 
+			mode : 'HTML', 
+			body : ' '
+		}
+	);
 
 	// Possible OAUTH authorization was detected. It is recommended to correlate the authorization parameters.
 	web.customRequest(
