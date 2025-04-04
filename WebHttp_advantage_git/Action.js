@@ -67,16 +67,16 @@ function Action()
 
 	web.setSocketsOption('SSL_VERSION', 'AUTO');
 // after sync
-	// web.url(
-	// 	{
-	// 		name : 'seed', 
-	// 		url : 'https://clientservices.googleapis.com/chrome-variations/seed?osname=win&channel=stable&milestone=103', 
-	// 		resource : 0, 
-	// 		referer : '', 
-	// 		snapshot : 't2.inf', 
-	// 		mode : 'HTML'
-	// 	}
-	// );
+	web.url(
+		{
+			name : 'seed', 
+			url : 'https://clientservices.googleapis.com/chrome-variations/seed?osname=win&channel=stable&milestone=103', 
+			resource : 0, 
+			referer : '', 
+			snapshot : 't2.inf', 
+			mode : 'HTML'
+		}
+	);
 
 	web.addCookie('CONSENT=YES+shp.gws-20211018-0-RC1.en+FX+057; DOMAIN=accounts.google.com');
 
