@@ -7,10 +7,7 @@
 
 function Action()
 {
-	//Kate Sync Across project
-	//Remove Kate project from shared agents.
-
-	//Adding new comment and syncying projects
+	// auto sync enabled, and checking.
 	web.url(
 		{
 			name : 'advantageonlineshopping.com', 
