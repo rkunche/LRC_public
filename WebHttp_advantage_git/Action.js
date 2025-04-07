@@ -9,6 +9,8 @@ function Action()
 {
 	//Kate Sync Across project
 	//Remove Kate project from shared agents.
+
+	//Adding new comment and syncying projects
 	web.url(
 		{
 			name : 'advantageonlineshopping.com', 
