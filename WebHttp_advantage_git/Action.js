@@ -15,8 +15,8 @@ function Action()
 			resource : 0, 
 			recContentType : 'text/html', 
 			referer : '', 
-			snapshot : 't1.inf', 
-			mode : 'HTML', 
+			// snapshot : 't1.inf', 
+			// mode : 'HTML', 
 			extraRes :  [
 				{url : '/main.min.js'},
 				{url : '/services.properties'},
