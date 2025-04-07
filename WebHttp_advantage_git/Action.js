@@ -7,7 +7,7 @@
 
 function Action()
 {
-	// auto sync enabled, and checking.
+	// OLD version auto sync check
 	web.url(
 		{
 			name : 'advantageonlineshopping.com', 
