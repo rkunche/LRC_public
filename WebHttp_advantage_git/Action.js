@@ -7,7 +7,7 @@
 
 function Action()
 {
-	// Sync project in LRC
+	// Sync project in LRC // making edit on 710/7/25
 	web.url(
 		{
 			name : 'advantageonlineshopping.com', 
