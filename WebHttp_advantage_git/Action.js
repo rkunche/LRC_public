@@ -7,7 +7,7 @@
 
 function Action()
 {
-	// Sync project in LRC // making edit on 7/10/7/25- multi-project test 6.2 testing more
+	// Sync project in LRC // making edit on 7/10/7/25- 26.3 sync test
 	web.url(
 		{
 			name : 'advantageonlineshopping.com', 
