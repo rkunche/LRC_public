@@ -7,7 +7,7 @@
 
 function Action()
 {
-	// Sync project in LRC // making edit on 7/10/7/25- 26.3 mulltip project sync test
+	// Sync project in LRC // making edit on 7/10/7/25- 26.3 ssh auth test
 	web.url(
 		{
 			name : 'advantageonlineshopping.com', 
