@@ -7,7 +7,7 @@
 
 function Action()
 {
-	// Sync project in LRC // making edit on 7/10/7/25- 26.4 raju multisharing update
+	// Sync project in LRC // making edit on 7/10/7/25- 26.4 raju Auto sync
 	web.url(
 		{
 			name : 'advantageonlineshopping.com', 
