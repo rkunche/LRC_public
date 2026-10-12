@@ -7,7 +7,7 @@
 
 function Action()
 {
-	// Sync project in LRC // making edit on 7/10/7/25- 26.4 http auth check
+	// Sync project in LRC // making edit on 7/10/7/25- 26.4 http auto sync
 	web.url(
 		{
 			name : 'advantageonlineshopping.com', 
